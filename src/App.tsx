@@ -1,13 +1,27 @@
 import React from "react";
-import logo from "./logo.svg";
+
 import "./App.css";
-import { BasicInformation } from "./pages/useCases/basicInformation";
+import { UseCases } from "./pages/useCases";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+
+
 
 function App() {
-  return (
+  return ( 
+     <Router>
     <div className="App">
-      <BasicInformation />
+    <Routes>
+          <Route path="/" element={<UseCases />}/>
+            
+         
+         
+        </Routes>
     </div>
+    </Router>
   );
 }
 
