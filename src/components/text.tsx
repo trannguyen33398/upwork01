@@ -1,29 +1,40 @@
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import { InputLabel, Typography } from "@mui/material";
+import { TextareaAutosize  } from '@mui/base/TextareaAutosize';
+import { textFieldStyles, useStyles } from "../styles/common";
 
-import { textFieldStyles, useStyles } from "../pages/useCases/basicInformation";
-export const TextComponent = (props: any)=>{
-    const classes = useStyles();
-    return <>
-    <Grid item xs={2} md={2} className={classes.gridItem} direction="column">
+export const TextComponent = (props: any) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    const text = event.target.value;
+
+    props.onChangeText(props.itemId, text);
+  };
+
+  const classes = useStyles();
+  return (
+    <>
+      <Grid item xs={3} md={3} className={classes.gridItem} direction="column">
         <Grid container alignItems="center" spacing={1}>
-          <Grid item>
-           {props.icon}
-          </Grid>
+          <Grid item>{props.icon}</Grid>
           <Grid item>
             <InputLabel shrink={false}>
-              <Typography>User Name</Typography>
+              <Typography>{props.name}</Typography>
             </InputLabel>
           </Grid>
         </Grid>
         <TextField
-          InputProps={{ style: textFieldStyles }}
-          id="outlined-basic"
           label=""
+          InputProps={{ style: textFieldStyles ,inputComponent: TextareaAutosize}}
+          id="outlined-basic"
           variant="outlined"
-            className={classes.textItem}
+          className={classes.textItem}
+          name={props.name}
+          onChange={handleChange}
         />
       </Grid>
     </>
-}
+  );
+};
