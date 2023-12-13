@@ -3,14 +3,25 @@ import Grid from "@mui/material/Grid";
 import { InputLabel, Typography } from "@mui/material";
 import { TextareaAutosize  } from '@mui/base/TextareaAutosize';
 import { textFieldStyles, useStyles } from "../styles/common";
+import * as React from "react";
 
-export const TextComponent = (props: any) => {
+type TTextProps = {
+  name: string;
+  itemId : string;
+  onChangeText : (name : string , text : string) => void;
+  icon : React.ReactNode;
+  type? :  "text" | "email"
+};
+export const TextComponent : React.FC<TTextProps> = ({type = "text" , ...props}) => {
   const handleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const text = event.target.value;
 
-    props.onChangeText(props.itemId, text);
+
+      props.onChangeText(props.itemId, text);
+
+
   };
 
   const classes = useStyles();
@@ -25,7 +36,7 @@ export const TextComponent = (props: any) => {
             </InputLabel>
           </Grid>
         </Grid>
-        <TextField
+        <TextField type={type}
           label=""
           InputProps={{ style: textFieldStyles ,inputComponent: TextareaAutosize}}
           id="outlined-basic"

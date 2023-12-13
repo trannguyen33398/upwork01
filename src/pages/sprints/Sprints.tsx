@@ -8,28 +8,33 @@ import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import {BenefitType, ReliabilityType} from "./benefit.constant";
 import {DefaultOption} from "../../common/common.constant";
 import {SingleSelect} from "../../components/SingleSelect";
-import {FloatNumber} from "../../components/FloatNumber";
+import NumberInput from "@mui/material/TextField";
+import {NumberComponent} from "../../components/Number";
+import NumbersIcon from '@mui/icons-material/Numbers';
+import {StatusType} from "./sprint.constant";
 
 //css flex box
-export const Benefit = () => {
+export const Sprints = () => {
     const classes = useStyles();
     const [formState, setFormState] = useState({
         name: null,
-        parentId: null,
         useCaseId: null,
-        type: null,
-        categoryId : null,
-        sprintId : null,
-        sprintStatus : null,
-        calculationInput : null,
-        savings : null,
-        comment : null,
-        reliability : null
+        bundlesId : null,
+        plannedFrom : null,
+        plannedTo : null,
+        step : null,
+        description : null,
+        status : null,
+        developmentStatus : null,
+        iterationStatus: null,
+        implementationStatus : null,
+        handoverStatus : null,
+        implementedAt : null,
+        documents : null
     });
-    const onChangeText = (name: string, text: string ) => {
+    const onChangeText = (name: string, text: string) => {
         setFormState({ ...formState, [name]: text });
     };
 
@@ -37,10 +42,13 @@ export const Benefit = () => {
         setFormState({...formState , [name] : id})
     }
 
+    const onChangeNumber = (name : string , number : number) => {
+        setFormState({...formState , [name] : number})
+    }
+
     const onChangeSingleSelect = (name : string , id : number) => {
         setFormState({...formState , [name] : id})
     }
-
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -49,7 +57,7 @@ export const Benefit = () => {
     return (
 
         <div className={classes.div}>
-            <h2 className={classes.headerText}>Benefit</h2>
+            <h2 className={classes.headerText}>Sprints</h2>
             <form onSubmit={handleSubmit}>
 
                 <Grid container spacing={1}>
@@ -60,67 +68,50 @@ export const Benefit = () => {
                         onChangeText={onChangeText}
                     />
                     <MultipleSelect
-                        name="Parent"
-                        itemId="parentId"
-                        onChangeSelect={onChangeSelect}
-                        options={DefaultOption}
-                    />
-                    <MultipleSelect
                         name="Use Case Parent"
                         itemId="useCaseId"
                         onChangeSelect={onChangeSelect}
                         options={DefaultOption}
                     />
-                    <SingleSelect
-                        name="Type"
-                        itemId="type"
-                        onChangeSelect={onChangeSingleSelect}
-                        options={BenefitType}
-                    />
-
                     <MultipleSelect
-                        name="Category"
-                        itemId="categoryId"
+                        name="Bundles"
+                        itemId="bundlesId"
                         onChangeSelect={onChangeSelect}
                         options={DefaultOption}
                     />
 
+                    <CustomDatePicker
+                        name="Planned From"
+                        itemId="plannedFrom"
+                        onChangeText={onChangeText}
+                    />
+                    <CustomDatePicker
+                        name="Planned To"
+                        itemId="plannedTo"
+                        onChangeText={onChangeText}
+                    />
+                    <NumberComponent name="Step" itemId="stepId" onChangeText={onChangeNumber} icon={<NumbersIcon />}/>
                     <TextComponent
                         icon={<AbcIcon />}
-                        name="Sprint"
-                        itemId="sprintId"
+                        name="Description"
+                        itemId="description"
+                        onChangeText={onChangeText}
+                    />
+                    <SingleSelect name="Status" itemId="statusId" onChangeSelect={onChangeSingleSelect} options={StatusType} />
+                    <SingleSelect name="Development Status" itemId="developmentStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} />
+                    <SingleSelect name="Iteration Status" itemId="iterationStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} />
+                    <SingleSelect name="Implementation Status" itemId="implementationStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} />
+                    <SingleSelect name="Handover Status" itemId="handoverStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} />
+                    <CustomDatePicker
+                        name="Implemented At"
+                        itemId="implementedAt"
                         onChangeText={onChangeText}
                     />
                     <TextComponent
                         icon={<AbcIcon />}
-                        name="Sprint Status"
-                        itemId="sprintStatus"
+                        name="Documents"
+                        itemId="documents"
                         onChangeText={onChangeText}
-                    />
-                    <TextComponent
-                        icon={<AbcIcon />}
-                        name="Calculation Input"
-                        itemId="calculationInput"
-                        onChangeText={onChangeText}
-                    />
-                    <FloatNumber
-                        icon={<AbcIcon />}
-                        type="number"
-                        name="Savings"
-                        itemId="savings"
-                        onChangeText={onChangeSingleSelect}
-                    />
-                    <TextComponent
-                        icon={<AbcIcon />}
-                        name="Comment"
-                        itemId="comment"
-                        onChangeText={onChangeText}
-                    />
-                    <SingleSelect
-                        name="Reliability"
-                        itemId="reliabilityId"
-                        onChangeSelect={onChangeSingleSelect}
-                        options={ReliabilityType}
                     />
                 </Grid>
 
