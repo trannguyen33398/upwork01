@@ -3,7 +3,7 @@ package store
 import (
 	"database/sql"
 	"fmt"
-
+	_ "github.com/lib/pq" 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -19,7 +19,11 @@ func NewPostgresStore(cfg *config.Config) DBRepo {
 		cfg.Postgres.User, cfg.Postgres.Pass,
 		cfg.Postgres.Host, cfg.Postgres.Port, cfg.Postgres.Name,
 	)
-
+	fmt.Println(fmt.Sprintf(
+		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
+		// cfg.Postgres.User, cfg.Postgres.Pass,
+		// cfg.Postgres.Host, cfg.Postgres.Port, cfg.Postgres.Name,
+	))
 	conn, err := sql.Open("postgres", ds)
 	if err != nil {
 		logger.L.Fatalf(err, "failed to open database connection")

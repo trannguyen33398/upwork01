@@ -2,6 +2,15 @@
 -- +migrate Up
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW(); -- Set the updated_at column to the current timestamp
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
 CREATE TABLE IF NOT EXISTS  communication_streams (    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     name VARCHAR(255),
     description VARCHAR(255),
@@ -89,5 +98,43 @@ CREATE TABLE IF NOT EXISTS  machines (
     CONSTRAINT FK_processes foreign key (parent_id) references machines (id)
 );
 
+CREATE TRIGGER trigger_update_updated_at
+BEFORE UPDATE ON communication_streams
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
 
+CREATE TRIGGER trigger_update_updated_at
+BEFORE UPDATE ON use_case_cluster
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER trigger_update_updated_at
+BEFORE UPDATE ON systems
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER trigger_update_updated_at
+BEFORE UPDATE ON service_lines
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER trigger_update_updated_at
+BEFORE UPDATE ON risks
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER trigger_update_updated_at
+BEFORE UPDATE ON processes
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER trigger_update_updated_at
+BEFORE UPDATE ON plants
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER trigger_update_updated_at
+BEFORE UPDATE ON machine
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
 -- +migrate Down
