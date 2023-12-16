@@ -74,5 +74,14 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		authRouteProcess.DELETE("/:processId", h.Process.Delete)
 	}
 
+	authRouteServiceLine := v1.Group("/service-line")
+	{
+		authRouteServiceLine.POST("/", h.ServiceLine.Create)
+		authRouteServiceLine.GET("/", h.ServiceLine.List)
+		authRouteServiceLine.GET("/:serviceLineId", h.ServiceLine.Detail)
+		authRouteServiceLine.PATCH("/:serviceLineId", h.ServiceLine.Update)
+		authRouteServiceLine.DELETE("/:serviceLineId", h.ServiceLine.Delete)
+	}
+
 	return r
 }
