@@ -10,7 +10,7 @@ func (r *controller) Update(c *gin.Context, input request.CreateServiceLineReque
 	tx, done := r.repo.NewTransaction()
 
 	// Create client
-	err := r.store.ServiceLine.Update(tx.DB(), c.Param("plantId"), &model.ServiceLines{
+	err := r.store.ServiceLine.Update(tx.DB(), c.Param("serviceLineId"), &model.ServiceLines{
 		Name:              input.Name,
 		ParentId:          input.ParentId,
 		Description:       input.Description,

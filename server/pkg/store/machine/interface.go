@@ -6,9 +6,9 @@ import (
 )
 
 type IStore interface {
-	Create(db *gorm.DB, e *model.Machine) (err error)
-	All(db *gorm.DB, name string) ([]*model.Machine, error)
-	Detail(db *gorm.DB, id string) (*model.Machine, error)
-	Update(db *gorm.DB, id string, e *model.Machine) error
+	Create(db *gorm.DB, e *model.Machines) (err error)
+	All(db *gorm.DB, name string) ([]*model.Machines, error)
+	Detail(db *gorm.DB, id string) (*model.Machines, error)
+	Update(db *gorm.DB, id string, e *model.Machines) error
 	Delete(db *gorm.DB, id string) error
 }
