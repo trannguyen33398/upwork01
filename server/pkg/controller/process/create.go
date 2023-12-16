@@ -14,8 +14,8 @@ func (r *controller) Create(c *gin.Context, input request.CreateProcessRequest) 
 		Name:       input.Name,
 		ParentId:   input.ParentId,
 		Type:       input.Type,
-		FocusField: input.FocusField,
-		Active:     input.Active,
+		FocusField: *input.FocusField,
+		Active:     *input.Active,
 	})
 
 	if err != nil {

@@ -41,13 +41,21 @@ func (h *handler) Create(c *gin.Context) {
 		return
 	}
 
+	validateError :=view.ValidateRequest(input)
+	
+	if len(validateError) > 0  {
+	
+		c.JSON(http.StatusBadRequest, validateError)
+		return
+	}
+
 	l := h.logger.Fields(logger.Fields{
 		"handler": "machine",
 		"method":  "Create",
 		"request": input,
 	})
 
-	 err := h.controller.Machine.Create(c, input)
+	err := h.controller.Machine.Create(c, input)
 
 	if err != nil {
 		l.Error(err, "failed to create machine")
@@ -71,7 +79,7 @@ func (h *handler) List(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, view.CreateResponse[any](nil, nil, err, nil, ""))
 		return
 	}
-	
+
 	c.JSON(http.StatusOK, view.CreateResponse[any](view.ToMachines(machines), nil, nil, nil, ""))
 }
 
@@ -87,7 +95,7 @@ func (h *handler) Detail(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, view.CreateResponse[any](nil, nil, err, nil, ""))
 		return
 	}
-	
+
 	c.JSON(http.StatusOK, view.CreateResponse[any](view.ToMachine(machine), nil, nil, nil, ""))
 }
 
@@ -102,13 +110,13 @@ func (h *handler) Update(c *gin.Context) {
 		"method":  "Update",
 	})
 
-	 err := h.controller.Machine.Update(c,input)
+	err := h.controller.Machine.Update(c, input)
 	if err != nil {
 		l.Error(err, "failed to update machine")
 		c.JSON(http.StatusInternalServerError, view.CreateResponse[any](nil, nil, err, nil, ""))
 		return
 	}
-	
+
 	c.Status(http.StatusAccepted)
 	return
 }
@@ -119,13 +127,13 @@ func (h *handler) Delete(c *gin.Context) {
 		"method":  "Delete",
 	})
 
-	 err := h.controller.Machine.Delete(c)
+	err := h.controller.Machine.Delete(c)
 	if err != nil {
 		l.Error(err, "failed to delete machine")
 		c.JSON(http.StatusInternalServerError, view.CreateResponse[any](nil, nil, err, nil, ""))
 		return
 	}
-	
+
 	c.Status(http.StatusAccepted)
 	return
 }

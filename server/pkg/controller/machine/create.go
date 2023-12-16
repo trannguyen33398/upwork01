@@ -11,12 +11,12 @@ func (r *controller) Create(c *gin.Context, input request.CreateMachineRequest) 
 
 	// Create client
 	err := r.store.Machine.Create(tx.DB(), &model.Machines{
-		Name:        input.Name,
-		Description: input.Description,
-		ParentId:    input.ParentId,
-		Priority:    input.Priority,
-		Status:      input.Status,
-		Active:      input.Active,
+		Name:               input.Name,
+		Description:        input.Description,
+		ParentId: 			input.ParentId,
+		Priority:           input.Priority,
+		Status:           	input.Status,
+		Active:            	*input.Active,
 	})
 
 	if err != nil {

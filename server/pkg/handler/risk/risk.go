@@ -1,14 +1,14 @@
-package process
+package risk
 
 import (
+	"net/http"
 	"github.com/gin-gonic/gin"
 	"github.com/trannguyen33398/upwork01/server/pkg/config"
 	"github.com/trannguyen33398/upwork01/server/pkg/controller"
-	"github.com/trannguyen33398/upwork01/server/pkg/handler/process/request"
+	"github.com/trannguyen33398/upwork01/server/pkg/handler/risk/request"
 	"github.com/trannguyen33398/upwork01/server/pkg/logger"
 	"github.com/trannguyen33398/upwork01/server/pkg/store"
 	"github.com/trannguyen33398/upwork01/server/pkg/view"
-	"net/http"
 )
 
 type handler struct {
@@ -35,7 +35,7 @@ type SuccessResult struct {
 }
 
 func (h *handler) Create(c *gin.Context) {
-	input := request.CreateProcessRequest{}
+	input := request.CreateRiskRequest{}
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, view.CreateResponse[any](nil, nil, err, input, ""))
 		return
@@ -43,22 +43,24 @@ func (h *handler) Create(c *gin.Context) {
 
 	validateError :=view.ValidateRequest(input)
 	
-	if validateError != nil {
+	if len(validateError) > 0  {
 	
 		c.JSON(http.StatusBadRequest, validateError)
 		return
 	}
-	
+
 	l := h.logger.Fields(logger.Fields{
-		"handler": "process",
+		"handler": "risk",
 		"method":  "Create",
 		"request": input,
 	})
 
-	err := h.controller.Process.Create(c, input)
+
+
+	err := h.controller.Risk.Create(c, input)
 
 	if err != nil {
-		l.Error(err, "failed to create process")
+		l.Error(err, "failed to create risk")
 		c.JSON(http.StatusInternalServerError, view.CreateResponse[any](nil, nil, err, input, ""))
 		return
 	}
@@ -69,50 +71,50 @@ func (h *handler) Create(c *gin.Context) {
 
 func (h *handler) List(c *gin.Context) {
 	l := h.logger.Fields(logger.Fields{
-		"handler": "process",
+		"handler": "risk",
 		"method":  "List",
 	})
 
-	processes, err := h.controller.Process.List(c)
+	risks, err := h.controller.Risk.List(c)
 	if err != nil {
-		l.Error(err, "failed to get process list")
+		l.Error(err, "failed to get risk list")
 		c.JSON(http.StatusInternalServerError, view.CreateResponse[any](nil, nil, err, nil, ""))
 		return
 	}
 
-	c.JSON(http.StatusOK, view.CreateResponse[any](view.ToProcesses(processes), nil, nil, nil, ""))
+	c.JSON(http.StatusOK, view.CreateResponse[any](view.ToRisks(risks), nil, nil, nil, ""))
 }
 
 func (h *handler) Detail(c *gin.Context) {
 	l := h.logger.Fields(logger.Fields{
-		"handler": "process",
+		"handler": "risk",
 		"method":  "Detail",
 	})
 
-	process, err := h.controller.Process.Detail(c)
+	risk, err := h.controller.Risk.Detail(c)
 	if err != nil {
-		l.Error(err, "failed to get process detail")
+		l.Error(err, "failed to get risk detail")
 		c.JSON(http.StatusInternalServerError, view.CreateResponse[any](nil, nil, err, nil, ""))
 		return
 	}
 
-	c.JSON(http.StatusOK, view.CreateResponse[any](view.ToProcess(process), nil, nil, nil, ""))
+	c.JSON(http.StatusOK, view.CreateResponse[any](view.ToRisk(risk), nil, nil, nil, ""))
 }
 
 func (h *handler) Update(c *gin.Context) {
-	input := request.CreateProcessRequest{}
+	input := request.CreateRiskRequest{}
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, view.CreateResponse[any](nil, nil, err, input, ""))
 		return
 	}
 	l := h.logger.Fields(logger.Fields{
-		"handler": "process",
+		"handler": "risk",
 		"method":  "Update",
 	})
 
-	err := h.controller.Process.Update(c, input)
+	err := h.controller.Risk.Update(c, input)
 	if err != nil {
-		l.Error(err, "failed to update process")
+		l.Error(err, "failed to update risk")
 		c.JSON(http.StatusInternalServerError, view.CreateResponse[any](nil, nil, err, nil, ""))
 		return
 	}
@@ -123,13 +125,13 @@ func (h *handler) Update(c *gin.Context) {
 
 func (h *handler) Delete(c *gin.Context) {
 	l := h.logger.Fields(logger.Fields{
-		"handler": "process",
+		"handler": "risk",
 		"method":  "Delete",
 	})
 
-	err := h.controller.Process.Delete(c)
+	err := h.controller.Risk.Delete(c)
 	if err != nil {
-		l.Error(err, "failed to delete process")
+		l.Error(err, "failed to delete risk")
 		c.JSON(http.StatusInternalServerError, view.CreateResponse[any](nil, nil, err, nil, ""))
 		return
 	}

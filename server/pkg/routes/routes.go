@@ -47,13 +47,22 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 
 	// load API here
 	v1 := r.Group("/api/v1")
-	authRoute := v1.Group("/machine")
+	machineRoute := v1.Group("/machine")
 	{
-		authRoute.POST("/", h.Machine.Create)
-		authRoute.GET("/", h.Machine.List)
-		authRoute.GET("/:machineId", h.Machine.Detail)
-		authRoute.PATCH("/:machineId", h.Machine.Update)
-		authRoute.DELETE("/:machineId", h.Machine.Delete)
+		machineRoute.POST("/", h.Machine.Create)
+		machineRoute.GET("/", h.Machine.List)
+		machineRoute.GET("/:machineId", h.Machine.Detail)
+		machineRoute.PATCH("/:machineId", h.Machine.Update)
+		machineRoute.DELETE("/:machineId", h.Machine.Delete)
+	}
+
+	riskRoute := v1.Group("/risk")
+	{
+		riskRoute.POST("/", h.Risk.Create)
+		riskRoute.GET("/", h.Risk.List)
+		riskRoute.GET("/:riskId", h.Risk.Detail)
+		riskRoute.PATCH("/:riskId", h.Risk.Update)
+		riskRoute.DELETE("/:riskId", h.Risk.Delete)
 	}
 
 	authRoutePlant := v1.Group("/plant")

@@ -7,6 +7,7 @@ import (
 	"github.com/trannguyen33398/upwork01/server/pkg/controller/process"
 	serviceLine "github.com/trannguyen33398/upwork01/server/pkg/controller/service-line"
 	useCaseCluster "github.com/trannguyen33398/upwork01/server/pkg/controller/use-case-cluster"
+	"github.com/trannguyen33398/upwork01/server/pkg/controller/risk"
 	"github.com/trannguyen33398/upwork01/server/pkg/logger"
 	"github.com/trannguyen33398/upwork01/server/pkg/store"
 )
@@ -17,6 +18,7 @@ type Controller struct {
 	Process        process.IController
 	ServiceLine    serviceLine.IController
 	UseCaseCluster useCaseCluster.IController
+	Risk			  risk.IController
 }
 
 func New(store *store.Store, repo store.DBRepo, logger logger.Logger, cfg *config.Config) *Controller {
@@ -26,5 +28,6 @@ func New(store *store.Store, repo store.DBRepo, logger logger.Logger, cfg *confi
 		Process:        process.New(store, repo, logger, cfg),
 		ServiceLine:    serviceLine.New(store, repo, logger, cfg),
 		UseCaseCluster: useCaseCluster.New(store, repo, logger, cfg),
+		Risk:           risk.New(store, repo, logger, cfg),
 	}
 }

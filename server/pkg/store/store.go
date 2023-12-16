@@ -6,6 +6,7 @@ import (
 	"github.com/trannguyen33398/upwork01/server/pkg/store/process"
 	serviceLine "github.com/trannguyen33398/upwork01/server/pkg/store/service-line"
 	useCaseCluster "github.com/trannguyen33398/upwork01/server/pkg/store/use-case-cluster"
+	"github.com/trannguyen33398/upwork01/server/pkg/store/risk"
 )
 
 type Store struct {
@@ -14,6 +15,7 @@ type Store struct {
 	Process        process.IStore
 	ServiceLine    serviceLine.IStore
 	UseCaseCluster useCaseCluster.IStore
+	Risk risk.IStore
 }
 
 func New() *Store {
@@ -23,5 +25,6 @@ func New() *Store {
 		Process:        process.New(),
 		ServiceLine:    serviceLine.New(),
 		UseCaseCluster: useCaseCluster.New(),
+		Risk: risk.New(),
 	}
 }

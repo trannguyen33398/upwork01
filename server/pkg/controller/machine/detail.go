@@ -6,7 +6,7 @@ import (
 )
 
 func (r *controller) Detail(c *gin.Context) (*model.Machines, error) {
-	machine, err := r.store.Machine.Detail(r.repo.DB(), c.Param("machineId"))
+	machine, err := r.store.Machine.Detail(r.repo.DB(),c.Param("machineId") )
 	if err != nil {
 		return nil, err
 	}
