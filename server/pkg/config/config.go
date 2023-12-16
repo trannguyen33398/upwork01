@@ -1,4 +1,15 @@
 package config
+
+import (
+	"os"
+	"strconv"
+
+	env "github.com/joho/godotenv"
+	"github.com/trannguyen33398/upwork01/server/pkg/logger"
+)
+
+// Loader load config from reader into osiper
+
 type DBConnection struct {
 	Host string
 	Port string
@@ -11,22 +22,43 @@ type DBConnection struct {
 type Config struct {
 	// db
 	Postgres DBConnection
-	Debug        bool
+	Debug    bool
+	ApiServer ApiServer
 }
 
 type ENV interface {
 	GetBool(string) bool
-	GetString(string) string
+	GetEnv(string) string
 }
-func Generate(v ENV) *Config {
+
+type ApiServer struct {
+	Port           string
+	AllowedOrigins string
+}
+
+func LoadConfig() *Config {
+	err := env.Load(".env")
+	if err != nil {
+		logger.L.Error(err,"Error loading .enos file")
+	}
+	envValue := os.Getenv("DEBUG")
+	debug, err := strconv.ParseBool(envValue)
+	if err != nil {
+		logger.L.Error(err,"Error parsing boolean value from environment variable")
+	}
 	return &Config{
-		Debug:        v.GetBool("DEBUG"),
+		Debug: debug,
 		Postgres: DBConnection{
-			Host:    v.GetString("DB_HOST"),
-			Port:    v.GetString("DB_PORT"),
-			User:    v.GetString("DB_USER"),
-			Name:    v.GetString("DB_NAME"),
-			Pass:    v.GetString("DB_PASS"),
-			SSLMode: v.GetString("DB_SSL_MODE"),
+			Host:    os.Getenv("DB_HOST"),
+			Port:    os.Getenv("DB_PORT"),
+			User:    os.Getenv("DB_USER"),
+			Name:    os.Getenv("DB_NAME"),
+			Pass:    os.Getenv("DB_PASS"),
+			SSLMode: os.Getenv("DB_SSL_MODE"),
 		},
-	}}
+		ApiServer: ApiServer{
+			Port:          os.Getenv("PORT"),
+			AllowedOrigins:  os.Getenv("ALLOWED_ORIGINS"),
+		},
+	}
+}
