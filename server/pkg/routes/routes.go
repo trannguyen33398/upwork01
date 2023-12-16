@@ -56,13 +56,22 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		authRoute.DELETE("/:machineId", h.Machine.Delete)
 	}
 
-	authRoute2 := v1.Group("/plant")
+	authRoutePlant := v1.Group("/plant")
 	{
-		authRoute2.POST("/", h.Plant.Create)
-		authRoute2.GET("/", h.Plant.List)
-		authRoute2.GET("/:plantId", h.Plant.Detail)
-		authRoute2.PATCH("/:plaintId", h.Plant.Update)
-		authRoute2.DELETE("/:plantId", h.Plant.Delete)
+		authRoutePlant.POST("/", h.Plant.Create)
+		authRoutePlant.GET("/", h.Plant.List)
+		authRoutePlant.GET("/:plantId", h.Plant.Detail)
+		authRoutePlant.PATCH("/:plaintId", h.Plant.Update)
+		authRoutePlant.DELETE("/:plantId", h.Plant.Delete)
+	}
+
+	authRouteProcess := v1.Group("/process")
+	{
+		authRouteProcess.POST("/", h.Process.Create)
+		authRouteProcess.GET("/", h.Process.List)
+		authRouteProcess.GET("/:processId", h.Process.Detail)
+		authRouteProcess.PATCH("/:processId", h.Process.Update)
+		authRouteProcess.DELETE("/:processId", h.Process.Delete)
 	}
 
 	return r
