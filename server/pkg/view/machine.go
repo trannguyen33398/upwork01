@@ -1,8 +1,8 @@
 package view
 
 import (
-	"time"
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
+	"time"
 )
 
 type CreateMachineResponse struct {
@@ -22,7 +22,7 @@ type Machine struct {
 	UpdatedAt         *time.Time `json:"updatedAt"`
 }
 
-func ToMachine(machine *model.Machine) *Machine {
+func ToMachine(machine *model.Machines) *Machine {
 	machineParentName := ""
 	if machine.MachineParent != nil {
 		machineParentName = machine.MachineParent.Name
@@ -41,7 +41,7 @@ func ToMachine(machine *model.Machine) *Machine {
 	}
 }
 
-func ToMachines(machines []*model.Machine) []Machine {
+func ToMachines(machines []*model.Machines) []Machine {
 	rs := make([]Machine, 0, len(machines))
 	for _, machine := range machines {
 		c := ToMachine(machine)

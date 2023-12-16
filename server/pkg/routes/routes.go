@@ -83,5 +83,14 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		authRouteServiceLine.DELETE("/:serviceLineId", h.ServiceLine.Delete)
 	}
 
+	authRouteUseCaseCluster := v1.Group("/use-case-cluster")
+	{
+		authRouteUseCaseCluster.POST("/", h.UseCaseCLuster.Create)
+		authRouteUseCaseCluster.GET("/", h.UseCaseCLuster.List)
+		authRouteUseCaseCluster.GET("/:useCaseClusterId", h.UseCaseCLuster.Detail)
+		authRouteUseCaseCluster.PATCH("/:useCaseClusterId", h.UseCaseCLuster.Update)
+		authRouteUseCaseCluster.DELETE("/:useCaseClusterId", h.UseCaseCLuster.Delete)
+	}
+
 	return r
 }

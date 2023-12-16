@@ -3,13 +3,13 @@ package store
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq" 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
+	_ "github.com/lib/pq"
 	"github.com/trannguyen33398/upwork01/server/pkg/config"
 	"github.com/trannguyen33398/upwork01/server/pkg/logger"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 	gormlogger "gorm.io/gorm/logger"
+	"gorm.io/gorm/schema"
 )
 
 // NewPostgresStore postgres init by gorm
@@ -33,7 +33,7 @@ func NewPostgresStore(cfg *config.Config) DBRepo {
 		postgres.Config{Conn: conn}),
 		&gorm.Config{
 			NamingStrategy: schema.NamingStrategy{
-				SingularTable: false,
+				SingularTable: true,
 			},
 		})
 	if err != nil {
