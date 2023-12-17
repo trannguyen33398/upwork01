@@ -1,8 +1,10 @@
 package view
 
 import (
-	"github.com/trannguyen33398/upwork01/server/pkg/model"
+	"fmt"
 	"time"
+
+	"github.com/trannguyen33398/upwork01/server/pkg/model"
 )
 
 type CreateMachineResponse struct {
@@ -27,6 +29,7 @@ func ToMachine(machine *model.Machines) *Machine {
 	if machine.MachineParent != nil {
 		machineParentName = machine.MachineParent.Name
 	}
+	fmt.Println("machineParentName", machine.MachineParent)
 	return &Machine{
 		Id:                machine.ID.String(),
 		CreatedAt:         machine.CreatedAt,
