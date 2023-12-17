@@ -14,7 +14,7 @@ func (r *controller) Update(c *gin.Context, input request.CreateUseCaseClusterRe
 		Name:        input.Name,
 		ParentId:    input.ParentId,
 		Description: input.Description,
-		Active:      input.Active,
+		Active:      *input.Active,
 	})
 
 	if err != nil {

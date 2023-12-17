@@ -40,6 +40,13 @@ func (h *handler) Create(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, view.CreateResponse[any](nil, nil, err, input, ""))
 		return
 	}
+	validateError :=view.ValidateRequest(input)
+	
+	if validateError != nil {
+	
+		c.JSON(http.StatusBadRequest, validateError)
+		return
+	}
 
 	l := h.logger.Fields(logger.Fields{
 		"handler": "plant",

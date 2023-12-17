@@ -5,9 +5,9 @@ import (
 )
 
 type CreateServiceLineRequest struct {
-	Name              string     `json:"name"`
+	Name              string     `json:"name" validate:"required"`
 	ParentId          model.UUID `json:"parentId"`
-	Description       string     `json:"description"`
-	ResponsiblePerson string     `json:"responsiblePerson"`
-	Active            bool       `json:"active"`
+	Description       string     `json:"description" validate:"required"`
+	ResponsiblePerson string     `json:"responsiblePerson" validate:"required"`
+	Active            *bool       `json:"active" validate:"required"`
 }

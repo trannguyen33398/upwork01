@@ -29,6 +29,7 @@ type IController interface {
 	Create(c *gin.Context, input request.CreateMachineRequest) (err error)
 	List(c *gin.Context) (machine []*model.Machines, err error)
 	Detail(c *gin.Context) (machine *model.Machines, err error)
-	Update(c *gin.Context, input request.CreateMachineRequest) (err error)
-	Delete(c *gin.Context) (err error)
+	Update(c *gin.Context, input request.CreateMachineRequest) ( err error)
+	Delete(c *gin.Context) ( err error)
+	
 }
