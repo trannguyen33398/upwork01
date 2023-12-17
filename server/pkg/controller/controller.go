@@ -5,9 +5,11 @@ import (
 	"github.com/trannguyen33398/upwork01/server/pkg/controller/machine"
 	"github.com/trannguyen33398/upwork01/server/pkg/controller/plant"
 	"github.com/trannguyen33398/upwork01/server/pkg/controller/process"
-	serviceLine "github.com/trannguyen33398/upwork01/server/pkg/controller/service-line"
-	useCaseCluster "github.com/trannguyen33398/upwork01/server/pkg/controller/use-case-cluster"
 	"github.com/trannguyen33398/upwork01/server/pkg/controller/risk"
+	serviceLine "github.com/trannguyen33398/upwork01/server/pkg/controller/service-line"
+	"github.com/trannguyen33398/upwork01/server/pkg/controller/system"
+	useCaseCluster "github.com/trannguyen33398/upwork01/server/pkg/controller/use-case-cluster"
+	communicationStream "github.com/trannguyen33398/upwork01/server/pkg/controller/communication-stream"
 	"github.com/trannguyen33398/upwork01/server/pkg/logger"
 	"github.com/trannguyen33398/upwork01/server/pkg/store"
 )
@@ -18,7 +20,9 @@ type Controller struct {
 	Process        process.IController
 	ServiceLine    serviceLine.IController
 	UseCaseCluster useCaseCluster.IController
-	Risk			  risk.IController
+	Risk           risk.IController
+	System         system.IController
+	CommunicationStream communicationStream.IController
 }
 
 func New(store *store.Store, repo store.DBRepo, logger logger.Logger, cfg *config.Config) *Controller {
@@ -29,5 +33,7 @@ func New(store *store.Store, repo store.DBRepo, logger logger.Logger, cfg *confi
 		ServiceLine:    serviceLine.New(store, repo, logger, cfg),
 		UseCaseCluster: useCaseCluster.New(store, repo, logger, cfg),
 		Risk:           risk.New(store, repo, logger, cfg),
+		System:         system.New(store, repo, logger, cfg),
+		CommunicationStream:         communicationStream.New(store, repo, logger, cfg),
 	}
 }

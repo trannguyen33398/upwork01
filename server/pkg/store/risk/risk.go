@@ -20,7 +20,7 @@ func (s *store) Create(db *gorm.DB, e *model.Risks) (err error) {
 func (s *store) All(db *gorm.DB, name string,page int, limit int) ([]*model.Risks, error) {
 	var risk []*model.Risks
 
-	query := db.
+	query := db.Preload("RiskParent").
 		Where(`risks.name like ?`, "%"+name+"%").Offset(limit * (page - 1)).Limit(limit).Order("risks.created_at desc")
 
 	return risk, query.Find(&risk).Error

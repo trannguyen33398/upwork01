@@ -65,40 +65,58 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		riskRoute.DELETE("/:riskId", h.Risk.Delete)
 	}
 
-	authRoutePlant := v1.Group("/plant")
+	plantRoute := v1.Group("/plant")
 	{
-		authRoutePlant.POST("/", h.Plant.Create)
-		authRoutePlant.GET("/", h.Plant.List)
-		authRoutePlant.GET("/:plantId", h.Plant.Detail)
-		authRoutePlant.PATCH("/:plaintId", h.Plant.Update)
-		authRoutePlant.DELETE("/:plantId", h.Plant.Delete)
+		plantRoute.POST("/", h.Plant.Create)
+		plantRoute.GET("/", h.Plant.List)
+		plantRoute.GET("/:plantId", h.Plant.Detail)
+		plantRoute.PATCH("/:plaintId", h.Plant.Update)
+		plantRoute.DELETE("/:plantId", h.Plant.Delete)
 	}
 
-	authRouteProcess := v1.Group("/process")
+	processRoute := v1.Group("/process")
 	{
-		authRouteProcess.POST("/", h.Process.Create)
-		authRouteProcess.GET("/", h.Process.List)
-		authRouteProcess.GET("/:processId", h.Process.Detail)
-		authRouteProcess.PATCH("/:processId", h.Process.Update)
-		authRouteProcess.DELETE("/:processId", h.Process.Delete)
+		processRoute.POST("/", h.Process.Create)
+		processRoute.GET("/", h.Process.List)
+		processRoute.GET("/:processId", h.Process.Detail)
+		processRoute.PATCH("/:processId", h.Process.Update)
+		processRoute.DELETE("/:processId", h.Process.Delete)
 	}
 
-	authRouteServiceLine := v1.Group("/service-line")
+	serviceLineRoute := v1.Group("/service-line")
 	{
-		authRouteServiceLine.POST("/", h.ServiceLine.Create)
-		authRouteServiceLine.GET("/", h.ServiceLine.List)
-		authRouteServiceLine.GET("/:serviceLineId", h.ServiceLine.Detail)
-		authRouteServiceLine.PATCH("/:serviceLineId", h.ServiceLine.Update)
-		authRouteServiceLine.DELETE("/:serviceLineId", h.ServiceLine.Delete)
+		serviceLineRoute.POST("/", h.ServiceLine.Create)
+		serviceLineRoute.GET("/", h.ServiceLine.List)
+		serviceLineRoute.GET("/:serviceLineId", h.ServiceLine.Detail)
+		serviceLineRoute.PATCH("/:serviceLineId", h.ServiceLine.Update)
+		serviceLineRoute.DELETE("/:serviceLineId", h.ServiceLine.Delete)
 	}
 
-	authRouteUseCaseCluster := v1.Group("/use-case-cluster")
+	useCaseClusterRoute := v1.Group("/use-case-cluster")
 	{
-		authRouteUseCaseCluster.POST("/", h.UseCaseCLuster.Create)
-		authRouteUseCaseCluster.GET("/", h.UseCaseCLuster.List)
-		authRouteUseCaseCluster.GET("/:useCaseClusterId", h.UseCaseCLuster.Detail)
-		authRouteUseCaseCluster.PATCH("/:useCaseClusterId", h.UseCaseCLuster.Update)
-		authRouteUseCaseCluster.DELETE("/:useCaseClusterId", h.UseCaseCLuster.Delete)
+		useCaseClusterRoute.POST("/", h.UseCaseCLuster.Create)
+		useCaseClusterRoute.GET("/", h.UseCaseCLuster.List)
+		useCaseClusterRoute.GET("/:useCaseClusterId", h.UseCaseCLuster.Detail)
+		useCaseClusterRoute.PATCH("/:useCaseClusterId", h.UseCaseCLuster.Update)
+		useCaseClusterRoute.DELETE("/:useCaseClusterId", h.UseCaseCLuster.Delete)
+	}
+
+	systemRoute := v1.Group("/system")
+	{
+		systemRoute.POST("/", h.System.Create)
+		systemRoute.GET("/", h.System.List)
+		systemRoute.GET("/:systemId", h.System.Detail)
+		systemRoute.PATCH("/:systemId", h.System.Update)
+		systemRoute.DELETE("/:systemId", h.System.Delete)
+	}
+
+	communicationStreamRoute := v1.Group("/communication-stream")
+	{
+		communicationStreamRoute.POST("/", h.CommunicationStream.Create)
+		communicationStreamRoute.GET("/", h.CommunicationStream.List)
+		communicationStreamRoute.GET("/:communicationStreamId", h.CommunicationStream.Detail)
+		communicationStreamRoute.PATCH("/:communicationStreamId", h.CommunicationStream.Update)
+		communicationStreamRoute.DELETE("/:communicationStreamId", h.CommunicationStream.Delete)
 	}
 
 	return r
