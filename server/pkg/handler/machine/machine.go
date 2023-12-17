@@ -109,7 +109,14 @@ func (h *handler) Update(c *gin.Context) {
 		"handler": "machine",
 		"method":  "Update",
 	})
-
+	validateError :=view.ValidateRequest(input)
+	
+	if len(validateError) > 0  {
+	
+		c.JSON(http.StatusBadRequest, validateError)
+		return
+	}
+	
 	err := h.controller.Machine.Update(c, input)
 	if err != nil {
 		l.Error(err, "failed to update machine")
