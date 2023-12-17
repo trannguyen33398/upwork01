@@ -109,6 +109,13 @@ func (h *handler) Update(c *gin.Context) {
 		"handler": "process",
 		"method":  "Update",
 	})
+	validateError :=view.ValidateRequest(input)
+	
+	if len(validateError) > 0  {
+	
+		c.JSON(http.StatusBadRequest, validateError)
+		return
+	}
 
 	err := h.controller.Process.Update(c, input)
 	if err != nil {

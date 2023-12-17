@@ -29,7 +29,7 @@ func (s *store) All(db *gorm.DB, name string,page int, limit int) ([]*model.Comm
 func (s *store) Detail(db *gorm.DB, id string) (*model.CommunicationStreams, error) {
 	var risk *model.CommunicationStreams
 
-	query := db.Preload("communicationStreamParent").Where(`communication_streams.id = ?`, id)
+	query := db.Where(`communication_streams.id = ?`, id)
 
 	return risk, query.First(&risk).Error
 }
