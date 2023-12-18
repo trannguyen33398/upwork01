@@ -24,12 +24,12 @@ const MenuProps = {
 type TSelectProp<T> = {
   name: string;
   itemId : string;
-  onChangeSelect : (name : string , id : number[]) => void;
+  onChangeSelect : (name : string , id : string[]) => void;
   options : T[]
 };
 
 interface MyOptions {
-  id: number;
+  id: string;
   value: string;
   name : string;
 }
@@ -45,11 +45,11 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 export const MultipleSelect : React.FC<TSelectProp<MyOptions>>  = (props) => {
-  const mapName = new Map(
+ const key  = {} as any
     props.options.map((obj) => {
-      return [obj.name, obj.id];
+      Object.assign(key,{  [obj.name]: obj.id})
     })
-  );
+  
   const theme = useTheme();
   const [personName, setPersonName] = useState<string[]>([]);
 
@@ -63,8 +63,8 @@ export const MultipleSelect : React.FC<TSelectProp<MyOptions>>  = (props) => {
     );
 
     const activeName = event.target.value as string[];
-    const activeNameIds = activeName.map((name) => mapName.get(name));
-    props.onChangeSelect(props.itemId, activeNameIds as number[]);
+    const activeNameIds = activeName.map((name) => key[name]);
+    props.onChangeSelect(props.itemId, activeNameIds);
   };
 
   const classes = useStyles();

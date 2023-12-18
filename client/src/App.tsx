@@ -1,8 +1,7 @@
-import React from "react";
 
 import "./App.css";
 import { UseCases } from "./pages/use-cases/UseCases";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { Benefit } from "./pages/benefits/Benefit";
 import { Sprints } from "./pages/sprints/Sprints";
 import { Bundles } from "./pages/bundles/Bundles";
@@ -15,12 +14,21 @@ import { ServiceLines } from "./pages/service-lines/ServiceLines";
 import { CommunicationStreams } from "./pages/communication-streams/CommunicationStreams";
 import { UseCaseCluster } from "./pages/use-case-cluster/UseCaseCluster";
 import { MainMenu } from "./pages/main-menu/MainMenu";
-
+import { MachineEdit } from "./pages/machines/edit";
+import { MachineList } from "./pages/machines/list";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
+import { MachineCreate } from "./pages/machines/create";
 function App() {
+  const queryClient = new QueryClient();
   return (
-    <Router>
+    <BrowserRouter>
+   <QueryClientProvider client={queryClient}>
+   
       <div className="App">
-        <Routes>
+        <Routes> 
           <Route path="/" element={<MainMenu />} />
           <Route path="/use-case" element={<UseCases />} />
           <Route path="/benefits" element={<Benefit />} />
@@ -31,15 +39,21 @@ function App() {
           <Route path="/risks" element={<Risks />} />
           <Route path="/plants" element={<Plants />} />
           <Route path="/systems" element={<Systems />} />
+          <Route path="/machines/all" element={<MachineList/>} />
+          <Route path="/machine/create" element={<MachineCreate/>} />
+          <Route path="/machines/edit/:machineId" element={<MachineEdit/>} />
           <Route path="/service-lines" element={<ServiceLines />} />
           <Route
             path="/communication-streams"
             element={<CommunicationStreams />}
           />
           <Route path="/use-case-cluster" element={<UseCaseCluster />} />
+         
         </Routes>
       </div>
-    </Router>
+  
+    </QueryClientProvider>
+     </BrowserRouter>
   );
 }
 

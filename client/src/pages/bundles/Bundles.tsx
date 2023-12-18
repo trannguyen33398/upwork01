@@ -2,17 +2,11 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import AbcIcon from "@mui/icons-material/Abc";
 import { MultipleSelect } from "../../components/MultipleSelect";
-import { CustomDatePicker } from "../../components/DatePicker";
 import { TextComponent } from "../../components/Text";
 import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
-import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import {DefaultOption} from "../../common/common.constant";
-import {SingleSelect} from "../../components/SingleSelect";
-import NumberInput from "@mui/material/TextField";
-import {NumberComponent} from "../../components/Number";
-import NumbersIcon from '@mui/icons-material/Numbers';
+import { DefaultOption } from "../../common/common.constant";
 
 //css flex box
 export const Bundles = () => {
@@ -26,7 +20,7 @@ export const Bundles = () => {
         setFormState({ ...formState, [name]: text });
     };
 
-    const onChangeSelect = (name : string , id : number[]) => {
+    const onChangeSelect = (name : string , id : string[]) => {
         setFormState({...formState , [name] : id})
     }
 
@@ -45,8 +39,7 @@ export const Bundles = () => {
                         icon={<AbcIcon />}
                         name="Name"
                         itemId="name"
-                        onChangeText={onChangeText}
-                    />
+                        onChangeText={onChangeText} type={"text"} value={""}                    />
                     <MultipleSelect
                         name="Use Case Parent"
                         itemId="useCaseId"
@@ -58,8 +51,7 @@ export const Bundles = () => {
                         icon={<AbcIcon />}
                         name="Description"
                         itemId="description"
-                        onChangeText={onChangeText}
-                    />
+                        onChangeText={onChangeText} type={"text"} value={""}                    />
                 </Grid>
 
                 <Grid container>

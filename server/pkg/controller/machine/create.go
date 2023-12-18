@@ -16,7 +16,7 @@ func (r *controller) Create(c *gin.Context, input request.CreateMachineRequest) 
 		ParentId: 			input.ParentId,
 		Priority:           input.Priority,
 		Status:           	input.Status,
-		Active:            	*input.Active,
+		Active:            	input.Active,
 	})
 
 	if err != nil {

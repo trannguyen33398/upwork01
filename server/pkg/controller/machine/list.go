@@ -7,13 +7,13 @@ import (
 )
 
 func (r *controller) List(c *gin.Context) ([]*model.Machines, error) {
-	
-	page,limit,err := view.GetPaginationFromRequest(c.Query("page"),c.Query("limit"))
-	
+
+	page, limit, err := view.GetPaginationFromRequest(c.Query("page"), c.Query("limit"))
+
 	if err != nil {
 		return nil, err
 	}
-	machines, err := r.store.Machine.All(r.repo.DB(),c.Query("name"),page, limit )
+	machines, err := r.store.Machine.All(r.repo.DB(), c.Query("name"), page, limit)
 	if err != nil {
 		return nil, err
 	}

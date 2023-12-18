@@ -11,6 +11,7 @@ type TNumberProps = {
     itemId : string;
     onChangeText : (name : string , number : number) => void;
     icon : React.ReactNode;
+    value?: number
 };
 
 
@@ -39,6 +40,7 @@ export const NumberComponent :  React.FC<TNumberProps> = (props: TNumberProps) =
                     type="number"
                     id="outlined-basic"
                     variant="outlined"
+                    value = {props.value}
                     className={classes.textItem}
                     aria-label="Demo number input"
                     placeholder="Type a number…"

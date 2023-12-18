@@ -2,16 +2,14 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import AbcIcon from "@mui/icons-material/Abc";
 import { MultipleSelect } from "../../components/MultipleSelect";
-import { CustomDatePicker } from "../../components/DatePicker";
 import { TextComponent } from "../../components/Text";
 import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import {DefaultOption} from "../../common/common.constant";
-import {SingleSelect} from "../../components/SingleSelect";
-import {FloatNumber} from "../../components/FloatNumber";
-import {PlantsSegment, PlantsType} from "./plants.constant";
+import { DefaultOption } from "../../common/common.constant";
+import { SingleSelect } from "../../components/SingleSelect";
+import { PlantsSegment, PlantsType } from "./plants.constant";
 
 //css flex box
 export const Plants = () => {
@@ -30,11 +28,11 @@ export const Plants = () => {
         setFormState({ ...formState, [name]: text });
     };
 
-    const onChangeSelect = (name : string , id : number[]) => {
+    const onChangeSelect = (name : string , id : string[]) => {
         setFormState({...formState , [name] : id})
     }
 
-    const onChangeSingleSelect = (name : string , id : number) => {
+    const onChangeSingleSelect = (name : string , id : string) => {
         setFormState({...formState , [name] : id})
     }
 
@@ -54,8 +52,7 @@ export const Plants = () => {
                         icon={<AbcIcon />}
                         name="Name"
                         itemId="name"
-                        onChangeText={onChangeText}
-                    />
+                        onChangeText={onChangeText} type={"text"} value={""}                    />
                     <MultipleSelect
                         name="Parent"
                         itemId="parentId"
@@ -66,20 +63,25 @@ export const Plants = () => {
                         name="Operations Cluster"
                         itemId="operaionsCluster"
                         onChangeText={onChangeText}
-                        icon={<AbcIcon />}
-                    />
+                        icon={<AbcIcon />} type={"text"} value={""}                    />
                     <SingleSelect
                         name="Type"
                         itemId="type"
                         onChangeSelect={onChangeSingleSelect}
-                        options={PlantsType}
-                    />
+                        options={PlantsType} value={{
+                            id: null,
+                            name: null,
+                            value: null
+                        }}                    />
                     <SingleSelect
                         name="Segment"
                         itemId="segment"
                         onChangeSelect={onChangeSingleSelect}
-                        options={PlantsSegment}
-                    />
+                        options={PlantsSegment} value={{
+                            id: null,
+                            name: null,
+                            value: null
+                        }}                    />
                     <BooleanSelection
                         icon={<AbcIcon />}
                         name="Zebra"
