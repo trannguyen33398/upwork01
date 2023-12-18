@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"fmt"
+	"strings"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
@@ -9,11 +11,11 @@ import (
 	"github.com/trannguyen33398/upwork01/server/pkg/handler"
 	"github.com/trannguyen33398/upwork01/server/pkg/logger"
 	"github.com/trannguyen33398/upwork01/server/pkg/store"
-	"strings"
 )
 
 func setupCORS(r *gin.Engine, cfg *config.Config) {
 	corsOrigins := strings.Split(cfg.ApiServer.AllowedOrigins, ";")
+	fmt.Println("cor ne ===> ",corsOrigins)
 	r.Use(func(c *gin.Context) {
 		cors.New(
 			cors.Config{
@@ -33,6 +35,7 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 	// programmatically set swagger info
 
 	r := gin.New()
+
 	pprof.Register(r)
 
 	ctrl := controller.New(s, repo, logger, cfg)
@@ -43,7 +46,9 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		gin.Recovery(),
 	)
 	// config CORS
-	setupCORS(r, cfg)
+	fmt.Println("fucking here ====> ", cfg.ApiServer.AllowedOrigins)
+	setupCORS(r,cfg)
+	
 
 	// load API here
 	v1 := r.Group("/api/v1")
@@ -52,7 +57,7 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		machineRoute.POST("/", h.Machine.Create)
 		machineRoute.GET("/", h.Machine.List)
 		machineRoute.GET("/:machineId", h.Machine.Detail)
-		machineRoute.PATCH("/:machineId", h.Machine.Update)
+		machineRoute.PUT("/:machineId", h.Machine.Update)
 		machineRoute.DELETE("/:machineId", h.Machine.Delete)
 	}
 
@@ -61,7 +66,7 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		riskRoute.POST("/", h.Risk.Create)
 		riskRoute.GET("/", h.Risk.List)
 		riskRoute.GET("/:riskId", h.Risk.Detail)
-		riskRoute.PATCH("/:riskId", h.Risk.Update)
+		riskRoute.PUT("/:riskId", h.Risk.Update)
 		riskRoute.DELETE("/:riskId", h.Risk.Delete)
 	}
 
@@ -70,7 +75,7 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		plantRoute.POST("/", h.Plant.Create)
 		plantRoute.GET("/", h.Plant.List)
 		plantRoute.GET("/:plantId", h.Plant.Detail)
-		plantRoute.PATCH("/:plaintId", h.Plant.Update)
+		plantRoute.PUT("/:plaintId", h.Plant.Update)
 		plantRoute.DELETE("/:plantId", h.Plant.Delete)
 	}
 
@@ -79,7 +84,7 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		processRoute.POST("/", h.Process.Create)
 		processRoute.GET("/", h.Process.List)
 		processRoute.GET("/:processId", h.Process.Detail)
-		processRoute.PATCH("/:processId", h.Process.Update)
+		processRoute.PUT("/:processId", h.Process.Update)
 		processRoute.DELETE("/:processId", h.Process.Delete)
 	}
 
@@ -88,7 +93,7 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		serviceLineRoute.POST("/", h.ServiceLine.Create)
 		serviceLineRoute.GET("/", h.ServiceLine.List)
 		serviceLineRoute.GET("/:serviceLineId", h.ServiceLine.Detail)
-		serviceLineRoute.PATCH("/:serviceLineId", h.ServiceLine.Update)
+		serviceLineRoute.PUT("/:serviceLineId", h.ServiceLine.Update)
 		serviceLineRoute.DELETE("/:serviceLineId", h.ServiceLine.Delete)
 	}
 
@@ -97,7 +102,7 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		useCaseClusterRoute.POST("/", h.UseCaseCLuster.Create)
 		useCaseClusterRoute.GET("/", h.UseCaseCLuster.List)
 		useCaseClusterRoute.GET("/:useCaseClusterId", h.UseCaseCLuster.Detail)
-		useCaseClusterRoute.PATCH("/:useCaseClusterId", h.UseCaseCLuster.Update)
+		useCaseClusterRoute.PUT("/:useCaseClusterId", h.UseCaseCLuster.Update)
 		useCaseClusterRoute.DELETE("/:useCaseClusterId", h.UseCaseCLuster.Delete)
 	}
 
@@ -106,7 +111,7 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		systemRoute.POST("/", h.System.Create)
 		systemRoute.GET("/", h.System.List)
 		systemRoute.GET("/:systemId", h.System.Detail)
-		systemRoute.PATCH("/:systemId", h.System.Update)
+		systemRoute.PUT("/:systemId", h.System.Update)
 		systemRoute.DELETE("/:systemId", h.System.Delete)
 	}
 
@@ -115,7 +120,7 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		communicationStreamRoute.POST("/", h.CommunicationStream.Create)
 		communicationStreamRoute.GET("/", h.CommunicationStream.List)
 		communicationStreamRoute.GET("/:communicationStreamId", h.CommunicationStream.Detail)
-		communicationStreamRoute.PATCH("/:communicationStreamId", h.CommunicationStream.Update)
+		communicationStreamRoute.PUT("/:communicationStreamId", h.CommunicationStream.Update)
 		communicationStreamRoute.DELETE("/:communicationStreamId", h.CommunicationStream.Delete)
 	}
 

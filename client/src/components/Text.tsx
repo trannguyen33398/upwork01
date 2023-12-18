@@ -10,7 +10,8 @@ type TTextProps = {
   itemId : string;
   onChangeText : (name : string , text : string) => void;
   icon : React.ReactNode;
-  type? :  "text" | "email"
+  type :  "text" | "email"
+  value: string 
 };
 export const TextComponent : React.FC<TTextProps> = ({type = "text" , ...props}) => {
   const handleChange = (
@@ -27,7 +28,7 @@ export const TextComponent : React.FC<TTextProps> = ({type = "text" , ...props})
   const classes = useStyles();
   return (
     <>
-      <Grid item xs={3} md={3} className={classes.gridItem} direction="column">
+      <Grid container item xs={3} md={3} className={classes.gridItem} direction="column">
         <Grid container alignItems="center" spacing={1}>
           <Grid item>{props.icon}</Grid>
           <Grid item>
@@ -41,6 +42,7 @@ export const TextComponent : React.FC<TTextProps> = ({type = "text" , ...props})
           InputProps={{ style: textFieldStyles ,inputComponent: TextareaAutosize}}
           id="outlined-basic"
           variant="outlined"
+          value={props.value}
           className={classes.textItem}
           name={props.name}
           onChange={handleChange}

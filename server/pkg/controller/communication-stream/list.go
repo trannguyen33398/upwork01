@@ -7,7 +7,7 @@ import (
 )
 
 func (r *controller) List(c *gin.Context) ([]*model.CommunicationStreams, error) {
-	page,limit,err := view.GetPaginationFromRequest(c.Query("page"),c.Query("limit"))
+	page,limit,err := view.GetPaginationFromRequest(c.Query("_page"),c.Query("_limit"))
 	if err != nil {
 		return nil, err
 	}

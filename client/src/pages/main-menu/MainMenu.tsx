@@ -5,7 +5,6 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
-import CategoryIcon from "@mui/icons-material/Category";
 import MemoryIcon from "@mui/icons-material/Memory";
 import CrisisAlertIcon from "@mui/icons-material/CrisisAlert";
 import FactoryIcon from "@mui/icons-material/Factory";
@@ -57,6 +56,7 @@ const data = [
         path: "/communication-streams",
       },
       { label: "Systems", icons: <SettingsIcon />, path: "/systems" },
+      { label: "Machines", icons: <FactoryIcon />, path: "/machines/all" },
     ],
   },
   {

@@ -2,15 +2,14 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import AbcIcon from "@mui/icons-material/Abc";
 import { MultipleSelect } from "../../components/MultipleSelect";
-import { CustomDatePicker } from "../../components/DatePicker";
 import { TextComponent } from "../../components/Text";
 import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import {DefaultOption} from '../../common/common.constant'
-import {SingleSelect} from "../../components/SingleSelect";
-import {ProcessType} from "./process.constant";
+import { DefaultOption } from '../../common/common.constant';
+import { SingleSelect } from "../../components/SingleSelect";
+import { ProcessType } from "./process.constant";
 //css flex box
 export const Processes = () => {
     const classes = useStyles();
@@ -25,7 +24,7 @@ export const Processes = () => {
         setFormState({ ...formState, [name]: text });
     };
 
-    const onChangeMultipleSelect = (name : string , id : number[]) => {
+    const onChangeMultipleSelect = (name : string , id : string[]) => {
         setFormState({...formState , [name] : id})
     }
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,7 +32,7 @@ export const Processes = () => {
         console.log(formState);
     };
 
-    const onChangeSingleSelect = (name : string , id : number) => {
+    const onChangeSingleSelect = (name : string , id : string) => {
         setFormState({...formState , [name] : id})
     }
 
@@ -48,8 +47,7 @@ export const Processes = () => {
                         icon={<AbcIcon />}
                         name="Name"
                         itemId="name"
-                        onChangeText={onChangeText}
-                    />
+                        onChangeText={onChangeText} type={"text"} value={""}                    />
                     <MultipleSelect
                         name="Parent Id"
                         itemId="parentId"
@@ -60,8 +58,11 @@ export const Processes = () => {
                         name="Type"
                         itemId="type"
                         onChangeSelect={onChangeSingleSelect}
-                        options={ProcessType}
-                    />
+                        options={ProcessType} value={{
+                            id: null,
+                            name: null,
+                            value: null
+                        }}                    />
                     <BooleanSelection
                         icon={<AbcIcon />}
                         name="Focus Field"

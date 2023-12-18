@@ -13,6 +13,7 @@ type Pagination struct {
 
 
 func GetPaginationFromRequest(page string, limit string) (int, int, error){
+	
 	pageConvert ,err:= strconv.Atoi(page)
 	if err != nil {
 		return 0, 0, errors.New("Page is not a number")

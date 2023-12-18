@@ -6,14 +6,12 @@ import { CustomDatePicker } from "../../components/DatePicker";
 import { TextComponent } from "../../components/Text";
 import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
-import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import {DefaultOption} from "../../common/common.constant";
-import {SingleSelect} from "../../components/SingleSelect";
-import NumberInput from "@mui/material/TextField";
-import {NumberComponent} from "../../components/Number";
+import { DefaultOption } from "../../common/common.constant";
+import { SingleSelect } from "../../components/SingleSelect";
+import { NumberComponent } from "../../components/Number";
 import NumbersIcon from '@mui/icons-material/Numbers';
-import {StatusType} from "./sprint.constant";
+import { StatusType } from "./sprint.constant";
 
 //css flex box
 export const Sprints = () => {
@@ -38,7 +36,7 @@ export const Sprints = () => {
         setFormState({ ...formState, [name]: text });
     };
 
-    const onChangeSelect = (name : string , id : number[]) => {
+    const onChangeSelect = (name : string , id : string[]) => {
         setFormState({...formState , [name] : id})
     }
 
@@ -46,7 +44,7 @@ export const Sprints = () => {
         setFormState({...formState , [name] : number})
     }
 
-    const onChangeSingleSelect = (name : string , id : number) => {
+    const onChangeSingleSelect = (name : string , id : string) => {
         setFormState({...formState , [name] : id})
     }
 
@@ -65,8 +63,7 @@ export const Sprints = () => {
                         icon={<AbcIcon />}
                         name="Name"
                         itemId="name"
-                        onChangeText={onChangeText}
-                    />
+                        onChangeText={onChangeText} type={"text"} value={""}                    />
                     <MultipleSelect
                         name="Use Case Parent"
                         itemId="useCaseId"
@@ -95,13 +92,32 @@ export const Sprints = () => {
                         icon={<AbcIcon />}
                         name="Description"
                         itemId="description"
-                        onChangeText={onChangeText}
-                    />
-                    <SingleSelect name="Status" itemId="statusId" onChangeSelect={onChangeSingleSelect} options={StatusType} />
-                    <SingleSelect name="Development Status" itemId="developmentStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} />
-                    <SingleSelect name="Iteration Status" itemId="iterationStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} />
-                    <SingleSelect name="Implementation Status" itemId="implementationStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} />
-                    <SingleSelect name="Handover Status" itemId="handoverStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} />
+                        onChangeText={onChangeText} type={"text"} value={""}                    />
+                    <SingleSelect name="Status" itemId="statusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
+                        id: null,
+                        name: null,
+                        value: null
+                    }} />
+                    <SingleSelect name="Development Status" itemId="developmentStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
+                        id: null,
+                        name: null,
+                        value: null
+                    }} />
+                    <SingleSelect name="Iteration Status" itemId="iterationStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
+                        id: null,
+                        name: null,
+                        value: null
+                    }} />
+                    <SingleSelect name="Implementation Status" itemId="implementationStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
+                        id: null,
+                        name: null,
+                        value: null
+                    }} />
+                    <SingleSelect name="Handover Status" itemId="handoverStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
+                        id: null,
+                        name: null,
+                        value: null
+                    }} />
                     <CustomDatePicker
                         name="Implemented At"
                         itemId="implementedAt"
@@ -111,8 +127,7 @@ export const Sprints = () => {
                         icon={<AbcIcon />}
                         name="Documents"
                         itemId="documents"
-                        onChangeText={onChangeText}
-                    />
+                        onChangeText={onChangeText} type={"text"} value={""}                    />
                 </Grid>
 
 

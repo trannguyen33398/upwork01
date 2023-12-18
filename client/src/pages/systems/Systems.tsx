@@ -2,15 +2,12 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import AbcIcon from "@mui/icons-material/Abc";
 import { MultipleSelect } from "../../components/MultipleSelect";
-import { CustomDatePicker } from "../../components/DatePicker";
 import { TextComponent } from "../../components/Text";
 import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import {DefaultOption} from "../../common/common.constant";
-import {SingleSelect} from "../../components/SingleSelect";
-import {FloatNumber} from "../../components/FloatNumber";
+import { DefaultOption } from "../../common/common.constant";
 
 //css flex box
 export const Systems = () => {
@@ -27,11 +24,12 @@ export const Systems = () => {
         setFormState({ ...formState, [name]: text });
     };
 
-    const onChangeSelect = (name : string , id : number[]) => {
+    const onChangeSelect = (name : string , id : string[]) => {
         setFormState({...formState , [name] : id})
     }
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        
     };
 
     return (
@@ -45,8 +43,7 @@ export const Systems = () => {
                         icon={<AbcIcon />}
                         name="Name"
                         itemId="name"
-                        onChangeText={onChangeText}
-                    />
+                        onChangeText={onChangeText} type={"text"} value={""}                    />
                     <MultipleSelect
                         name="Parent"
                         itemId="parentId"
@@ -57,20 +54,17 @@ export const Systems = () => {
                         icon={<AbcIcon />}
                         name="Category"
                         itemId="category"
-                        onChangeText={onChangeText}
-                    />
+                        onChangeText={onChangeText} type={"text"} value={""}                    />
                     <TextComponent
                         icon={<AbcIcon />}
                         name="Tool Name"
                         itemId="toolName"
-                        onChangeText={onChangeText}
-                    />
+                        onChangeText={onChangeText} type={"text"} value={""}                    />
                     <TextComponent
                         icon={<AbcIcon />}
                         name="Description"
                         itemId="description"
-                        onChangeText={onChangeText}
-                    />
+                        onChangeText={onChangeText} type={"text"} value={""}                    />
                     <BooleanSelection
                         icon={<AbcIcon />}
                         name="Active"

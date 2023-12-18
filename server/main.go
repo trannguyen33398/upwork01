@@ -25,8 +25,7 @@ func main() {
 		Addr:    fmt.Sprintf(":%s", cfg.ApiServer.Port),
 		Handler: router,
 	}
-	a := fmt.Sprintf(":%s", cfg.ApiServer.Port)
-	fmt.Println(a)
+	
 	// serve http server
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {

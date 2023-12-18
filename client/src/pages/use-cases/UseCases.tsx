@@ -8,7 +8,7 @@ import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import {DefaultOption} from '../../common/common.constant'
+import { DefaultOption } from '../../common/common.constant';
 //css flex box
 export const UseCases = () => {
   const classes = useStyles();
@@ -43,7 +43,7 @@ export const UseCases = () => {
     setFormState({ ...formState, [name]: text });
   };
 
-  const onChangeMultipleSelect = (name : string , id : number[]) => {
+  const onChangeMultipleSelect = (name : string , id : string[]) => {
     setFormState({...formState , [name] : id})
   }
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -62,8 +62,7 @@ export const UseCases = () => {
             icon={<AbcIcon />}
             name="Name"
             itemId="name"
-            onChangeText={onChangeText}
-          />
+            onChangeText={onChangeText} type={"text"} value={""}          />
           <MultipleSelect
             name="Process Parent"
             itemId="processParentId"
@@ -146,8 +145,7 @@ export const UseCases = () => {
             icon={<AbcIcon />}
             name="Responsible Person"
             itemId="responsiblePerson"
-            onChangeText={onChangeText}
-          />
+            onChangeText={onChangeText} type={"text"} value={""}          />
           <CustomDatePicker
             name="Collection Date"
             itemId="collectionDate"
@@ -157,26 +155,22 @@ export const UseCases = () => {
             icon={<AbcIcon />}
             name="Target Definition"
             itemId="targetDefinition"
-            onChangeText={onChangeText}
-          />
+            onChangeText={onChangeText} type={"text"} value={""}          />
           <TextComponent
             icon={<AbcIcon />}
             name="Major Issue Definition"
             itemId="majorIssueDefinition"
-            onChangeText={onChangeText}
-          />
+            onChangeText={onChangeText} type={"text"} value={""}          />
           <TextComponent
             icon={<AbcIcon />}
             name="Relevant Tags"
             itemId="relevantTags"
-            onChangeText={onChangeText}
-          />
+            onChangeText={onChangeText} type={"text"} value={""}          />
           <TextComponent
             icon={<AbcIcon />}
             name="Blocking Points"
             itemId="blockPoints"
-            onChangeText={onChangeText}
-          />
+            onChangeText={onChangeText} type={"text"} value={""}          />
           <MultipleSelect
             name="Blocking Points Service"
             itemId="blockPointsService"
@@ -188,14 +182,12 @@ export const UseCases = () => {
             icon={<AbcIcon />}
             name="Comment"
             itemId="comment"
-            onChangeText={onChangeText}
-          />
+            onChangeText={onChangeText} type={"text"} value={""}          />
           <TextComponent
             icon={<AbcIcon />}
             name="Project Name"
             itemId="projectName"
-            onChangeText={onChangeText}
-          />
+            onChangeText={onChangeText} type={"text"} value={""}          />
 
           <MultipleSelect
             name="Communication Stream"
