@@ -27,7 +27,7 @@ func New(store *store.Store, repo store.DBRepo, logger logger.Logger, cfg *confi
 
 type IController interface {
 	Create(c *gin.Context, input request.CreatePlantRequest) (err error)
-	List(c *gin.Context) (plant []*model.Plants, err error)
+	List(c *gin.Context) (total int64, plant []*model.Plants, err error)
 	Detail(c *gin.Context) (plant *model.Plants, err error)
 	Update(c *gin.Context, input request.CreatePlantRequest) (err error)
 	Delete(c *gin.Context) (err error)

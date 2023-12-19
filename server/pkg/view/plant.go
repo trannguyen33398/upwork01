@@ -2,7 +2,6 @@ package view
 
 import (
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
-	"time"
 )
 
 type CreatePlantResponse struct {
@@ -10,18 +9,18 @@ type CreatePlantResponse struct {
 }
 
 type Plant struct {
-	Id                string     `json:"id"`
-	Name              string     `json:"name"`
-	ParentId          string     `json:"parentId"`
-	OperationsCluster string     `json:"operationsCluster"`
-	Type              string     `json:"type"`
-	NameAbbreviation  string     `json:"nameAbbreviation"`
-	Segment           string     `json:"segment"`
-	Zebra             bool       `json:"zebra"`
-	Active            bool       `json:"active"`
-	PlantParentName   string     `json:"plantParentName"`
-	CreatedAt         *time.Time `json:"createdAt"`
-	UpdatedAt         *time.Time `json:"updatedAt"`
+	Id                string `json:"id"`
+	Name              string `json:"name"`
+	ParentId          string `json:"parentId"`
+	OperationsCluster string `json:"operationsCluster"`
+	Type              string `json:"type"`
+	NameAbbreviation  string `json:"nameAbbreviation"`
+	Segment           string `json:"segment"`
+	Zebra             bool   `json:"zebra"`
+	Active            bool   `json:"active"`
+	ParentName        string `json:"parentName"`
+	CreatedAt         string `json:"createdAt"`
+	UpdatedAt         string `json:"updatedAt"`
 }
 
 func ToPlant(plant *model.Plants) *Plant {
@@ -31,8 +30,8 @@ func ToPlant(plant *model.Plants) *Plant {
 	}
 	return &Plant{
 		Id:                plant.ID.String(),
-		CreatedAt:         plant.CreatedAt,
-		UpdatedAt:         plant.UpdatedAt,
+		CreatedAt:         plant.CreatedAt.Format("02-01-2006"),
+		UpdatedAt:         plant.UpdatedAt.Format("02-01-2006"),
 		Name:              plant.Name,
 		OperationsCluster: plant.OperationsCluster,
 		ParentId:          plant.ParentId.String(),
@@ -41,7 +40,7 @@ func ToPlant(plant *model.Plants) *Plant {
 		NameAbbreviation:  plant.NameAbbreviation,
 		Segment:           plant.Segment,
 		Zebra:             plant.Zebra,
-		PlantParentName:   plantParentName,
+		ParentName:        plantParentName,
 	}
 }
 

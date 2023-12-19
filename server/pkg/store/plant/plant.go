@@ -17,13 +17,16 @@ func (s *store) Create(db *gorm.DB, e *model.Plants) (err error) {
 }
 
 // Get list plant
-func (s *store) All(db *gorm.DB, name string) ([]*model.Plants, error) {
+func (s *store) All(db *gorm.DB, name string, page int, limit int) (int64, []*model.Plants, error) {
 	var plant []*model.Plants
+	var totalRows int64
+
+	db.Model(plant).Where(`plants.name like ?`, "%"+name+"%").Count(&totalRows)
 
 	query := db.Preload("PlantParent").
-		Where(`plants.name like ?`, "%"+name+"%")
+		Where(`plants.name like ?`, "%"+name+"%").Offset(limit * (page - 1)).Limit(limit).Order("plants.created_at desc")
 
-	return plant, query.Find(&plant).Error
+	return totalRows, plant, query.Find(&plant).Error
 }
 
 func (s *store) Detail(db *gorm.DB, id string) (*model.Plants, error) {
