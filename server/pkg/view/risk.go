@@ -1,8 +1,6 @@
 package view
 
 import (
-	"time"
-
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
 )
 
@@ -11,16 +9,16 @@ type CreateRiskResponse struct {
 }
 
 type Risk struct {
-	Id                string     `json:"id"`
-	Name              string     `json:"name"`
-	ParentId          string     `json:"parentId"`
-	Priority          int        `json:"priority"`
-	Description       string     `json:"description"`
-	Status            string     `json:"status"`
-	Active            bool       `json:"active"`
-	RiskParentName string     `json:"riskParentName"`
-	CreatedAt         *time.Time `json:"createdAt"`
-	UpdatedAt         *time.Time `json:"updatedAt"`
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+	ParentId    string `json:"parentId"`
+	Priority    int    `json:"priority"`
+	Description string `json:"description"`
+	Status      string `json:"status"`
+	Active      bool   `json:"active"`
+	parentName  string `json:"parentName"`
+	CreatedAt   string `json:"createdAt"`
+	UpdatedAt   string `json:"updatedAt"`
 }
 
 func ToRisk(risk *model.Risks) *Risk {
@@ -29,15 +27,15 @@ func ToRisk(risk *model.Risks) *Risk {
 		riskParentName = risk.RiskParent.Name
 	}
 	return &Risk{
-		Id:                risk.ID.String(),
-		CreatedAt:         risk.CreatedAt,
-		UpdatedAt:         risk.UpdatedAt,
-		Name:              risk.Name,
-		Description:       risk.Description,
-		ParentId:          risk.ParentId.String(),
-		Active:            risk.Active,
-		Priority:          risk.Priority,
-		RiskParentName: 	riskParentName,
+		Id:          risk.ID.String(),
+		CreatedAt:   risk.CreatedAt.Format("02-01-2006"),
+		UpdatedAt:   risk.UpdatedAt.Format("02-01-2006"),
+		Name:        risk.Name,
+		Description: risk.Description,
+		ParentId:    risk.ParentId.String(),
+		Active:      risk.Active,
+		Priority:    risk.Priority,
+		parentName:  riskParentName,
 	}
 }
 
