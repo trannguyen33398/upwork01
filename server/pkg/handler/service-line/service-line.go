@@ -1,6 +1,8 @@
 package serviceLine
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/trannguyen33398/upwork01/server/pkg/config"
 	"github.com/trannguyen33398/upwork01/server/pkg/controller"
@@ -8,7 +10,6 @@ import (
 	"github.com/trannguyen33398/upwork01/server/pkg/logger"
 	"github.com/trannguyen33398/upwork01/server/pkg/store"
 	"github.com/trannguyen33398/upwork01/server/pkg/view"
-	"net/http"
 )
 
 type handler struct {
@@ -40,11 +41,11 @@ func (h *handler) Create(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, view.CreateResponse[any](nil, nil, err, input, ""))
 		return
 	}
-	
-	validateError :=view.ValidateRequest(input)
-	
+
+	validateError := view.ValidateRequest(input)
+
 	if validateError != nil {
-	
+
 		c.JSON(http.StatusBadRequest, validateError)
 		return
 	}
@@ -73,14 +74,14 @@ func (h *handler) List(c *gin.Context) {
 		"method":  "List",
 	})
 
-	serviceLines, err := h.controller.ServiceLine.List(c)
+	total, serviceLines, err := h.controller.ServiceLine.List(c)
 	if err != nil {
 		l.Error(err, "failed to get serviceLine list")
 		c.JSON(http.StatusInternalServerError, view.CreateResponse[any](nil, nil, err, nil, ""))
 		return
 	}
 
-	c.JSON(http.StatusOK, view.CreateResponse[any](view.ToServiceLines(serviceLines), nil, nil, nil, ""))
+	c.JSON(http.StatusOK, view.CreateResponse[any](view.ToServiceLines(serviceLines), &view.PaginationResponse{Total: total}, nil, nil, ""))
 }
 
 func (h *handler) Detail(c *gin.Context) {
@@ -110,14 +111,14 @@ func (h *handler) Update(c *gin.Context) {
 		"method":  "Update",
 	})
 
-	validateError :=view.ValidateRequest(input)
-	
-	if len(validateError) > 0  {
-	
+	validateError := view.ValidateRequest(input)
+
+	if len(validateError) > 0 {
+
 		c.JSON(http.StatusBadRequest, validateError)
 		return
 	}
-	
+
 	err := h.controller.ServiceLine.Update(c, input)
 	if err != nil {
 		l.Error(err, "failed to update serviceLine")

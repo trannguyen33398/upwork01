@@ -17,13 +17,16 @@ func (s *store) Create(db *gorm.DB, e *model.ServiceLines) (err error) {
 }
 
 // Get list serviceLine
-func (s *store) All(db *gorm.DB, name string) ([]*model.ServiceLines, error) {
+func (s *store) All(db *gorm.DB, name string, page int, limit int) (int64, []*model.ServiceLines, error) {
 	var serviceLine []*model.ServiceLines
+	var totalRows int64
+
+	db.Model(serviceLine).Where(`service_lines.name like ?`, "%"+name+"%").Count(&totalRows)
 
 	query := db.Preload("ServiceLineParent").
-		Where(`service_lines.name like ?`, "%"+name+"%")
+		Where(`service_lines.name like ?`, "%"+name+"%").Offset(limit * (page - 1)).Limit(limit).Order("service_lines.created_at desc")
 
-	return serviceLine, query.Find(&serviceLine).Error
+	return totalRows, serviceLine, query.Find(&serviceLine).Error
 }
 
 func (s *store) Detail(db *gorm.DB, id string) (*model.ServiceLines, error) {

@@ -2,7 +2,6 @@ package view
 
 import (
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
-	"time"
 )
 
 type CreateServiceLineResponse struct {
@@ -10,15 +9,15 @@ type CreateServiceLineResponse struct {
 }
 
 type ServiceLine struct {
-	Id                    string     `json:"id"`
-	Name                  string     `json:"name"`
-	ParentId              string     `json:"parentId"`
-	Description           string     `json:"description"`
-	ResponsiblePerson     string     `json:"responsiblePerson"`
-	Active                bool       `json:"active"`
-	ServiceLineParentName string     `json:"serviceLineParentName"`
-	CreatedAt             *time.Time `json:"createdAt"`
-	UpdatedAt             *time.Time `json:"updatedAt"`
+	Id                string `json:"id"`
+	Name              string `json:"name"`
+	ParentId          string `json:"parentId"`
+	Description       string `json:"description"`
+	ResponsiblePerson string `json:"responsiblePerson"`
+	Active            bool   `json:"active"`
+	ParentName        string `json:"parentName"`
+	CreatedAt         string `json:"createdAt"`
+	UpdatedAt         string `json:"updatedAt"`
 }
 
 func ToServiceLine(serviceLine *model.ServiceLines) *ServiceLine {
@@ -28,15 +27,15 @@ func ToServiceLine(serviceLine *model.ServiceLines) *ServiceLine {
 	}
 
 	return &ServiceLine{
-		Id:                    serviceLine.ID.String(),
-		CreatedAt:             serviceLine.CreatedAt,
-		UpdatedAt:             serviceLine.UpdatedAt,
-		Name:                  serviceLine.Name,
-		Description:           serviceLine.Description,
-		ParentId:              serviceLine.ParentId.String(),
-		ResponsiblePerson:     serviceLine.ResponsiblePerson,
-		Active:                serviceLine.Active,
-		ServiceLineParentName: serviceLineParentName,
+		Id:                serviceLine.ID.String(),
+		CreatedAt:         serviceLine.CreatedAt.Format("02-01-2006"),
+		UpdatedAt:         serviceLine.UpdatedAt.Format("02-01-2006"),
+		Name:              serviceLine.Name,
+		Description:       serviceLine.Description,
+		ParentId:          serviceLine.ParentId.String(),
+		ResponsiblePerson: serviceLine.ResponsiblePerson,
+		Active:            serviceLine.Active,
+		ParentName:        serviceLineParentName,
 	}
 }
 

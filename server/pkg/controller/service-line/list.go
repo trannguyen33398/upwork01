@@ -3,13 +3,21 @@ package serviceLine
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
+	"github.com/trannguyen33398/upwork01/server/pkg/view"
 )
 
-func (r *controller) List(c *gin.Context) ([]*model.ServiceLines, error) {
-	serviceLines, err := r.store.ServiceLine.All(r.repo.DB(), c.Query("name"))
+func (r *controller) List(c *gin.Context) (int64, []*model.ServiceLines, error) {
+
+	page, limit, err := view.GetPaginationFromRequest(c.Query("page"), c.Query("limit"))
+
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
 
-	return serviceLines, nil
+	total, serviceLines, err := r.store.ServiceLine.All(r.repo.DB(), c.Query("name"), page, limit)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	return total, serviceLines, nil
 }

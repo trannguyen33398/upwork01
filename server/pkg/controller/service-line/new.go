@@ -27,7 +27,7 @@ func New(store *store.Store, repo store.DBRepo, logger logger.Logger, cfg *confi
 
 type IController interface {
 	Create(c *gin.Context, input request.CreateServiceLineRequest) (err error)
-	List(c *gin.Context) (serviceLine []*model.ServiceLines, err error)
+	List(c *gin.Context) (total int64, serviceLine []*model.ServiceLines, err error)
 	Detail(c *gin.Context) (serviceLine *model.ServiceLines, err error)
 	Update(c *gin.Context, input request.CreateServiceLineRequest) (err error)
 	Delete(c *gin.Context) (err error)
