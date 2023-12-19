@@ -44,10 +44,10 @@ func (h *handler) Create(c *gin.Context) {
 		return
 	}
 
-	validateError :=view.ValidateRequest(input)
-	
-	if len(validateError) > 0  {
-	
+	validateError := view.ValidateRequest(input)
+
+	if len(validateError) > 0 {
+
 		c.JSON(http.StatusBadRequest, validateError)
 		return
 	}
@@ -57,8 +57,6 @@ func (h *handler) Create(c *gin.Context) {
 		"method":  "Create",
 		"request": input,
 	})
-
-
 
 	err := h.controller.System.Create(c, input)
 
@@ -78,15 +76,14 @@ func (h *handler) List(c *gin.Context) {
 		"method":  "List",
 	})
 
-	fmt.Println("Im hrret")
-	systems, err := h.controller.System.List(c)
+	total, systems, err := h.controller.System.List(c)
 	if err != nil {
 		l.Error(err, "failed to get System list")
 		c.JSON(http.StatusInternalServerError, view.CreateResponse[any](nil, nil, err, nil, ""))
 		return
 	}
 
-	c.JSON(http.StatusOK, view.CreateResponse[any](view.ToSystems(systems), nil, nil, nil, ""))
+	c.JSON(http.StatusOK, view.CreateResponse[any](view.ToSystems(systems), &view.PaginationResponse{Total: total}, nil, nil, ""))
 }
 
 func (h *handler) Detail(c *gin.Context) {
@@ -116,10 +113,10 @@ func (h *handler) Update(c *gin.Context) {
 		"method":  "Update",
 	})
 
-	validateError :=view.ValidateRequest(input)
-	
-	if len(validateError) > 0  {
-	
+	validateError := view.ValidateRequest(input)
+
+	if len(validateError) > 0 {
+
 		c.JSON(http.StatusBadRequest, validateError)
 		return
 	}

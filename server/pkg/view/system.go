@@ -7,20 +7,20 @@ import (
 )
 
 type CreateSystemResponse struct {
-	Data *System`json:"data"`
+	Data *System `json:"data"`
 }
 
 type System struct {
-	Id                string     `json:"id"`
-	Name              string     `json:"name"`
-	ParentId          string     `json:"parentId"`
-	Category          string     `json:"category"`
-	Description       string     `json:"description"`
-	ToolName          string     `json:"toolName"`
-	Active            bool       `json:"active"`
-	SystemParentName  string     `json:"riskParentName"`
-	CreatedAt         *time.Time `json:"createdAt"`
-	UpdatedAt         *time.Time `json:"updatedAt"`
+	Id          string     `json:"id"`
+	Name        string     `json:"name"`
+	ParentId    string     `json:"parentId"`
+	Category    string     `json:"category"`
+	Description string     `json:"description"`
+	ToolName    string     `json:"toolName"`
+	Active      bool       `json:"active"`
+	ParentName  string     `json:"parentName"`
+	CreatedAt   *time.Time `json:"createdAt"`
+	UpdatedAt   *time.Time `json:"updatedAt"`
 }
 
 func ToSystem(system *model.Systems) *System {
@@ -29,16 +29,16 @@ func ToSystem(system *model.Systems) *System {
 		systemParentName = system.SystemParent.Name
 	}
 	return &System{
-		Id:                system.ID.String(),
-		CreatedAt:         system.CreatedAt,
-		UpdatedAt:         system.UpdatedAt,
-		Name:              system.Name,
-		Description:       system.Description,
-		ParentId:          system.ParentId.String(),
-		Active:            system.Active,
-		Category:          system.Category,
-		ToolName:          system.ToolName,
-		SystemParentName: 	systemParentName,
+		Id:          system.ID.String(),
+		CreatedAt:   system.CreatedAt,
+		UpdatedAt:   system.UpdatedAt,
+		Name:        system.Name,
+		Description: system.Description,
+		ParentId:    system.ParentId.String(),
+		Active:      system.Active,
+		Category:    system.Category,
+		ToolName:    system.ToolName,
+		ParentName:  systemParentName,
 	}
 }
 
