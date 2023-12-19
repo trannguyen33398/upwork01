@@ -11,11 +11,14 @@ import { Button, Pagination, TextField } from "@mui/material";
 import { useQueryString } from "../../utils/utils";
 import { useQuery } from "react-query";
 import { getListMachine } from "../../api/machine";
-import { Machine } from "../../types/machines";
+import {Machine, Machines} from "../../types/machines";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useStyles } from "../../styles/common";
 import { useState, useEffect } from "react";
 import { useQueryClient } from "react-query";
+import {PaginationTable} from "../../components/PaginationTable";
+import {Processes} from "../../types/processes";
+import css from "../../components/PaginationTable.module.css";
 
 const styles = {
   dataGrid: {
@@ -64,6 +67,8 @@ export const MachineList = () => {
       headerAlign: "left",
       flex: 1,
       type: "string",
+      sortable : false,
+      headerClassName : css['header-column']
     },
     {
       field: "parentName",
@@ -71,6 +76,8 @@ export const MachineList = () => {
       type: "string",
       flex: 1,
       headerAlign: "left",
+      sortable : false,
+      headerClassName : css['header-column']
     },
     {
       field: "parentId",
@@ -78,6 +85,8 @@ export const MachineList = () => {
       type: "string",
       flex: 1,
       headerAlign: "left",
+      sortable : false,
+      headerClassName : css['header-column']
     },
     {
       field: "status",
@@ -85,6 +94,8 @@ export const MachineList = () => {
       type: "string",
       flex: 1,
       headerAlign: "left",
+      sortable : false,
+      headerClassName : css['header-column']
     },
     {
       field: "description",
@@ -92,6 +103,8 @@ export const MachineList = () => {
       type: "string",
       flex: 1,
       headerAlign: "left",
+      sortable : false,
+      headerClassName : css['header-column']
     },
 
     {
@@ -100,6 +113,8 @@ export const MachineList = () => {
       type: "string",
       flex: 1,
       headerAlign: "left",
+      sortable : false,
+      headerClassName : css['header-column']
     },
     {
       field: "createdAt",
@@ -107,6 +122,8 @@ export const MachineList = () => {
       type: "string",
       flex: 1,
       headerAlign: "left",
+      sortable : false,
+      headerClassName : css['header-column']
     },
     {
       field: "edit",
@@ -114,6 +131,8 @@ export const MachineList = () => {
       type: "any",
       flex: 0,
       headerAlign: "left",
+      sortable : false,
+      headerClassName : css['header-column-no-border'],
       renderCell: (params) => (
         <EditIcon onClick={() => handleViewDetail(params)}>Edit</EditIcon>
       ),
@@ -125,6 +144,11 @@ export const MachineList = () => {
     // Navigate to another component
     navigate("/");
   };
+
+  const onPageChange = (page : number) => {
+    setPagination(page)
+  }
+
   return (
     <div>
       <div
@@ -171,42 +195,9 @@ export const MachineList = () => {
             Add
           </Button>
         </div>
-        <DataGrid
-          columnVisibilityModel={{
-            description: false,
-            parentId: false,
-          }}
-          rows={dataQuery.data?.data.data ?? []}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                page: pagination,
-                pageSize: 10,
-              },
-            },
-          }}
-          style={styles.dataGrid}
-        />
-      </div>
-      <div
-        style={{
-          height: "100%",
-          width: "90%",
-          margin: "2.5% 0% 0% 5%",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        {" "}
-        <Pagination
-          count={dataQuery.data ? Math.ceil(dataQuery.data.data.total / 10) : 0}
-          page={pagination}
-          onChange={(event, page) => {
-            setPagination(page);
-          }}
-        />
-      </div>
+        <PaginationTable columns={columns} pagination={pagination} dataQuery={dataQuery.data?.data as Machines || {data : [] , total : 0}} onPageChange={onPageChange}/>
+        </div>
+
     </div>
   );
 };

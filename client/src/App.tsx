@@ -21,6 +21,7 @@ import {
   QueryClientProvider,
 } from 'react-query';
 import { MachineCreate } from "./pages/machines/create";
+import {ProcessList} from "./pages/processes/ProcessList";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/bundles" element={<Bundles />} />
           <Route path="/benefit-categories" element={<BenefitCategories />} />
           <Route path="/processes" element={<Processes />} />
+          <Route path="/processes/all" element={<ProcessList/>} />
           <Route path="/risks" element={<Risks />} />
           <Route path="/plants" element={<Plants />} />
           <Route path="/systems" element={<Systems />} />
