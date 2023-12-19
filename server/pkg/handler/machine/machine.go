@@ -73,14 +73,15 @@ func (h *handler) List(c *gin.Context) {
 		"method":  "List",
 	})
 
-	machines, err := h.controller.Machine.List(c)
+	total,machines, err := h.controller.Machine.List(c)
 	if err != nil {
 		l.Error(err, "failed to get machine list")
 		c.JSON(http.StatusInternalServerError, view.CreateResponse[any](nil, nil, err, nil, ""))
 		return
 	}
 
-	c.JSON(http.StatusOK, view.CreateResponse[any](view.ToMachines(machines), nil, nil, nil, ""))
+
+	c.JSON(http.StatusOK, view.CreateResponse[any](view.ToMachines(total,machines), &view.PaginationResponse{Total: total}, nil, nil, ""))
 }
 
 func (h *handler) Detail(c *gin.Context) {

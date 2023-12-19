@@ -41,7 +41,7 @@ func ToMachine(machine *model.Machines) *Machine {
 	}
 }
 
-func ToMachines(machines []*model.Machines) []Machine {
+func ToMachines(total int64,machines []*model.Machines) []Machine {
 	rs := make([]Machine, 0, len(machines))
 	for _, machine := range machines {
 		c := ToMachine(machine)
@@ -49,6 +49,5 @@ func ToMachines(machines []*model.Machines) []Machine {
 			rs = append(rs, *c)
 		}
 	}
-
 	return rs
 }

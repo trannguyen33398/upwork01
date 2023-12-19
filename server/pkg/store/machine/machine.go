@@ -19,14 +19,16 @@ func (s *store) Create(db *gorm.DB, e *model.Machines) (err error) {
 }
 
 // Get list machine
-func (s *store) All(db *gorm.DB, name string, page int, limit int) ([]*model.Machines, error) {
+func (s *store) All(db *gorm.DB, name string, page int, limit int) (int64, []*model.Machines, error) {
 	var machine []*model.Machines
+	var totalRows int64 
+
+	db.Model(machine).Where(`machines.name like ?`, "%"+name+"%").Count(&totalRows)
 
 	query := db.Preload("MachineParent").
 		Where(`machines.name like ?`, "%"+name+"%").Offset(limit * (page - 1)).Limit(limit).Order("machines.created_at desc")
-
-
-	return machine, query.Find(&machine).Error
+		
+	return totalRows, machine, query.Find(&machine).Error
 }
 
 func (s *store) Detail(db *gorm.DB, id string) (*model.Machines, error) {
