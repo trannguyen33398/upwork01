@@ -6,15 +6,15 @@ import (
 	"github.com/trannguyen33398/upwork01/server/pkg/view"
 )
 
-func (r *controller) List(c *gin.Context) ([]*model.CommunicationStreams, error) {
-	page,limit,err := view.GetPaginationFromRequest(c.Query("_page"),c.Query("_limit"))
+func (r *controller) List(c *gin.Context) (int64, []*model.CommunicationStreams, error) {
+	page, limit, err := view.GetPaginationFromRequest(c.Query("page"), c.Query("limit"))
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
-	communicationStream, err := r.store.CommunicationStream.All(r.repo.DB(),c.Query("name"),page,limit )
+	total, communicationStream, err := r.store.CommunicationStream.All(r.repo.DB(), c.Query("name"), page, limit)
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
-	
-	return communicationStream, nil
+
+	return total, communicationStream, nil
 }

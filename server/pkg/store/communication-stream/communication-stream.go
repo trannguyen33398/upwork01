@@ -17,13 +17,16 @@ func (s *store) Create(db *gorm.DB, e *model.CommunicationStreams) (err error) {
 }
 
 // Get list risk
-func (s *store) All(db *gorm.DB, name string,page int, limit int) ([]*model.CommunicationStreams, error) {
-	var risk []*model.CommunicationStreams
+func (s *store) All(db *gorm.DB, name string, page int, limit int) (int64, []*model.CommunicationStreams, error) {
+	var communicationStream []*model.CommunicationStreams
+	var totalRows int64
+
+	db.Model(communicationStream).Where(`communication_streams.name like ?`, "%"+name+"%").Count(&totalRows)
 
 	query := db.
 		Where(`communication_streams.name like ?`, "%"+name+"%").Offset(limit * (page - 1)).Limit(limit).Order("communication_streams.created_at desc")
 
-	return risk, query.Find(&risk).Error
+	return totalRows, communicationStream, query.Find(&communicationStream).Error
 }
 
 func (s *store) Detail(db *gorm.DB, id string) (*model.CommunicationStreams, error) {
@@ -34,7 +37,7 @@ func (s *store) Detail(db *gorm.DB, id string) (*model.CommunicationStreams, err
 	return risk, query.First(&risk).Error
 }
 
-func (s *store) Update(db *gorm.DB, id string, updateData  *model.CommunicationStreams) ( error) {
+func (s *store) Update(db *gorm.DB, id string, updateData *model.CommunicationStreams) error {
 	var risk *model.CommunicationStreams
 
 	query := db.Where(`communication_streams.id = ?`, id).UpdateColumns(updateData)
@@ -42,7 +45,7 @@ func (s *store) Update(db *gorm.DB, id string, updateData  *model.CommunicationS
 	return query.UpdateColumns(&risk).Error
 }
 
-func (s *store) Delete(db *gorm.DB, id string) ( error) {
+func (s *store) Delete(db *gorm.DB, id string) error {
 	var risk *model.CommunicationStreams
 
 	query := db.Where(`communication_streams.id = ?`, id)
