@@ -9,6 +9,6 @@ export interface Machine {
     active: boolean | string
   }
   
-  export type Machines = {data:Machine[]}
+  export type Machines = {total: number,data:Machine[]}
 
   export type MachineDetail = {data:Machine}

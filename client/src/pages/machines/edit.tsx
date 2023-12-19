@@ -64,7 +64,7 @@ export const MachineEdit = () => {
       setTimeout(() => {
         controller.abort();
       }, 5000);
-      return getListMachine(1, 1000, controller.signal);
+      return getListMachine(1, 1000, '',controller.signal);
     },
     keepPreviousData: true,
     retry: 0,

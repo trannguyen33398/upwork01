@@ -7,14 +7,16 @@ import {
 } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
-import { Button, Pagination } from "@mui/material";
+import { Button, Pagination, TextField } from "@mui/material";
 import { useQueryString } from "../../utils/utils";
 import { useQuery } from "react-query";
 import { getListMachine } from "../../api/machine";
 import { Machine } from "../../types/machines";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useStyles } from "../../styles/common";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQueryClient } from "react-query";
+
 const styles = {
   dataGrid: {
     flexGrow: 1,
@@ -23,6 +25,7 @@ const styles = {
 };
 
 export const MachineList = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [pagination, setPagination] = useState(1);
   const handleViewDetail = (
@@ -33,24 +36,26 @@ export const MachineList = () => {
       state: { data: params.row as Machine },
     });
   };
-  
-  
+ 
+  const [searchTerm, setSearchTerm] = useState("");
   const dataQuery = useQuery({
-    queryKey: ["machines",pagination],
+    queryKey: ["machines", pagination,searchTerm],
     queryFn: () => {
-     // const controller = new AbortController();
+      const controller = new AbortController();
       setTimeout(() => {
-       // controller.abort();
+        controller.abort();
       }, 5000);
-      return getListMachine(
-        pagination,
-       10,
-      //  controller.signal
-      );
+      return getListMachine(pagination, 10, searchTerm, controller.signal);
     },
     keepPreviousData: false,
     retry: 0,
   });
+
+  useEffect(() => {
+     
+    queryClient.refetchQueries(["machines", pagination]);
+    
+  }, [searchTerm]);
 
   const columns: GridColDef[] = [
     {
@@ -135,22 +140,37 @@ export const MachineList = () => {
           onClick={handleClick}
           className={classes.backIcon}
         />
-        <Button
-          variant="outlined"
+        <div
           style={{
-            height: "10%",
-            width: "10%",
-            margin: "0% 0% 2.5% auto",
             display: "flex",
-            justifyContent: "flex-end",
-            flexDirection: "column",
+            margin: "1.5% 0%",
+            flexDirection: "row",
           }}
-          onClick={()=> navigate('/machine/create')}
         >
-          Add
-        </Button>
-        {
-        dataQuery.data?.data.data.length === 0 ? <h2>No data on this page</h2>:
+          <TextField
+            style={{
+              width: "14%",
+            }}
+            id="outlined-basic"
+            size="small"
+            value={searchTerm}
+            defaultValue={""}
+            onChange={(event) => {
+              setSearchTerm(event.target.value);
+            }}
+          />
+          <Button
+            variant="outlined"
+            style={{
+              height: "10%",
+              width: "10%",
+              margin: "0% 0% 0% auto",
+            }}
+            onClick={() => navigate("/machine/create")}
+          >
+            Add
+          </Button>
+        </div>
         <DataGrid
           columnVisibilityModel={{
             description: false,
@@ -168,7 +188,6 @@ export const MachineList = () => {
           }}
           style={styles.dataGrid}
         />
-        }
       </div>
       <div
         style={{
@@ -177,9 +196,17 @@ export const MachineList = () => {
           margin: "2.5% 0% 0% 5%",
           display: "flex",
           justifyContent: "center",
-        
         }}
-      > <Pagination count={20}  page={pagination} onChange={(event, page) => {setPagination( page); console.log(dataQuery.data?.data.data)}}/></div>
+      >
+        {" "}
+        <Pagination
+          count={dataQuery.data ? Math.ceil(dataQuery.data.data.total / 10) : 0}
+          page={pagination}
+          onChange={(event, page) => {
+            setPagination(page);
+          }}
+        />
+      </div>
     </div>
   );
 };
