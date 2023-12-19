@@ -3,12 +3,14 @@ import http from "../../utils/http";
 export const getListMachine = (
   page: number | string,
   limit: number | string,
+  name?: string,
   signal?: AbortSignal
 ) =>
   http.get<Machines>("/api/v1/machine/", {
     params: {
       page,
       limit,
+      name
     },
     signal,
   });
