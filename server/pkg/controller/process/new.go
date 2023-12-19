@@ -27,7 +27,7 @@ func New(store *store.Store, repo store.DBRepo, logger logger.Logger, cfg *confi
 
 type IController interface {
 	Create(c *gin.Context, input request.CreateProcessRequest) (err error)
-	List(c *gin.Context) (process []*model.Processes, err error)
+	List(c *gin.Context) (total int64, process []*model.Processes, err error)
 	Detail(c *gin.Context) (process *model.Processes, err error)
 	Update(c *gin.Context, input request.CreateProcessRequest) (err error)
 	Delete(c *gin.Context) (err error)

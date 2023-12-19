@@ -17,13 +17,16 @@ func (s *store) Create(db *gorm.DB, e *model.Processes) (err error) {
 }
 
 // Get list process
-func (s *store) All(db *gorm.DB, name string) ([]*model.Processes, error) {
+func (s *store) All(db *gorm.DB, name string, page int, limit int) (int64, []*model.Processes, error) {
 	var process []*model.Processes
+	var totalRows int64
+
+	db.Model(process).Where(`processes.name like ?`, "%"+name+"%").Count(&totalRows)
 
 	query := db.Preload("ProcessParent").
-		Where(`processes.name like ?`, "%"+name+"%")
+		Where(`processes.name like ?`, "%"+name+"%").Offset(limit * (page - 1)).Limit(limit).Order("processes.created_at desc")
 
-	return process, query.Find(&process).Error
+	return totalRows, process, query.Find(&process).Error
 }
 
 func (s *store) Detail(db *gorm.DB, id string) (*model.Processes, error) {

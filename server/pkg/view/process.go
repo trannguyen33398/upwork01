@@ -2,7 +2,6 @@ package view
 
 import (
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
-	"time"
 )
 
 type CreateProcessResponse struct {
@@ -10,15 +9,15 @@ type CreateProcessResponse struct {
 }
 
 type Process struct {
-	Id                string     `json:"id"`
-	Name              string     `json:"name"`
-	ParentId          string     `json:"parentId"`
-	Type              string     `json:"type"`
-	FocusField        bool       `json:"focusField"`
-	Active            bool       `json:"active"`
-	ProcessParentName string     `json:"processParentName"`
-	CreatedAt         *time.Time `json:"createdAt"`
-	UpdatedAt         *time.Time `json:"updatedAt"`
+	Id         string `json:"id"`
+	Name       string `json:"name"`
+	ParentId   string `json:"parentId"`
+	Type       string `json:"type"`
+	FocusField bool   `json:"focusField"`
+	Active     bool   `json:"active"`
+	ParentName string `json:"parentName"`
+	CreatedAt  string `json:"createdAt"`
+	UpdatedAt  string `json:"updatedAt"`
 }
 
 func ToProcess(process *model.Processes) *Process {
@@ -27,15 +26,15 @@ func ToProcess(process *model.Processes) *Process {
 		processParentName = process.ProcessParent.Name
 	}
 	return &Process{
-		Id:                process.ID.String(),
-		CreatedAt:         process.CreatedAt,
-		UpdatedAt:         process.UpdatedAt,
-		Name:              process.Name,
-		ParentId:          process.ParentId.String(),
-		Type:              process.Type,
-		Active:            process.Active,
-		FocusField:        process.FocusField,
-		ProcessParentName: processParentName,
+		Id:         process.ID.String(),
+		CreatedAt:  process.CreatedAt.Format("02-01-2006"),
+		UpdatedAt:  process.UpdatedAt.Format("02-01-2006"),
+		Name:       process.Name,
+		ParentId:   process.ParentId.String(),
+		Type:       process.Type,
+		Active:     process.Active,
+		FocusField: process.FocusField,
+		ParentName: processParentName,
 	}
 }
 
