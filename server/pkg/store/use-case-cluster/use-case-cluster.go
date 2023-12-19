@@ -17,13 +17,16 @@ func (s *store) Create(db *gorm.DB, e *model.UseCaseCluster) (err error) {
 }
 
 // Get list useCaseCluster
-func (s *store) All(db *gorm.DB, name string) ([]*model.UseCaseCluster, error) {
+func (s *store) All(db *gorm.DB, name string, page int, limit int) (int64, []*model.UseCaseCluster, error) {
 	var useCaseCluster []*model.UseCaseCluster
+	var totalRows int64
+
+	db.Model(useCaseCluster).Where(`use_case_cluster.name like ?`, "%"+name+"%").Count(&totalRows)
 
 	query := db.Preload("UseCaseClusterParent").
-		Where(`use_case_cluster.name like ?`, "%"+name+"%")
+		Where(`use_case_cluster.name like ?`, "%"+name+"%").Offset(limit * (page - 1)).Limit(limit).Order("use_case_cluster.created_at desc")
 
-	return useCaseCluster, query.Find(&useCaseCluster).Error
+	return totalRows, useCaseCluster, query.Find(&useCaseCluster).Error
 }
 
 func (s *store) Detail(db *gorm.DB, id string) (*model.UseCaseCluster, error) {
