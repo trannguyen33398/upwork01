@@ -8,10 +8,10 @@ import { BenefitCategories } from "./pages/benefit-categories/BenefitCategories"
 import { RiskEdit } from "./pages/risks/RiskEdit";
 
 import { MainMenu } from "./pages/main-menu/MainMenu";
-import { MachineEdit } from "./pages/machines/edit";
-import { MachineList } from "./pages/machines/list";
+import { MachineEdit } from "./pages/machines/MachineEdit";
+import { MachineList } from "./pages/machines/MachineList";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { MachineCreate } from "./pages/machines/create";
+import { MachineCreate } from "./pages/machines/MachineCreate";
 import { ProcessList } from "./pages/processes/ProcessList";
 import { ProcessCreate } from "./pages/processes/ProcessCreate";
 import { ProcessEdit } from "./pages/processes/ProcessEdit";

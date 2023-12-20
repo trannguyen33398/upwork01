@@ -10,7 +10,7 @@ import { NumberComponent } from "../../components/Number";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import { useNavigate } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
-import { Status } from "./constant";
+import { Status } from "./machine.constant";
 import { useQuery } from "react-query";
 import { createMachine, getListMachine } from "../../api/machines";
 import { Machine } from "../../types/machines";
