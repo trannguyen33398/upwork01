@@ -9,5 +9,5 @@ type Systems struct {
 	Description      string         `json:"description"`
 	Active   		 bool        	`json:"active"`
 
-	SystemParent  *Machines  `json:"systemParent" gorm:"foreignkey:ParentId"`
+	SystemParent  *Systems  `json:"systemParent" gorm:"foreignkey:ParentId"`
 }

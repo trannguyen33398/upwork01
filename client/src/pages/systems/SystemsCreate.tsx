@@ -6,8 +6,6 @@ import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import { NumberComponent } from "../../components/Number";
-import NumbersIcon from "@mui/icons-material/Numbers";
 import { useNavigate } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
 import { useQuery } from "react-query";
@@ -26,7 +24,6 @@ export const SystemCreate = () => {
     name: "",
     parentId: "",
     parentName: "",
-    priority: 0,
     description: "",
     category: "",
     active: "true",
@@ -128,13 +125,6 @@ export const SystemCreate = () => {
                 };
               }) ?? []
             }
-          />
-          <NumberComponent
-            name="Priority"
-            itemId="priority"
-            value={formState.priority}
-            onChangeText={onChangeNumber}
-            icon={<NumbersIcon />}
           />
           <TextComponent
             icon={<AbcIcon />}

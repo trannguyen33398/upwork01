@@ -33,22 +33,21 @@ export const SystemEdit = () => {
     name: data ? data.name : null,
     parentId: data ? data.parentId : null,
     parentName: data ? data.parentName : null,
-    priority: data ? data.priority : null,
+
     description: data ? data.description : null,
     category: data ? data.category : null,
     toolName: data ? data.toolName : null,
     active: data ? data.active : null,
   });
-  const SystemId = params?.SystemId ?? null;
+  const systemId = params?.systemId ?? null;
   useEffect(() => {
-    if (SystemId) {
-      getSystem(SystemId).then((result) => {
+    if (systemId) {
+      getSystem(systemId).then((result) => {
         setFormState({
           id: result.data.data.id,
           name: result.data.data.name,
           parentId: result.data.data.parentId,
           parentName: result.data.data.parentName,
-          priority: result.data.data.priority,
           description: result.data.data.description,
           category: result.data.data.category,
           active: result.data.data.active,
@@ -56,7 +55,7 @@ export const SystemEdit = () => {
         });
       });
     }
-  }, [SystemId]);
+  }, [systemId]);
 
   const dataQueryParent = useQuery({
     queryKey: ["System"],
@@ -97,7 +96,7 @@ export const SystemEdit = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    updateSystem(SystemId as string, formState).then((data) => {
+    updateSystem(systemId as string, formState).then((data) => {
       if (data.status === 202) {
         setShowAlert(true);
         setTimeout(() => {
@@ -154,15 +153,8 @@ export const SystemEdit = () => {
                     value: item.name,
                   };
                 })
-                .filter((item) => item.id !== SystemId) ?? []
+                .filter((item) => item.id !== systemId) ?? []
             }
-          />
-          <NumberComponent
-            name="Priority"
-            itemId="priority"
-            value={formState.priority}
-            onChangeText={onChangeNumber}
-            icon={<NumbersIcon />}
           />
           <TextComponent
             icon={<AbcIcon />}
