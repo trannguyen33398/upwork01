@@ -6,8 +6,6 @@ import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import { NumberComponent } from "../../components/Number";
-import NumbersIcon from "@mui/icons-material/Numbers";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
 import { useQuery } from "react-query";
@@ -16,7 +14,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { System } from "../../types/system";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 //css flex box
 export const SystemEdit = () => {
   const classes = useStyles();
@@ -26,7 +24,6 @@ export const SystemEdit = () => {
   if (state) {
     data = state.data;
   }
-  const [showAlert, setShowAlert] = useState(false);
 
   const [formState, setFormState] = useState<System>({
     id: data ? data.id : null,
@@ -71,7 +68,6 @@ export const SystemEdit = () => {
   });
 
   const onChangeText = (name: string, text: string) => {
-
     setFormState({ ...formState, [name]: text });
   };
 
@@ -84,26 +80,25 @@ export const SystemEdit = () => {
     id: string,
     parentName?: string
   ) => {
-   
-      setFormState({
-        ...formState,
-        [name]: id,
-        parentName: parentName as string,
-      });
-    
+    setFormState({
+      ...formState,
+      [name]: id,
+      parentName: parentName as string,
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    updateSystem(systemId as string, formState).then((data) => {
-      if (data.status === 202) {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
-      }
-    });
+    updateSystem(systemId as string, formState)
+      .then((data) => {
+        if (data.status === 202) {
+          enqueueSnackbar("Edit System Success!", { variant: "success" });
+        }
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 
@@ -118,11 +113,7 @@ export const SystemEdit = () => {
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>Systems</h2>
-      {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Update successfully!
-        </Alert>
-      )}
+
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent
@@ -165,7 +156,7 @@ export const SystemEdit = () => {
             type={"text"}
             require={true}
           />
-           <TextComponent
+          <TextComponent
             icon={<AbcIcon />}
             name="Category"
             itemId="category"
@@ -174,7 +165,7 @@ export const SystemEdit = () => {
             type={"text"}
             require={true}
           />
-            <TextComponent
+          <TextComponent
             icon={<AbcIcon />}
             name="Tool Name"
             itemId="toolName"
@@ -183,7 +174,7 @@ export const SystemEdit = () => {
             type={"text"}
             require={true}
           />
-          
+
           <BooleanSelection
             icon={<AbcIcon />}
             name="Active"

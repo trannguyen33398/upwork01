@@ -9,7 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { getListCommunicationStream } from "../../api/communication-streams";
-import { CommunicationStream, CommunicationStreams } from "../../types/communication-streams";
+import {
+  CommunicationStream,
+  CommunicationStreams,
+} from "../../types/communication-streams";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useStyles } from "../../styles/common";
 import { useState, useEffect } from "react";
@@ -38,7 +41,12 @@ export const CommunicationStreamList = () => {
       setTimeout(() => {
         controller.abort();
       }, 5000);
-      return getListCommunicationStream(pagination, 10, searchTerm, controller.signal);
+      return getListCommunicationStream(
+        pagination,
+        10,
+        searchTerm,
+        controller.signal
+      );
     },
     keepPreviousData: false,
     retry: 0,
@@ -155,7 +163,9 @@ export const CommunicationStreamList = () => {
             />
           </Grid>
           <Grid item xs={4} alignItems="flex-end" direction="row">
-            <Typography style={{ fontSize: "24px" }}>CommunicationStream List</Typography>
+            <Typography style={{ fontSize: "24px" }}>
+              Communication Stream List
+            </Typography>
           </Grid>
           <Grid
             item
@@ -183,7 +193,10 @@ export const CommunicationStreamList = () => {
           columns={columns}
           pagination={pagination}
           dataQuery={
-            (dataQuery.data?.data as CommunicationStreams) || { data: [], total: 0 }
+            (dataQuery.data?.data as CommunicationStreams) || {
+              data: [],
+              total: 0,
+            }
           }
           onPageChange={onPageChange}
         />

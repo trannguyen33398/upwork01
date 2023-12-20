@@ -17,7 +17,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { Machine } from "../../types/machines";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 //css flex box
 export const MachineEdit = () => {
   const classes = useStyles();
@@ -27,7 +27,6 @@ export const MachineEdit = () => {
   if (state) {
     data = state.data;
   }
-  const [showAlert, setShowAlert] = useState(false);
 
   const [formState, setFormState] = useState<Machine>({
     id: data ? data.id : null,
@@ -72,7 +71,6 @@ export const MachineEdit = () => {
   });
 
   const onChangeText = (name: string, text: string) => {
-
     setFormState({ ...formState, [name]: text });
   };
 
@@ -99,14 +97,15 @@ export const MachineEdit = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    updateMachine(machineId as string, formState).then((data) => {
-      if (data.status === 202) {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
-      }
-    });
+    updateMachine(machineId as string, formState)
+      .then((data) => {
+        if (data.status === 202) {
+          enqueueSnackbar("Edit Machine Success!", { variant: "success" });
+        }
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 
@@ -121,11 +120,6 @@ export const MachineEdit = () => {
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>Machines</h2>
-      {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Update successfully!
-        </Alert>
-      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent

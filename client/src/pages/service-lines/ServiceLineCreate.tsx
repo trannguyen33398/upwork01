@@ -6,17 +6,18 @@ import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
 import { useQuery } from "react-query";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { ServiceLine } from "../../types/service-lines";
 import { createServiceLine, getListServiceLine } from "../../api/service-lines";
+import { useSnackbar } from "notistack";
 
 //css flex box
 export const ServiceLineCreate = () => {
   const classes = useStyles();
-  const [showAlert, setShowAlert] = useState(false);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const [formState, setFormState] = useState<ServiceLine>({
     id: "",
@@ -60,12 +61,18 @@ export const ServiceLineCreate = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    createServiceLine(formState).then((data) => {
-      if (data.status === 201) {
-        setShowAlert(true);
-        navigate("/service-lines/all" , {state : {openSnackbar : true}});
-      }
-    });
+    createServiceLine(formState)
+      .then((data) => {
+        if (data.status === 201) {
+          navigate("/service-lines/all");
+          enqueueSnackbar("Create Service Line Success!", {
+            variant: "success",
+          });
+        }
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 
@@ -74,20 +81,12 @@ export const ServiceLineCreate = () => {
     navigate("/service-lines/all");
   };
 
-
-
   return (
-    
     <div className={classes.div}>
       <div className={classes.backIcon}>
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>Create Service Line</h2>
-      {/* {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Create successfully!
-        </Alert>
-      )} */}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent

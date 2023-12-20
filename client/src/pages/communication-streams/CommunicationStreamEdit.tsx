@@ -6,17 +6,20 @@ import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import { NumberComponent } from "../../components/Number";
-import NumbersIcon from "@mui/icons-material/Numbers";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
 import { useQuery } from "react-query";
-import { getListCommunicationStream, getCommunicationStream, updateCommunicationStream } from "../../api/communication-streams";
+import {
+  getListCommunicationStream,
+  getCommunicationStream,
+  updateCommunicationStream,
+} from "../../api/communication-streams";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { CommunicationStream } from "../../types/communication-streams";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 //css flex box
 export const CommunicationStreamEdit = () => {
   const classes = useStyles();
@@ -26,7 +29,6 @@ export const CommunicationStreamEdit = () => {
   if (state) {
     data = state.data;
   }
-  const [showAlert, setShowAlert] = useState(false);
 
   const [formState, setFormState] = useState<CommunicationStream>({
     id: data ? data.id : null,
@@ -71,34 +73,33 @@ export const CommunicationStreamEdit = () => {
     setFormState({ ...formState, [name]: text });
   };
 
- 
-
   const onChangeSingleSelect = (
     name: string,
     id: string,
     parentName?: string
   ) => {
-   
-      setFormState({
-        ...formState,
-        [name]: id,
-        parentName: parentName as string,
-      });
-    
+    setFormState({
+      ...formState,
+      [name]: id,
+      parentName: parentName as string,
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
 
-    updateCommunicationStream(communicationStreamId as string, formState).then((data) => {
-      if (data.status === 202) {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
-      }
-    });
+    updateCommunicationStream(communicationStreamId as string, formState)
+      .then((data) => {
+        if (data.status === 202) {
+          enqueueSnackbar("Edit Communication Stream Success!", {
+            variant: "success",
+          });
+        }
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 
@@ -113,11 +114,7 @@ export const CommunicationStreamEdit = () => {
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>CommunicationStreams</h2>
-      {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Update successfully!
-        </Alert>
-      )}
+
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent

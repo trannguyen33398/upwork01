@@ -10,10 +10,10 @@ import { useNavigate } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
 import { useQuery } from "react-query";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
 import { createPlant, getListPlant } from "../../api/plants";
 import { Plant } from "../../types/plants";
 import { PlantsSegment, PlantsType } from "./plants.constant";
+import { enqueueSnackbar } from "notistack";
 
 //css flex box
 export const PlantCreate = () => {
@@ -72,11 +72,11 @@ export const PlantCreate = () => {
     formState.zebra = formState.zebra === "true" ? true : false;
     createPlant(formState).then((data) => {
       if (data.status === 201) {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
+        navigate("/plants/all");
+        enqueueSnackbar(`Create Plant Success` , {variant : "success"})
       }
+    }).catch((error) => {
+      enqueueSnackbar(`${error.message}` , {variant : "error"})
     });
   };
   const navigate = useNavigate();
@@ -92,11 +92,6 @@ export const PlantCreate = () => {
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>Create Plant</h2>
-      {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Create successfully!
-        </Alert>
-      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent

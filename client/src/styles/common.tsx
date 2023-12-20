@@ -14,10 +14,11 @@ export const useStyles = makeStyles({
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
-    '&:hover': {
-      color: 'blue'
+    "&:hover": {
+      color: "blue",
     },
-    transform: 'scale(1)'
+    transform: "scale(1)",
+    marginBottom: "10px",
   },
 
   div: {

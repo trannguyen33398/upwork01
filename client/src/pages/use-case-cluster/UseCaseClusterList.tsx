@@ -39,7 +39,12 @@ export const UseCaseClusterList = () => {
       setTimeout(() => {
         controller.abort();
       }, 5000);
-      return getListUseCaseCluster(pagination, 10, searchTerm, controller.signal);
+      return getListUseCaseCluster(
+        pagination,
+        10,
+        searchTerm,
+        controller.signal
+      );
     },
     keepPreviousData: false,
     retry: 0,
@@ -134,12 +139,13 @@ export const UseCaseClusterList = () => {
           height: "100%",
           width: "90%",
           margin: "2.5% 0% 0% 5%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <KeyboardBackspaceIcon
           onClick={handleClick}
           className={classes.backIcon}
-          style={{ display: "flex", marginBottom: "10px" }}
         />
 
         <Grid container spacing={2} style={{ marginBottom: "10px" }}>
@@ -163,7 +169,9 @@ export const UseCaseClusterList = () => {
             />
           </Grid>
           <Grid item xs={4} alignItems="flex-end" direction="row">
-            <Typography style={{ fontSize: "24px" }}>Use Case Cluster List</Typography>
+            <Typography style={{ fontSize: "24px" }}>
+              Use Case Cluster List
+            </Typography>
           </Grid>
           <Grid
             item
@@ -191,7 +199,9 @@ export const UseCaseClusterList = () => {
         <PaginationTable
           columns={columns}
           pagination={pagination}
-          dataQuery={(dataQuery.data?.data as UseCaseClusters) || { data: [], total: 0 }}
+          dataQuery={
+            (dataQuery.data?.data as UseCaseClusters) || { data: [], total: 0 }
+          }
           onPageChange={onPageChange}
         />
       </div>
