@@ -1,31 +1,21 @@
 import * as React from "react";
 import {
-  DataGrid,
   GridColDef,
   GridRenderCellParams,
   GridTreeNodeWithRender,
 } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
-import { Button, Pagination, TextField } from "@mui/material";
-import { useQueryString } from "../../utils/utils";
+import { Button, TextField } from "@mui/material";
 import { useQuery } from "react-query";
 import { getListMachine } from "../../api/machine";
-import {Machine, Machines} from "../../types/machines";
+import { Machine, Machines } from "../../types/machines";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useStyles } from "../../styles/common";
 import { useState, useEffect } from "react";
 import { useQueryClient } from "react-query";
-import {PaginationTable} from "../../components/PaginationTable";
-import {Processes} from "../../types/processes";
+import { PaginationTable } from "../../components/PaginationTable";
 import css from "../../components/PaginationTable.module.css";
-
-const styles = {
-  dataGrid: {
-    flexGrow: 1,
-    width: "100%",
-  },
-};
 
 export const MachineList = () => {
   const queryClient = useQueryClient();
@@ -39,10 +29,10 @@ export const MachineList = () => {
       state: { data: params.row as Machine },
     });
   };
- 
+
   const [searchTerm, setSearchTerm] = useState("");
   const dataQuery = useQuery({
-    queryKey: ["machines", pagination,searchTerm],
+    queryKey: ["machines", pagination, searchTerm],
     queryFn: () => {
       const controller = new AbortController();
       setTimeout(() => {
@@ -55,9 +45,7 @@ export const MachineList = () => {
   });
 
   useEffect(() => {
-     
     queryClient.refetchQueries(["machines", pagination]);
-    
   }, [searchTerm]);
 
   const columns: GridColDef[] = [
@@ -67,8 +55,8 @@ export const MachineList = () => {
       headerAlign: "left",
       flex: 1,
       type: "string",
-      sortable : false,
-      headerClassName : css['header-column']
+      sortable: false,
+      headerClassName: css["header-column"],
     },
     {
       field: "parentName",
@@ -76,8 +64,8 @@ export const MachineList = () => {
       type: "string",
       flex: 1,
       headerAlign: "left",
-      sortable : false,
-      headerClassName : css['header-column']
+      sortable: false,
+      headerClassName: css["header-column"],
     },
     {
       field: "parentId",
@@ -85,8 +73,8 @@ export const MachineList = () => {
       type: "string",
       flex: 1,
       headerAlign: "left",
-      sortable : false,
-      headerClassName : css['header-column']
+      sortable: false,
+      headerClassName: css["header-column"],
     },
     {
       field: "status",
@@ -94,8 +82,8 @@ export const MachineList = () => {
       type: "string",
       flex: 1,
       headerAlign: "left",
-      sortable : false,
-      headerClassName : css['header-column']
+      sortable: false,
+      headerClassName: css["header-column"],
     },
     {
       field: "description",
@@ -103,8 +91,8 @@ export const MachineList = () => {
       type: "string",
       flex: 1,
       headerAlign: "left",
-      sortable : false,
-      headerClassName : css['header-column']
+      sortable: false,
+      headerClassName: css["header-column"],
     },
 
     {
@@ -113,8 +101,8 @@ export const MachineList = () => {
       type: "string",
       flex: 1,
       headerAlign: "left",
-      sortable : false,
-      headerClassName : css['header-column']
+      sortable: false,
+      headerClassName: css["header-column"],
     },
     {
       field: "createdAt",
@@ -122,8 +110,8 @@ export const MachineList = () => {
       type: "string",
       flex: 1,
       headerAlign: "left",
-      sortable : false,
-      headerClassName : css['header-column']
+      sortable: false,
+      headerClassName: css["header-column"],
     },
     {
       field: "edit",
@@ -131,8 +119,8 @@ export const MachineList = () => {
       type: "any",
       flex: 0,
       headerAlign: "left",
-      sortable : false,
-      headerClassName : css['header-column-no-border'],
+      sortable: false,
+      headerClassName: css["header-column-no-border"],
       renderCell: (params) => (
         <EditIcon onClick={() => handleViewDetail(params)}>Edit</EditIcon>
       ),
@@ -145,9 +133,9 @@ export const MachineList = () => {
     navigate("/");
   };
 
-  const onPageChange = (page : number) => {
-    setPagination(page)
-  }
+  const onPageChange = (page: number) => {
+    setPagination(page);
+  };
 
   return (
     <div>
@@ -195,9 +183,15 @@ export const MachineList = () => {
             Add
           </Button>
         </div>
-        <PaginationTable columns={columns} pagination={pagination} dataQuery={dataQuery.data?.data as Machines || {data : [] , total : 0}} onPageChange={onPageChange}/>
-        </div>
-
+        <PaginationTable
+          columns={columns}
+          pagination={pagination}
+          dataQuery={
+            (dataQuery.data?.data as Machines) || { data: [], total: 0 }
+          }
+          onPageChange={onPageChange}
+        />
+      </div>
     </div>
   );
 };
