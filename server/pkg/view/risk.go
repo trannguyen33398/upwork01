@@ -16,7 +16,7 @@ type Risk struct {
 	Description string `json:"description"`
 	Status      string `json:"status"`
 	Active      bool   `json:"active"`
-	parentName  string `json:"parentName"`
+	ParentName  string `json:"parentName"`
 	CreatedAt   string `json:"createdAt"`
 	UpdatedAt   string `json:"updatedAt"`
 }
@@ -35,7 +35,7 @@ func ToRisk(risk *model.Risks) *Risk {
 		ParentId:    risk.ParentId.String(),
 		Active:      risk.Active,
 		Priority:    risk.Priority,
-		parentName:  riskParentName,
+		ParentName:  riskParentName,
 	}
 }
 

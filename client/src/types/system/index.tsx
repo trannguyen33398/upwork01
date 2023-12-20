@@ -5,7 +5,6 @@ export interface System {
     parentName: string
     description: string
     category: string
-    priority: number
     toolName: string 
     active: boolean | string
   }

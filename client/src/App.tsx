@@ -60,7 +60,7 @@ function App() {
             <Route path="/risks/edit/:riskId" element={<RiskEdit />} />
             <Route path="/systems/all" element={<SystemList />} />
             <Route path="/systems/create" element={<SystemCreate />} />
-            <Route path="/systems/edit/:riskId" element={<SystemEdit />} />
+            <Route path="/systems/edit/:systemId" element={<SystemEdit />} />
             <Route path="/machines/all" element={<MachineList />} />
             <Route path="/machines/create" element={<MachineCreate />} />
             <Route path="/machines/edit/:machineId" element={<MachineEdit />} />

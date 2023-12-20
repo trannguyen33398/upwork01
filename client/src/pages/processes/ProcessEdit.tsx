@@ -38,7 +38,7 @@ export const ProcessEdit = () => {
   });
   const processId = params?.processId ?? null;
 
-  console.log(processId);
+
   useEffect(() => {
     if (processId) {
       getProcess(processId).then((result) => {

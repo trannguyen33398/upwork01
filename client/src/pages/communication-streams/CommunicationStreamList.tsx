@@ -59,15 +59,6 @@ export const CommunicationStreamList = () => {
       headerClassName: css["header-column"],
     },
     {
-      field: "parentName",
-      headerName: "Parent Name",
-      type: "string",
-      flex: 1,
-      headerAlign: "left",
-      sortable: false,
-      headerClassName: css["header-column"],
-    },
-    {
       field: "parentId",
       headerName: "Parent Id",
       type: "string",
