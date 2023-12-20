@@ -48,7 +48,7 @@ const data = [
       {
         label: "Service Lines",
         icons: <EarbudsIcon />,
-        path: "/service-lines",
+        path: "/service-lines/all",
       },
       {
         label: "Communication Streams",
