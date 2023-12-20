@@ -24,7 +24,7 @@ const data = [
       {
         label: "Use Case Cluster",
         icons: <AlignVerticalCenterIcon />,
-        path: "/use-case-cluster",
+        path: "/use-case-cluster/all",
       },
     ],
   },

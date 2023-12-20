@@ -25,9 +25,9 @@ export const ProcessCreate = () => {
     name: "",
     parentId: "",
     parentName: "",
-    focusField: "",
+    focusField: true,
     type: "",
-    active: "",
+    active: true,
   });
 
   const dataQueryParent = useQuery({

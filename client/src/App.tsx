@@ -8,7 +8,6 @@ import { BenefitCategories } from "./pages/benefit-categories/BenefitCategories"
 import { Risks } from "./pages/risks/Risk";
 import { Systems } from "./pages/systems/Systems";
 import { CommunicationStreams } from "./pages/communication-streams/CommunicationStreams";
-import { UseCaseCluster } from "./pages/use-case-cluster/UseCaseCluster";
 import { MainMenu } from "./pages/main-menu/MainMenu";
 import { MachineEdit } from "./pages/machines/edit";
 import { MachineList } from "./pages/machines/list";
@@ -23,6 +22,9 @@ import { PlantList } from "./pages/plants/PlantList";
 import { PlantCreate } from "./pages/plants/PlantCreate";
 import { PlantEdit } from "./pages/plants/PlantEdit";
 import { ServiceLineEdit } from "./pages/service-lines/ServiceLineEdit";
+import { UseCaseClusterList } from "./pages/use-case-cluster/UseCaseClusterList";
+import { UseCaseClusterCreate } from "./pages/use-case-cluster/UseCaseClusterCreate";
+import { UseCaseClusterEdit } from "./pages/use-case-cluster/UseCaseClusterEdit";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -63,7 +65,9 @@ function App() {
               path="/communication-streams"
               element={<CommunicationStreams />}
             />
-            <Route path="/use-case-cluster" element={<UseCaseCluster />} />
+            <Route path="/use-case-cluster/all" element={<UseCaseClusterList />} />
+            <Route path="/use-case-cluster/create" element={<UseCaseClusterCreate />} />
+            <Route path="/use-case-cluster/edit/:useCaseClusterId" element={<UseCaseClusterEdit />} />
           </Routes>
         </div>
       </QueryClientProvider>
