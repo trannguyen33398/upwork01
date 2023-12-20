@@ -6,41 +6,58 @@ import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
 import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Alert } from "@mui/material";
-import { createPlant, getListPlant } from "../../api/plants";
-import { Plant } from "../../types/plants";
-import { PlantsSegment, PlantsType } from "./plants.constant";
-
+import { UseCaseCluster } from "../../types/use-case-cluster";
+import { getListUseCaseCluster, getUseCaseCluster, updateUseCaseCluster } from "../../api/use-case-cluster";
 //css flex box
-export const PlantCreate = () => {
+export const UseCaseClusterEdit = () => {
   const classes = useStyles();
+  const { state } = useLocation();
+  const params = useParams();
+  let data;
+  if (state) {
+    data = state.data;
+  }
   const [showAlert, setShowAlert] = useState(false);
 
-  const [formState, setFormState] = useState<Plant>({
-    id: "",
-    name: "",
-    parentId: "",
-    parentName: "",
-    operationsCluster: "",
-    zebra: true,
-    type: "",
-    nameAbbreviation: "",
-    segment: "",
-    active: true,
+  const [formState, setFormState] = useState<UseCaseCluster>({
+    id: data ? data.id : null,
+    name: data ? data.name : null,
+    parentId: data ? data.parentId : null,
+    parentName: data ? data.parentName : null,
+    description: data ? data.description : null,
+    active: data ? data.active : null
   });
+  const useCaseClusterId = params?.useCaseClusterId ?? null;
+  useEffect(() => {
+    if (useCaseClusterId) {
+      getUseCaseCluster(useCaseClusterId).then((result) => {
+        setFormState({
+          id: result.data.data.id,
+          name: result.data.data.name,
+          parentId: result.data.data.parentId,
+          parentName: result.data.data.parentName,
+          description: result.data.data.description,
+          active: result.data.data.active,
+        });
+      });
+    }
+  }, [useCaseClusterId]);
 
   const dataQueryParent = useQuery({
-    queryKey: ["plant"],
+    queryKey: ["useCaseCluster"],
     queryFn: () => {
       const controller = new AbortController();
       setTimeout(() => {
         controller.abort();
       }, 5000);
-      return getListPlant(1, 1000, "", controller.signal);
+      return getListUseCaseCluster(1, 1000, "", controller.signal);
     },
     keepPreviousData: true,
     retry: 0,
@@ -55,23 +72,18 @@ export const PlantCreate = () => {
     id: string,
     parentName?: string
   ) => {
-    if (name === "zebra") {
-      setFormState({ ...formState, [name]: id });
-    } else {
       setFormState({
         ...formState,
         [name]: id,
         parentName: parentName as string,
       });
-    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    formState.zebra = formState.zebra === "true" ? true : false;
-    createPlant(formState).then((data) => {
-      if (data.status === 201) {
+    updateUseCaseCluster(useCaseClusterId as string, formState).then((data) => {
+      if (data.status === 202) {
         setShowAlert(true);
         setTimeout(() => {
           setShowAlert(false);
@@ -83,7 +95,7 @@ export const PlantCreate = () => {
 
   const handleClick = () => {
     // Navigate to another component
-    navigate("/plants/all");
+    navigate("/use-case-cluster/all");
   };
 
   return (
@@ -91,15 +103,15 @@ export const PlantCreate = () => {
       <div className={classes.backIcon}>
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
-      <h2 className={classes.headerText}>Create Plant</h2>
+      <h2 className={classes.headerText}>Edit Use Case Cluster</h2>
       {showAlert && (
         <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Create successfully!
+          Update successfully!
         </Alert>
       )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
-          <TextComponent
+        <TextComponent
             icon={<AbcIcon />}
             name="Name"
             itemId="name"
@@ -129,50 +141,11 @@ export const PlantCreate = () => {
           />
           <TextComponent
             icon={<AbcIcon />}
-            name="Operations Cluster"
-            itemId="operationsCluster"
-            value={formState.operationsCluster}
+            name="Descrription"
+            itemId="description"
+            value={formState.description}
             onChangeText={onChangeText}
             type={"text"}
-          />
-          <SingleSelect
-            name="Type"
-            itemId="type"
-            value={{
-              id: formState.id,
-              name: formState.type,
-              value: formState.type,
-            }}
-            onChangeSelect={onChangeSingleSelect}
-            options={PlantsType}
-            isParent={false}
-          />
-          <TextComponent
-            icon={<AbcIcon />}
-            name="Name Abbreviation"
-            itemId="nameAbbreviation"
-            value={formState.nameAbbreviation}
-            onChangeText={onChangeText}
-            type={"text"}
-          />
-          <SingleSelect
-            name="Segment"
-            itemId="segment"
-            value={{
-              id: formState.id,
-              name: formState.segment,
-              value: formState.segment,
-            }}
-            onChangeSelect={onChangeSingleSelect}
-            options={PlantsSegment}
-            isParent={false}
-          />
-          <BooleanSelection
-            icon={<AbcIcon />}
-            name="Zebra"
-            itemId="zebra"
-            value={formState.zebra}
-            onChangeText={onChangeText}
           />
           <BooleanSelection
             icon={<AbcIcon />}

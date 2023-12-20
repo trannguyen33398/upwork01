@@ -26,7 +26,7 @@ export const ServiceLineCreate = () => {
     parentName: "",
     description: "",
     responsiblePerson: "",
-    active: "",
+    active: true,
   });
 
   const dataQueryParent = useQuery({
