@@ -6,32 +6,52 @@ import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import { NumberComponent } from "../../components/Number";
-import NumbersIcon from "@mui/icons-material/Numbers";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
-import { Status } from "./constant";
 import { useQuery } from "react-query";
-import { createMachine, getListMachine } from "../../api/machine";
-import { Machine } from "../../types/machines";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Alert } from "@mui/material";
-
+import { Process } from "../../types/processes";
+import { getListProcess, getProcess, updateProcess } from "../../api/processes";
+import { ProcessType } from "./process.constant";
 //css flex box
-export const MachineCreate = () => {
+export const ProcessEdit = () => {
   const classes = useStyles();
+  const { state } = useLocation();
+  const params = useParams();
+  let data;
+  if (state) {
+    data = state.data;
+  }
   const [showAlert, setShowAlert] = useState(false);
 
-  const [formState, setFormState] = useState<Machine>({
-    id: "",
-    name: "",
-    parentId: "",
-    parentName: "",
-    priority: 0,
-    description: "",
-    active: "",
-    status: "",
+  const [formState, setFormState] = useState<Process>({
+    id: data ? data.id : null,
+    name: data ? data.name : null,
+    parentId: data ? data.parentId : null,
+    parentName: data ? data.parentName : null,
+    type: data ? data.type : null,
+    active: data ? data.active : null,
+    focusField: data ? data.focusField : null,
   });
+  const processId = params?.processId ?? null;
+  useEffect(() => {
+    if (processId) {
+      getProcess(processId).then((result) => {
+        setFormState({
+          id: result.data.data.id,
+          name: result.data.data.name,
+          parentId: result.data.data.parentId,
+          parentName: result.data.data.parentName,
+          type: result.data.data.type,
+          focusField: result.data.data.focusField,
+          active: result.data.data.active,
+        });
+      });
+    }
+  }, [processId]);
 
   const dataQueryParent = useQuery({
     queryKey: ["machine"],
@@ -40,7 +60,7 @@ export const MachineCreate = () => {
       setTimeout(() => {
         controller.abort();
       }, 5000);
-      return getListMachine(1, 1000, "", controller.signal);
+      return getListProcess(1, 1000, "", controller.signal);
     },
     keepPreviousData: true,
     retry: 0,
@@ -50,16 +70,12 @@ export const MachineCreate = () => {
     setFormState({ ...formState, [name]: text });
   };
 
-  const onChangeNumber = (name: string, number: number) => {
-    setFormState({ ...formState, [name]: number });
-  };
-
   const onChangeSingleSelect = (
     name: string,
     id: string,
     parentName?: string
   ) => {
-    if (name === "status") {
+    if (name === "type") {
       setFormState({ ...formState, [name]: id });
     } else {
       setFormState({
@@ -73,8 +89,9 @@ export const MachineCreate = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    createMachine(formState).then((data) => {
-      if (data.status === 201) {
+    formState.focusField = formState.focusField === "true" ? true : false;
+    updateProcess(processId as string, formState).then((data) => {
+      if (data.status === 202) {
         setShowAlert(true);
         setTimeout(() => {
           setShowAlert(false);
@@ -86,7 +103,7 @@ export const MachineCreate = () => {
 
   const handleClick = () => {
     // Navigate to another component
-    navigate("/machines/all");
+    navigate("/processes/all");
   };
 
   return (
@@ -97,7 +114,7 @@ export const MachineCreate = () => {
       <h2 className={classes.headerText}>Machines</h2>
       {showAlert && (
         <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Create successfully!
+          Update successfully!
         </Alert>
       )}
       <form onSubmit={handleSubmit}>
@@ -121,29 +138,35 @@ export const MachineCreate = () => {
             isParent={true}
             onChangeSelect={onChangeSingleSelect}
             options={
-              dataQueryParent.data?.data.data.map((item) => {
-                return {
-                  id: item.id,
-                  name: item.name,
-                  value: item.name,
-                };
-              }) ?? []
+              dataQueryParent.data?.data.data
+                .map((item) => {
+                  return {
+                    id: item.id,
+                    name: item.name,
+                    value: item.name,
+                  };
+                })
+                .filter((item) => item.id !== processId) ?? []
             }
           />
-          <NumberComponent
-            name="Priority"
-            itemId="priority"
-            value={formState.priority}
-            onChangeText={onChangeNumber}
-            icon={<NumbersIcon />}
+
+          <SingleSelect
+            name="Type"
+            itemId="type"
+            value={{
+              id: formState.id,
+              name: formState.type,
+              value: formState.type,
+            }}
+            onChangeSelect={onChangeSingleSelect}
+            options={ProcessType}
           />
-          <TextComponent
+          <BooleanSelection
             icon={<AbcIcon />}
-            name="Description"
-            itemId="description"
-            value={formState.description}
+            name="Focus Field"
+            itemId="focusField"
+            value={formState.focusField}
             onChangeText={onChangeText}
-            type={"text"}
           />
           <BooleanSelection
             icon={<AbcIcon />}
@@ -151,18 +174,6 @@ export const MachineCreate = () => {
             itemId="active"
             value={formState.active}
             onChangeText={onChangeText}
-          />
-          <SingleSelect
-            name="Status"
-            itemId="status"
-            value={{
-              id: formState.id,
-              name: formState.status,
-              value: formState.status,
-            }}
-            onChangeSelect={onChangeSingleSelect}
-            options={Status}
-            isParent={false}
           />
         </Grid>
 

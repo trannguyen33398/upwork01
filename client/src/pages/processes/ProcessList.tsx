@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  DataGrid,
   GridColDef,
   GridRenderCellParams,
   GridTreeNodeWithRender,
@@ -14,22 +13,23 @@ import { useQueryClient } from "react-query";
 import { getListProcess } from "../../api/processes";
 import css from "../../components/PaginationTable.module.css";
 import { PaginationTable } from "../../components/PaginationTable";
-import { Processes } from "../../types/processes";
+import { Process, Processes } from "../../types/processes";
 import Grid from "@mui/material/Grid";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const ProcessList = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [pagination, setPagination] = useState(1);
-  // const handleViewDetail = (
-  //     params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>
-  // ) => {
-  //     navigate(`/p/edit/${params.row["id"]}`, {
-  //         replace: true,
-  //         state: { data: params.row as Machine },
-  //     });
-  // };
+  const handleViewDetail = (
+    params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>
+  ) => {
+    navigate(`/p/edit/${params.row["id"]}`, {
+      replace: true,
+      state: { data: params.row as Process },
+    });
+  };
 
   const [searchTerm, setSearchTerm] = useState("");
   const dataQuery = useQuery({
@@ -126,9 +126,9 @@ export const ProcessList = () => {
       headerAlign: "left",
       sortable: false,
       headerClassName: css["header-column-no-border"],
-      // renderCell: (params) => (
-      //     <EditIcon onClick={() => handleViewDetail(params)}>Edit</EditIcon>
-      // ),
+      renderCell: (params) => (
+        <EditIcon onClick={() => handleViewDetail(params)}>Edit</EditIcon>
+      ),
     },
   ];
   const classes = useStyles();
@@ -191,60 +191,13 @@ export const ProcessList = () => {
                 backgroundColor: "blue",
                 color: "white",
               }}
-              onClick={() => navigate("/process/create")}
+              onClick={() => navigate("/processes/create")}
             >
               Add
             </Button>
           </Grid>
         </Grid>
 
-        {/*<div*/}
-        {/*    style={{*/}
-        {/*        display : "grid",*/}
-        {/*    }}*/}
-        {/*>*/}
-        {/*    <KeyboardBackspaceIcon*/}
-        {/*        onClick={handleClick}*/}
-        {/*        className={classes.backIcon}*/}
-        {/*    />*/}
-        {/*    <div*/}
-        {/*        style={{*/}
-        {/*            display: "flex",*/}
-        {/*            flexDirection: "row",*/}
-        {/*        }}*/}
-        {/*    >*/}
-        {/*        <TextField*/}
-        {/*            style={{*/}
-        {/*                width: "14%",*/}
-        {/*            }}*/}
-        {/*            id="outlined-basic"*/}
-        {/*            size="small"*/}
-        {/*            value={searchTerm}*/}
-        {/*            defaultValue={""}*/}
-        {/*            placeholder="Value"*/}
-        {/*            onChange={(event) => {*/}
-        {/*                setSearchTerm(event.target.value);*/}
-        {/*            }}*/}
-        {/*        />*/}
-        {/*        <span style={{*/}
-        {/*            // display: "flex",*/}
-        {/*            // margin: "1.5% 0%",*/}
-        {/*            // flexDirection: "column",*/}
-        {/*            alignItems : "center"*/}
-        {/*        }}>Processes List</span>*/}
-        {/*        <Button*/}
-        {/*            variant="outlined"*/}
-        {/*            style={{*/}
-        {/*                height: "10%",*/}
-        {/*                width: "5%",*/}
-        {/*                backgroundColor : "blue",*/}
-        {/*                color : "white"*/}
-        {/*            }}*/}
-        {/*            onClick={() => navigate("/process/create")}*/}
-        {/*        >*/}
-        {/*            Add*/}
-        {/*        </Button>*/}
-        {/*    </div>*/}
         <PaginationTable
           columns={columns}
           pagination={pagination}

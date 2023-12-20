@@ -29,7 +29,8 @@ type TSelectProp<T> = {
     id: string | null;
     name: string | null;
     value: string | null;
-  } 
+  };
+  isParent?: boolean;
 };
 
 interface MyOptions {
@@ -38,31 +39,30 @@ interface MyOptions {
   name: string;
 }
 
-export const SingleSelect: React.FC<TSelectProp<MyOptions>> = (props) => {
-  
-  const listKey = {} as any
+export const SingleSelect: React.FC<TSelectProp<MyOptions>> = ({
+  isParent = false,
+  ...props
+}) => {
+  const listKey = {} as any;
   // eslint-disable-next-line array-callback-return
-  props.options.map(item=>{
-    Object.assign(listKey,{
-        [item.name]: item.id,
-    })
-  })
-  const [value, setValue] = useState<string>(props.value.name ?? '') ;
-  useEffect(()=>{
-   
-    if(props.value.name)
-    setValue(props.value.name)
-  
-  },[props.value, props.value.name])
+  props.options.map((item) => {
+    Object.assign(listKey, {
+      [item.name]: item.id,
+    });
+  });
+  const [value, setValue] = useState<string>(props.value.name ?? "");
+  useEffect(() => {
+    if (props.value.name) setValue(props.value.name);
+  }, [props.value, props.value.name]);
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value as string);
 
     const activeNameId = listKey[event.target.value];
-   // console.log("value",event.target.value,"itemId",props.itemId,activeNameId)
-    if(props.itemId === 'status'){
+    // console.log("value",event.target.value,"itemId",props.itemId,activeNameId)
+    if (!isParent) {
       props.onChangeSelect(props.itemId, event.target.value);
-    } else{
-    props.onChangeSelect(props.itemId, activeNameId, event.target.value)
+    } else {
+      props.onChangeSelect(props.itemId, activeNameId, event.target.value);
     }
   };
 
@@ -91,7 +91,7 @@ export const SingleSelect: React.FC<TSelectProp<MyOptions>> = (props) => {
               MenuProps={MenuProps}
             >
               {props.options.map((name) => (
-                <MenuItem key={name.id} value={name.name} >
+                <MenuItem key={name.id} value={name.name}>
                   {name.name}
                 </MenuItem>
               ))}
