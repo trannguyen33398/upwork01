@@ -10,43 +10,43 @@ import { useQuery } from "react-query";
 import { useStyles } from "../../styles/common";
 import { useState, useEffect } from "react";
 import { useQueryClient } from "react-query";
-import { getListProcess } from "../../api/processes";
 import css from "../../components/PaginationTable.module.css";
 import { PaginationTable } from "../../components/PaginationTable";
-import { Process, Processes } from "../../types/processes";
 import Grid from "@mui/material/Grid";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import EditIcon from "@mui/icons-material/Edit";
+import { getListPlant } from "../../api/plants";
+import { Plant, Plants } from "../../types/plants";
 
-export const ProcessList = () => {
+export const PlantList = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [pagination, setPagination] = useState(1);
   const handleViewDetail = (
     params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>
   ) => {
-    navigate(`/processes/edit/${params.row["id"]}`, {
+    navigate(`/plants/edit/${params.row["id"]}`, {
       replace: true,
-      state: { data: params.row as Process },
+      state: { data: params.row as Plant },
     });
   };
 
   const [searchTerm, setSearchTerm] = useState("");
   const dataQuery = useQuery({
-    queryKey: ["processes", pagination, searchTerm],
+    queryKey: ["plants", pagination, searchTerm],
     queryFn: () => {
       const controller = new AbortController();
       setTimeout(() => {
         controller.abort();
       }, 5000);
-      return getListProcess(pagination, 10, searchTerm, controller.signal);
+      return getListPlant(pagination, 10, searchTerm, controller.signal);
     },
     keepPreviousData: false,
     retry: 0,
   });
 
   useEffect(() => {
-    queryClient.refetchQueries(["processes", pagination, searchTerm]);
+    queryClient.refetchQueries(["plants", pagination, searchTerm]);
   }, [searchTerm]);
 
   const onPageChange = (page: number) => {
@@ -82,6 +82,15 @@ export const ProcessList = () => {
       headerClassName: css["header-column"],
     },
     {
+      field: "operationsCluster",
+      headerName: "Operations Cluster",
+      type: "string",
+      flex: 1,
+      headerAlign: "left",
+      sortable: false,
+      headerClassName: css["header-column"],
+    },
+    {
       field: "type",
       headerName: "Type",
       type: "string",
@@ -90,16 +99,34 @@ export const ProcessList = () => {
       sortable: false,
       headerClassName: css["header-column"],
     },
+
     {
-      field: "focusField",
-      headerName: "Focus Field",
+      field: "nameAbbreviation",
+      headerName: "Name Abbreviation",
       type: "string",
       flex: 1,
       headerAlign: "left",
       sortable: false,
       headerClassName: css["header-column"],
     },
-
+    {
+      field: "segment",
+      headerName: "Segment",
+      type: "string",
+      flex: 1,
+      headerAlign: "left",
+      sortable: false,
+      headerClassName: css["header-column"],
+    },
+    {
+      field: "zebra",
+      headerName: "Zebra",
+      type: "string",
+      flex: 1,
+      headerAlign: "left",
+      sortable: false,
+      headerClassName: css["header-column"],
+    },
     {
       field: "active",
       headerName: "Active",
@@ -173,7 +200,7 @@ export const ProcessList = () => {
             />
           </Grid>
           <Grid item xs={4} alignItems="flex-end" direction="row">
-            <Typography style={{ fontSize: "24px" }}>Processes List</Typography>
+            <Typography style={{ fontSize: "24px" }}>Plant List</Typography>
           </Grid>
           <Grid
             item
@@ -191,7 +218,7 @@ export const ProcessList = () => {
                 backgroundColor: "blue",
                 color: "white",
               }}
-              onClick={() => navigate("/processes/create")}
+              onClick={() => navigate("/plants/create")}
             >
               Add
             </Button>
@@ -201,9 +228,7 @@ export const ProcessList = () => {
         <PaginationTable
           columns={columns}
           pagination={pagination}
-          dataQuery={
-            (dataQuery.data?.data as Processes) || { data: [], total: 0 }
-          }
+          dataQuery={(dataQuery.data?.data as Plants) || { data: [], total: 0 }}
           onPageChange={onPageChange}
         />
       </div>

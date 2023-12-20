@@ -57,7 +57,7 @@ export const SingleSelect: React.FC<TSelectProp<MyOptions>> = ({
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value as string);
 
-    const activeNameId = listKey[event.target.value];
+    const activeNameId = listKey[event.target.name];
     // console.log("value",event.target.value,"itemId",props.itemId,activeNameId)
     if (!isParent) {
       props.onChangeSelect(props.itemId, event.target.value);

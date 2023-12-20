@@ -10,7 +10,7 @@ export const getListServiceLine = (
   name?: string,
   signal?: AbortSignal
 ) =>
-  http.get<ServiceLines>("/api/v1/service-lines/", {
+  http.get<ServiceLines>("/api/v1/service-line/", {
     params: {
       page,
       limit,
@@ -20,7 +20,7 @@ export const getListServiceLine = (
   });
 
 export const getServiceLine = (serviceLineId: string, signal?: AbortSignal) =>
-  http.get<ServiceLineDetail>(`/api/v1/service-lines/${serviceLineId}`, {
+  http.get<ServiceLineDetail>(`/api/v1/service-line/${serviceLineId}`, {
     signal,
   });
 
@@ -29,13 +29,13 @@ export const updateServiceLine = (
   data: ServiceLine,
   signal?: AbortSignal
 ) =>
-  http.put<ServiceLine>(`/api/v1/service-lines/${serviceLineId}`, {
+  http.put<ServiceLine>(`/api/v1/service-line/${serviceLineId}`, {
     signal,
     ...data,
   });
 
 export const createServiceLine = (data: ServiceLine, signal?: AbortSignal) =>
-  http.post<ServiceLine>(`/api/v1/service-lines/`, {
+  http.post<ServiceLine>(`/api/v1/service-line/`, {
     signal,
     ...data,
   });
