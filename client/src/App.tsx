@@ -21,6 +21,8 @@ import { ServiceLineList } from "./pages/service-lines/ServiceLineList";
 import { ServiceLineCreate } from "./pages/service-lines/ServiceLineCreate";
 import { PlantList } from "./pages/plants/PlantList";
 import { PlantCreate } from "./pages/plants/PlantCreate";
+import { PlantEdit } from "./pages/plants/PlantEdit";
+import { ServiceLineEdit } from "./pages/service-lines/ServiceLineEdit";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -43,6 +45,7 @@ function App() {
             <Route path="/risks" element={<Risks />} />
             <Route path="/plants/all" element={<PlantList />} />
             <Route path="/plants/create" element={<PlantCreate />} />
+            <Route path="/plants/edit/:plantId" element={<PlantEdit />} />
             <Route path="/systems" element={<Systems />} />
             <Route path="/machines/all" element={<MachineList />} />
             <Route path="/machine/create" element={<MachineCreate />} />
@@ -51,6 +54,10 @@ function App() {
             <Route
               path="/service-lines/create"
               element={<ServiceLineCreate />}
+            />
+              <Route
+              path="/service-lines/edit/:serviceLineId"
+              element={<ServiceLineEdit />}
             />
             <Route
               path="/communication-streams"

@@ -6,7 +6,7 @@ export const getListPlant = (
   name?: string,
   signal?: AbortSignal
 ) =>
-  http.get<Plants>("/api/v1/plants/", {
+  http.get<Plants>("/api/v1/plant/", {
     params: {
       page,
       limit,
@@ -16,7 +16,7 @@ export const getListPlant = (
   });
 
 export const getPlant = (plantId: string, signal?: AbortSignal) =>
-  http.get<PlantDetail>(`/api/v1/plants/${plantId}`, {
+  http.get<PlantDetail>(`/api/v1/plant/${plantId}`, {
     signal,
   });
 
@@ -25,13 +25,13 @@ export const updatePlant = (
   data: Plant,
   signal?: AbortSignal
 ) =>
-  http.put<Plant>(`/api/v1/plants/${plantId}`, {
+  http.put<Plant>(`/api/v1/plant/${plantId}`, {
     signal,
     ...data,
   });
 
 export const createPlant = (data: Plant, signal?: AbortSignal) =>
-  http.post<Plant>(`/api/v1/plants/`, {
+  http.post<Plant>(`/api/v1/plant/`, {
     signal,
     ...data,
   });

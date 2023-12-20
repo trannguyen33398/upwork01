@@ -25,7 +25,7 @@ export const ServiceLineList = () => {
   const handleViewDetail = (
     params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>
   ) => {
-    navigate(`/p/edit/${params.row["id"]}`, {
+    navigate(`/service-lines/edit/${params.row["id"]}`, {
       replace: true,
       state: { data: params.row as ServiceLine },
     });

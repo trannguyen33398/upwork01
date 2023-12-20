@@ -40,6 +40,7 @@ export const MachineEdit = () => {
     status: data ? data.status : null,
   });
   const machineId = params?.machineId ?? null;
+
   useEffect(() => {
     if (machineId) {
       getMachine(machineId).then((result) => {
