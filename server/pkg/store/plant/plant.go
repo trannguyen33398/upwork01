@@ -39,7 +39,6 @@ func (s *store) Detail(db *gorm.DB, id string) (*model.Plants, error) {
 
 func (s *store) Update(db *gorm.DB, id string, updateData *model.Plants) error {
 	var plant *model.Plants
-
 	query := db.Where(`plants.id = ?`, id).UpdateColumns(updateData)
 
 	return query.UpdateColumns(&plant).Error

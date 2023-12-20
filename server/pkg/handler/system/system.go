@@ -1,9 +1,7 @@
 package system
 
 import (
-	"fmt"
 	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/trannguyen33398/upwork01/server/pkg/config"
 	"github.com/trannguyen33398/upwork01/server/pkg/controller"
@@ -38,7 +36,6 @@ type SuccessResult struct {
 
 func (h *handler) Create(c *gin.Context) {
 	input := request.CreateSystemRequest{}
-	fmt.Println("Im hrret")
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, view.CreateResponse[any](nil, nil, err, input, ""))
 		return

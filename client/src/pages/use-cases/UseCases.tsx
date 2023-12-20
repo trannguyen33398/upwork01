@@ -48,7 +48,7 @@ export const UseCases = () => {
   }
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(formState);
+
   };
 
   return (

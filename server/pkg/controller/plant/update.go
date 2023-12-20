@@ -8,7 +8,6 @@ import (
 
 func (r *controller) Update(c *gin.Context, input request.CreatePlantRequest) error {
 	tx, done := r.repo.NewTransaction()
-
 	// Create client
 	err := r.store.Plant.Update(tx.DB(), c.Param("plantId"), &model.Plants{
 		Name:              input.Name,

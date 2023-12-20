@@ -12,6 +12,7 @@ type TTextProps = {
   icon : React.ReactNode;
   type :  "text" | "email"
   value: string 
+  require?: boolean
 };
 export const TextComponent : React.FC<TTextProps> = ({type = "text" , ...props}) => {
   const handleChange = (
@@ -45,6 +46,7 @@ export const TextComponent : React.FC<TTextProps> = ({type = "text" , ...props})
           value={props.value}
           className={classes.textItem}
           name={props.name}
+          required={props.require ?? false}
           onChange={handleChange}
         />
       </Grid>

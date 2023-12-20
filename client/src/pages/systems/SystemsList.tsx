@@ -8,8 +8,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { useQuery } from "react-query";
-import { getListMachine } from "../../api/machines";
-import { Machine, Machines } from "../../types/machines";
+import { getListSystem } from "../../api/systems";
+import { System, Systems } from "../../types/system";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useStyles } from "../../styles/common";
 import { useState, useEffect } from "react";
@@ -17,35 +17,35 @@ import { useQueryClient } from "react-query";
 import { PaginationTable } from "../../components/PaginationTable";
 import css from "../../components/PaginationTable.module.css";
 
-export const MachineList = () => {
+export const SystemList = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [pagination, setPagination] = useState(1);
   const handleViewDetail = (
     params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>
   ) => {
-    navigate(`/machines/edit/${params.row["id"]}`, {
+    navigate(`/systems/edit/${params.row["id"]}`, {
       replace: true,
-      state: { data: params.row as Machine },
+      state: { data: params.row as System },
     });
   };
 
   const [searchTerm, setSearchTerm] = useState("");
   const dataQuery = useQuery({
-    queryKey: ["machines", pagination, searchTerm],
+    queryKey: ["Systems", pagination, searchTerm],
     queryFn: () => {
       const controller = new AbortController();
       setTimeout(() => {
         controller.abort();
       }, 5000);
-      return getListMachine(pagination, 10, searchTerm, controller.signal);
+      return getListSystem(pagination, 10, searchTerm, controller.signal);
     },
     keepPreviousData: false,
     retry: 0,
   });
 
   useEffect(() => {
-    queryClient.refetchQueries(["machines", pagination]);
+    queryClient.refetchQueries(["Systems", pagination]);
   }, [searchTerm]);
 
   const columns: GridColDef[] = [
@@ -77,15 +77,6 @@ export const MachineList = () => {
       headerClassName: css["header-column"],
     },
     {
-      field: "status",
-      headerName: "Status",
-      type: "string",
-      flex: 1,
-      headerAlign: "left",
-      sortable: false,
-      headerClassName: css["header-column"],
-    },
-    {
       field: "description",
       headerName: "Description",
       type: "string",
@@ -94,6 +85,24 @@ export const MachineList = () => {
       sortable: false,
       headerClassName: css["header-column"],
     },
+    {
+        field: "category",
+        headerName: "Category",
+        type: "string",
+        flex: 1,
+        headerAlign: "left",
+        sortable: false,
+        headerClassName: css["header-column"],
+      },
+    {
+        field: "toolName",
+        headerName: "Tool Name",
+        type: "string",
+        flex: 1,
+        headerAlign: "left",
+        sortable: false,
+        headerClassName: css["header-column"],
+      },
 
     {
       field: "active",
@@ -152,7 +161,7 @@ export const MachineList = () => {
           onClick={handleClick}
           className={classes.backIcon}
         />
-       <Grid container spacing={2} style={{ marginBottom: "10px" }}>
+        <Grid container spacing={2} style={{ marginBottom: "10px" }}>
           <Grid
             item
             xs={4}
@@ -173,7 +182,7 @@ export const MachineList = () => {
             />
           </Grid>
           <Grid item xs={4} alignItems="flex-end" direction="row">
-            <Typography style={{ fontSize: "24px" }}>Machine List</Typography>
+            <Typography style={{ fontSize: "24px" }}>System List</Typography>
           </Grid>
           <Grid
             item
@@ -191,7 +200,7 @@ export const MachineList = () => {
                 backgroundColor: "blue",
                 color: "white",
               }}
-              onClick={() => navigate("/machines/create")}
+              onClick={() => navigate("/Systems/create")}
             >
               Add
             </Button>
@@ -201,7 +210,7 @@ export const MachineList = () => {
           columns={columns}
           pagination={pagination}
           dataQuery={
-            (dataQuery.data?.data as Machines) || { data: [], total: 0 }
+            (dataQuery.data?.data as Systems) || { data: [], total: 0 }
           }
           onPageChange={onPageChange}
         />

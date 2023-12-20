@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"fmt"
 	"strings"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/pprof"
@@ -15,7 +14,6 @@ import (
 
 func setupCORS(r *gin.Engine, cfg *config.Config) {
 	corsOrigins := strings.Split(cfg.ApiServer.AllowedOrigins, ";")
-	fmt.Println("cor ne ===> ",corsOrigins)
 	r.Use(func(c *gin.Context) {
 		cors.New(
 			cors.Config{
@@ -46,7 +44,6 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		gin.Recovery(),
 	)
 	// config CORS
-	fmt.Println("fucking here ====> ", cfg.ApiServer.AllowedOrigins)
 	setupCORS(r,cfg)
 	
 

@@ -38,6 +38,7 @@ export const BooleanSelection = (props: any) => {
           name="row-radio-buttons-group"
           onChange={handleChange}
           value={value}
+          defaultValue={"true"}
         >
           <FormControlLabel value="true" control={<Radio />} label="True" />
           <FormControlLabel value="false" control={<Radio />} label="False" />

@@ -39,7 +39,7 @@ const data = [
     header: "Use Case Benefits",
     items: [
       { label: "Benefits", icons: <LoyaltyIcon />, path: "/benefits" },
-      { label: "Risks", icons: <CrisisAlertIcon />, path: "/risks" },
+      { label: "Risks", icons: <CrisisAlertIcon />, path: "/risks/all" },
     ],
   },
   {
@@ -53,9 +53,9 @@ const data = [
       {
         label: "Communication Streams",
         icons: <StreamIcon />,
-        path: "/communication-streams",
+        path: "/communication-streams/all",
       },
-      { label: "Systems", icons: <SettingsIcon />, path: "/systems" },
+      { label: "Systems", icons: <SettingsIcon />, path: "/systems/all" },
       { label: "Machines", icons: <FactoryIcon />, path: "/machines/all" },
     ],
   },

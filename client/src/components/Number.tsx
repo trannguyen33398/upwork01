@@ -1,8 +1,7 @@
 import NumberInput from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import { InputLabel, Typography } from "@mui/material";
-import { TextareaAutosize  } from '@mui/base/TextareaAutosize';
-import { textFieldStyles, useStyles } from "../styles/common";
+import { useStyles } from "../styles/common";
 
 import * as React from "react";
 
@@ -42,9 +41,11 @@ export const NumberComponent :  React.FC<TNumberProps> = (props: TNumberProps) =
                     variant="outlined"
                     value = {props.value}
                     className={classes.textItem}
+                    
                     aria-label="Demo number input"
                     placeholder="Type a number…"
                     onChange={handleChange}
+                    
                 />
             </Grid>
         </>

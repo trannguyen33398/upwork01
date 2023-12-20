@@ -11,6 +11,6 @@ type CreatePlantRequest struct {
 	Type              string     `json:"type" validate:"required"`
 	NameAbbreviation  string     `json:"nameAbbreviation" validate:"required"`
 	Segment           string     `json:"segment"`
-	Zebra             *bool       `json:"zebra" validate:"required"`
-	Active            *bool       `json:"active" validate:"required"`
+	Zebra             *bool      `json:"zebra" validate:"required"`
+	Active            *bool      `json:"active" validate:"required"`
 }

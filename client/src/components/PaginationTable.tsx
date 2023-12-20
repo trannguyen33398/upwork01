@@ -1,9 +1,5 @@
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
-import * as React from "react";
-import {AxiosResponse} from "axios";
-import {UseQueryResult} from "react-query";
-import * as Process from "process";
-import {LinearProgress, Pagination} from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Pagination } from "@mui/material";
 import css from './PaginationTable.module.css';
 
 const styles = {
