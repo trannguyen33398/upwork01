@@ -5,11 +5,8 @@ import { Benefit } from "./pages/benefits/Benefit";
 import { Sprints } from "./pages/sprints/Sprints";
 import { Bundles } from "./pages/bundles/Bundles";
 import { BenefitCategories } from "./pages/benefit-categories/BenefitCategories";
-import { Processes } from "./pages/processes/Processes";
 import { Risks } from "./pages/risks/Risk";
-import { Plants } from "./pages/plants/Plants";
 import { Systems } from "./pages/systems/Systems";
-import { ServiceLines } from "./pages/service-lines/ServiceLines";
 import { CommunicationStreams } from "./pages/communication-streams/CommunicationStreams";
 import { UseCaseCluster } from "./pages/use-case-cluster/UseCaseCluster";
 import { MainMenu } from "./pages/main-menu/MainMenu";
@@ -22,6 +19,8 @@ import { ProcessCreate } from "./pages/processes/ProcessCreate";
 import { ProcessEdit } from "./pages/processes/ProcessEdit";
 import { ServiceLineList } from "./pages/service-lines/ServiceLineList";
 import { ServiceLineCreate } from "./pages/service-lines/ServiceLineCreate";
+import { PlantList } from "./pages/plants/PlantList";
+import { PlantCreate } from "./pages/plants/PlantCreate";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -35,7 +34,6 @@ function App() {
             <Route path="/sprints" element={<Sprints />} />
             <Route path="/bundles" element={<Bundles />} />
             <Route path="/benefit-categories" element={<BenefitCategories />} />
-            <Route path="/processes" element={<Processes />} />
             <Route path="/processes/all" element={<ProcessList />} />
             <Route path="/processes/create" element={<ProcessCreate />} />
             <Route
@@ -43,7 +41,8 @@ function App() {
               element={<ProcessEdit />}
             />
             <Route path="/risks" element={<Risks />} />
-            <Route path="/plants" element={<Plants />} />
+            <Route path="/plants/all" element={<PlantList />} />
+            <Route path="/plants/create" element={<PlantCreate />} />
             <Route path="/systems" element={<Systems />} />
             <Route path="/machines/all" element={<MachineList />} />
             <Route path="/machine/create" element={<MachineCreate />} />

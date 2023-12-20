@@ -62,7 +62,7 @@ const data = [
   {
     header: "Plants And Processes",
     items: [
-      { label: "Plants", icons: <FactoryIcon />, path: "/plants" },
+      { label: "Plants", icons: <FactoryIcon />, path: "/plants/all" },
       { label: "Processes", icons: <MemoryIcon />, path: "/processes/all" },
     ],
   },
