@@ -10,15 +10,14 @@ import { useNavigate } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
 import { useQuery } from "react-query";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
 import { Process } from "../../types/processes";
 import { createProcess, getListProcess } from "../../api/processes";
 import { ProcessType } from "./process.constant";
+import { enqueueSnackbar } from "notistack";
 
 //css flex box
 export const ProcessCreate = () => {
   const classes = useStyles();
-  const [showAlert, setShowAlert] = useState(false);
 
   const [formState, setFormState] = useState<Process>({
     id: "",
@@ -67,14 +66,16 @@ export const ProcessCreate = () => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
     formState.focusField = formState.focusField === "true" ? true : false;
-    createProcess(formState).then((data) => {
-      if (data.status === 201) {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
-      }
-    });
+    createProcess(formState)
+      .then((data) => {
+        if (data.status === 201) {
+          navigate("/processes/all");
+          enqueueSnackbar("Create Process Success!", { variant: "success" });
+        }
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 
@@ -89,11 +90,6 @@ export const ProcessCreate = () => {
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>Create Processes</h2>
-      {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Create successfully!
-        </Alert>
-      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent

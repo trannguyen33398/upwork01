@@ -12,12 +12,11 @@ import { useQuery } from "react-query";
 import { createSystem, getListSystem } from "../../api/systems";
 import { System } from "../../types/system";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 
 //css flex box
 export const SystemCreate = () => {
   const classes = useStyles();
-  const [showAlert, setShowAlert] = useState(false);
 
   const [formState, setFormState] = useState<System>({
     id: "",
@@ -47,35 +46,33 @@ export const SystemCreate = () => {
     setFormState({ ...formState, [name]: text });
   };
 
-  const onChangeNumber = (name: string, number: number) => {
-    setFormState({ ...formState, [name]: number });
-  };
-
   const onChangeSingleSelect = (
     name: string,
     id: string,
     parentName?: string
   ) => {
-   
-      setFormState({
-        ...formState,
-        [name]: id,
-        parentName: parentName as string,
-      });
-    
+    setFormState({
+      ...formState,
+      [name]: id,
+      parentName: parentName as string,
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    createSystem(formState).then((data) => {
-      if (data.status === 201) {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
-      }
-    });
+    createSystem(formState)
+      .then((data) => {
+        if (data.status === 201) {
+        }
+        navigate("/systems/all");
+        enqueueSnackbar("Create System Success!", {
+          variant: "success",
+        });
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 
@@ -90,11 +87,6 @@ export const SystemCreate = () => {
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>Systems</h2>
-      {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Create successfully!
-        </Alert>
-      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent
@@ -135,7 +127,7 @@ export const SystemCreate = () => {
             type={"text"}
             require={true}
           />
-            <TextComponent
+          <TextComponent
             icon={<AbcIcon />}
             name="Category"
             itemId="category"
@@ -150,9 +142,8 @@ export const SystemCreate = () => {
             itemId="active"
             value={formState.active}
             onChangeText={onChangeText}
-         
           />
-           <TextComponent
+          <TextComponent
             icon={<AbcIcon />}
             name="Tool Name"
             itemId="toolName"

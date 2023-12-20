@@ -12,10 +12,10 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
 import { Process } from "../../types/processes";
 import { getListProcess, getProcess, updateProcess } from "../../api/processes";
 import { ProcessType } from "./process.constant";
+import { enqueueSnackbar } from "notistack";
 //css flex box
 export const ProcessEdit = () => {
   const classes = useStyles();
@@ -25,7 +25,6 @@ export const ProcessEdit = () => {
   if (state) {
     data = state.data;
   }
-  const [showAlert, setShowAlert] = useState(false);
 
   const [formState, setFormState] = useState<Process>({
     id: data ? data.id : null,
@@ -37,7 +36,6 @@ export const ProcessEdit = () => {
     focusField: data ? data.focusField : null,
   });
   const processId = params?.processId ?? null;
-
 
   useEffect(() => {
     if (processId) {
@@ -92,14 +90,15 @@ export const ProcessEdit = () => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
     formState.focusField = formState.focusField === "true" ? true : false;
-    updateProcess(processId as string, formState).then((data) => {
-      if (data.status === 202) {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
-      }
-    });
+    updateProcess(processId as string, formState)
+      .then((data) => {
+        if (data.status === 202) {
+          enqueueSnackbar("Edit Process Success!", { variant: "success" });
+        }
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 
@@ -114,11 +113,6 @@ export const ProcessEdit = () => {
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>Edit Process</h2>
-      {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Update successfully!
-        </Alert>
-      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent
@@ -163,7 +157,6 @@ export const ProcessEdit = () => {
             }}
             onChangeSelect={onChangeSingleSelect}
             options={ProcessType}
-            
           />
           <BooleanSelection
             icon={<AbcIcon />}

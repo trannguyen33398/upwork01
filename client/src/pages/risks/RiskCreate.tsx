@@ -15,12 +15,11 @@ import { useQuery } from "react-query";
 import { createRisk, getListRisk } from "../../api/risks";
 import { Risk } from "../../types/risks";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 
 //css flex box
 export const RiskCreate = () => {
   const classes = useStyles();
-  const [showAlert, setShowAlert] = useState(false);
 
   const [formState, setFormState] = useState<Risk>({
     id: "",
@@ -58,27 +57,28 @@ export const RiskCreate = () => {
     id: string,
     parentName?: string
   ) => {
-    
- 
-      setFormState({
-        ...formState,
-        [name]: id,
-        parentName: parentName as string,
-      });
-    
+    setFormState({
+      ...formState,
+      [name]: id,
+      parentName: parentName as string,
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    createRisk(formState).then((data) => {
-      if (data.status === 201) {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
-      }
-    });
+    createRisk(formState)
+      .then((data) => {
+        if (data.status === 201) {
+          navigate("/risks/all");
+          enqueueSnackbar("Create Risk Success!", {
+            variant: "success",
+          });
+        }
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 
@@ -93,11 +93,6 @@ export const RiskCreate = () => {
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>Risks</h2>
-      {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Create successfully!
-        </Alert>
-      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent

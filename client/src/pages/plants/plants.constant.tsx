@@ -1,6 +1,6 @@
 export const PlantsType = [
     { id: "1", name: "PLANT" , value : "PLANT" },
-    { id: "2", name: "BUSINESS_AREA" , value : "BUSINESS_AREA" },
+    { id: "2", name: "BUSINESS AREA" , value : "BUSINESS AREA" },
 ]
 
 export const PlantsSegment = [

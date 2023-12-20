@@ -171,12 +171,13 @@ export const PlantList = () => {
           height: "100%",
           width: "90%",
           margin: "2.5% 0% 0% 5%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <KeyboardBackspaceIcon
           onClick={handleClick}
           className={classes.backIcon}
-          style={{ display: "flex", marginBottom: "10px" }}
         />
 
         <Grid container spacing={2} style={{ marginBottom: "10px" }}>

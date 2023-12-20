@@ -191,9 +191,7 @@ export const RiskList = () => {
         <PaginationTable
           columns={columns}
           pagination={pagination}
-          dataQuery={
-            (dataQuery.data?.data as Risks) || { data: [], total: 0 }
-          }
+          dataQuery={(dataQuery.data?.data as Risks) || { data: [], total: 0 }}
           onPageChange={onPageChange}
         />
       </div>

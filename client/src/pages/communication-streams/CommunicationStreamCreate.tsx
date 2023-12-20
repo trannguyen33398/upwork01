@@ -11,17 +11,16 @@ import { SingleSelect } from "../../components/SingleSelect";
 
 import { useQuery } from "react-query";
 import {
-    createCommunicationStream,
-    getListCommunicationStream,
+  createCommunicationStream,
+  getListCommunicationStream,
 } from "../../api/communication-streams";
 import { CommunicationStream } from "../../types/communication-streams";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 
 //css flex box
 export const CommunicationStreamCreate = () => {
   const classes = useStyles();
-  const [showAlert, setShowAlert] = useState(false);
 
   const [formState, setFormState] = useState<CommunicationStream>({
     id: "",
@@ -29,7 +28,7 @@ export const CommunicationStreamCreate = () => {
     parentId: "",
     parentName: "",
     description: "",
-    responsiblePerson:"",
+    responsiblePerson: "",
     active: "true",
   });
 
@@ -50,7 +49,6 @@ export const CommunicationStreamCreate = () => {
     setFormState({ ...formState, [name]: text });
   };
 
-
   const onChangeSingleSelect = (
     name: string,
     id: string,
@@ -66,14 +64,18 @@ export const CommunicationStreamCreate = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    createCommunicationStream(formState).then((data) => {
-      if (data.status === 201) {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
-      }
-    });
+    createCommunicationStream(formState)
+      .then((data) => {
+        if (data.status === 201) {
+          navigate("/communication-streams/all");
+          enqueueSnackbar("Create Communication Stream Success!", {
+            variant: "success",
+          });
+        }
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 
@@ -88,11 +90,7 @@ export const CommunicationStreamCreate = () => {
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>CommunicationStreams</h2>
-      {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Create successfully!
-        </Alert>
-      )}
+
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent
@@ -124,7 +122,7 @@ export const CommunicationStreamCreate = () => {
               }) ?? []
             }
           />
-        <TextComponent
+          <TextComponent
             icon={<AbcIcon />}
             name="Responsible Person"
             itemId="responsiblePerson"

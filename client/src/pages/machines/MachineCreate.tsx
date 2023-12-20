@@ -10,17 +10,16 @@ import { NumberComponent } from "../../components/Number";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import { useNavigate } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
-import { Status } from "./constant";
+import { Status } from "./machine.constant";
 import { useQuery } from "react-query";
 import { createMachine, getListMachine } from "../../api/machines";
 import { Machine } from "../../types/machines";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 
 //css flex box
 export const MachineCreate = () => {
   const classes = useStyles();
-  const [showAlert, setShowAlert] = useState(false);
 
   const [formState, setFormState] = useState<Machine>({
     id: "",
@@ -73,14 +72,18 @@ export const MachineCreate = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    createMachine(formState).then((data) => {
-      if (data.status === 201) {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
-      }
-    });
+    createMachine(formState)
+      .then((data) => {
+        if (data.status === 201) {
+          navigate("/machines/all");
+          enqueueSnackbar("Create Machine Success!", {
+            variant: "success",
+          });
+        }
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 
@@ -95,11 +98,6 @@ export const MachineCreate = () => {
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>Machines</h2>
-      {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Create successfully!
-        </Alert>
-      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent

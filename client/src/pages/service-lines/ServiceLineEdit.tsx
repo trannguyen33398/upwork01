@@ -12,13 +12,13 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
 import { ServiceLine } from "../../types/service-lines";
 import {
   getListServiceLine,
   getServiceLine,
   updateServiceLine,
 } from "../../api/service-lines";
+import { enqueueSnackbar } from "notistack";
 //css flex box
 export const ServiceLineEdit = () => {
   const classes = useStyles();
@@ -28,7 +28,6 @@ export const ServiceLineEdit = () => {
   if (state) {
     data = state.data;
   }
-  const [showAlert, setShowAlert] = useState(false);
 
   const [formState, setFormState] = useState<ServiceLine>({
     id: data ? data.id : null,
@@ -88,14 +87,15 @@ export const ServiceLineEdit = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    updateServiceLine(serviceLineId as string, formState).then((data) => {
-      if (data.status === 202) {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
-      }
-    });
+    updateServiceLine(serviceLineId as string, formState)
+      .then((data) => {
+        if (data.status === 202) {
+          enqueueSnackbar("Edit Service Line Success!", { variant: "success" });
+        }
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 
@@ -110,11 +110,6 @@ export const ServiceLineEdit = () => {
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>Edit Service Line</h2>
-      {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Update successfully!
-        </Alert>
-      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent

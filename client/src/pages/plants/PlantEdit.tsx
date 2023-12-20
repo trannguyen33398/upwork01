@@ -12,10 +12,10 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
 import { Plant } from "../../types/plants";
 import { getListPlant, getPlant, updatePlant } from "../../api/plants";
 import { PlantsSegment, PlantsType } from "./plants.constant";
+import { enqueueSnackbar } from "notistack";
 //css flex box
 export const PlantEdit = () => {
   const classes = useStyles();
@@ -99,11 +99,10 @@ export const PlantEdit = () => {
     formState.zebra = formState.zebra === "true" ? true : false;
     updatePlant(plantId as string, formState).then((data) => {
       if (data.status === 202) {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
+         enqueueSnackbar('Edit Plant Success!' , {variant : "success"})
       }
+    }).catch((error) => {
+      enqueueSnackbar(`${error.message}` , {variant : "error"})
     });
   };
   const navigate = useNavigate();
@@ -119,11 +118,6 @@ export const PlantEdit = () => {
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>Edit Plant</h2>
-      {showAlert && (
-        <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Update successfully!
-        </Alert>
-      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
         <TextComponent
