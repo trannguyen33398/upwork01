@@ -13,11 +13,14 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Alert } from "@mui/material";
-import { Process } from "../../types/processes";
-import { getListProcess, getProcess, updateProcess } from "../../api/processes";
-import { ProcessType } from "./process.constant";
+import { ServiceLine } from "../../types/service-lines";
+import {
+  getListServiceLine,
+  getServiceLine,
+  updateServiceLine,
+} from "../../api/service-lines";
 //css flex box
-export const ProcessEdit = () => {
+export const ServiceLineEdit = () => {
   const classes = useStyles();
   const { state } = useLocation();
   const params = useParams();
@@ -27,40 +30,40 @@ export const ProcessEdit = () => {
   }
   const [showAlert, setShowAlert] = useState(false);
 
-  const [formState, setFormState] = useState<Process>({
+  const [formState, setFormState] = useState<ServiceLine>({
     id: data ? data.id : null,
     name: data ? data.name : null,
     parentId: data ? data.parentId : null,
     parentName: data ? data.parentName : null,
-    type: data ? data.type : null,
+    description: data ? data.description : null,
+    responsiblePerson: data ? data.responsiblePerson : null,
     active: data ? data.active : null,
-    focusField: data ? data.focusField : null,
   });
-  const processId = params?.processId ?? null;
+  const serviceLineId = params?.serviceLineId ?? null;
   useEffect(() => {
-    if (processId) {
-      getProcess(processId).then((result) => {
+    if (serviceLineId) {
+      getServiceLine(serviceLineId).then((result) => {
         setFormState({
           id: result.data.data.id,
           name: result.data.data.name,
           parentId: result.data.data.parentId,
           parentName: result.data.data.parentName,
-          type: result.data.data.type,
-          focusField: result.data.data.focusField,
+          description: result.data.data.description,
+          responsiblePerson: result.data.data.responsiblePerson,
           active: result.data.data.active,
         });
       });
     }
-  }, [processId]);
+  }, [serviceLineId]);
 
   const dataQueryParent = useQuery({
-    queryKey: ["process"],
+    queryKey: ["service-line"],
     queryFn: () => {
       const controller = new AbortController();
       setTimeout(() => {
         controller.abort();
       }, 5000);
-      return getListProcess(1, 1000, "", controller.signal);
+      return getListServiceLine(1, 1000, "", controller.signal);
     },
     keepPreviousData: true,
     retry: 0,
@@ -75,22 +78,17 @@ export const ProcessEdit = () => {
     id: string,
     parentName?: string
   ) => {
-    if (name === "type") {
-      setFormState({ ...formState, [name]: id });
-    } else {
-      setFormState({
-        ...formState,
-        [name]: id,
-        parentName: parentName as string,
-      });
-    }
+    setFormState({
+      ...formState,
+      [name]: id,
+      parentName: parentName as string,
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    formState.focusField = formState.focusField === "true" ? true : false;
-    updateProcess(processId as string, formState).then((data) => {
+    updateServiceLine(serviceLineId as string, formState).then((data) => {
       if (data.status === 202) {
         setShowAlert(true);
         setTimeout(() => {
@@ -103,7 +101,7 @@ export const ProcessEdit = () => {
 
   const handleClick = () => {
     // Navigate to another component
-    navigate("/processes/all");
+    navigate("/service-lines/all");
   };
 
   return (
@@ -111,7 +109,7 @@ export const ProcessEdit = () => {
       <div className={classes.backIcon}>
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
-      <h2 className={classes.headerText}>Edit Process</h2>
+      <h2 className={classes.headerText}>Edit Service Line</h2>
       {showAlert && (
         <Alert severity="success" onClose={() => setShowAlert(false)}>
           Update successfully!
@@ -146,27 +144,25 @@ export const ProcessEdit = () => {
                     value: item.name,
                   };
                 })
-                .filter((item) => item.id !== processId) ?? []
+                .filter((item) => item.id !== serviceLineId) ?? []
             }
           />
 
-          <SingleSelect
-            name="Type"
-            itemId="type"
-            value={{
-              id: formState.id,
-              name: formState.type,
-              value: formState.type,
-            }}
-            onChangeSelect={onChangeSingleSelect}
-            options={ProcessType}
-          />
-          <BooleanSelection
+          <TextComponent
             icon={<AbcIcon />}
-            name="Focus Field"
-            itemId="focusField"
-            value={formState.focusField}
+            name="Description"
+            itemId="description"
+            value={formState.description}
             onChangeText={onChangeText}
+            type={"text"}
+          />
+          <TextComponent
+            icon={<AbcIcon />}
+            name="Responsible Person"
+            itemId="responsiblePerson"
+            value={formState.responsiblePerson}
+            onChangeText={onChangeText}
+            type={"text"}
           />
           <BooleanSelection
             icon={<AbcIcon />}

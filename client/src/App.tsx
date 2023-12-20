@@ -20,6 +20,8 @@ import { MachineCreate } from "./pages/machines/create";
 import { ProcessList } from "./pages/processes/ProcessList";
 import { ProcessCreate } from "./pages/processes/ProcessCreate";
 import { ProcessEdit } from "./pages/processes/ProcessEdit";
+import { ServiceLineList } from "./pages/service-lines/ServiceLineList";
+import { ServiceLineCreate } from "./pages/service-lines/ServiceLineCreate";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -46,7 +48,11 @@ function App() {
             <Route path="/machines/all" element={<MachineList />} />
             <Route path="/machine/create" element={<MachineCreate />} />
             <Route path="/machines/edit/:machineId" element={<MachineEdit />} />
-            <Route path="/service-lines" element={<ServiceLines />} />
+            <Route path="/service-lines/all" element={<ServiceLineList />} />
+            <Route
+              path="/service-lines/create"
+              element={<ServiceLineCreate />}
+            />
             <Route
               path="/communication-streams"
               element={<CommunicationStreams />}
