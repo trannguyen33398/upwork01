@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS  plants (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     CONSTRAINT PLANTS_TYPE CHECK (type IN ('PLANT' , 'BUSINESS AREA')),
-    CONSTRAINT PLANTS_SEGMENT CHECK ( segment IS NULL OR segment IN ('TS' , 'DTS','ERS' , 'AVS','PSS')),
+    CONSTRAINT PLANTS_SEGMENT CHECK (  segment IN ('TS' , 'DTS','ERS' , 'AVS','PSS','')),
     CONSTRAINT FK_plants foreign key (parent_id) references plants (id)
 );
 
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS machines (
     active BOOLEAN NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
-    CONSTRAINT MACHINES_STATUS CHECK (status IN ('NOT STARTED', 'STARTED', 'FINISHED') OR status IS NULL),
+    CONSTRAINT MACHINES_STATUS CHECK (status IN ('NOT STARTED', 'STARTED', 'FINISHED','')),
     CONSTRAINT FK_machines foreign key (parent_id) references machines (id)
 );
 

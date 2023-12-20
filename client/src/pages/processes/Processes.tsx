@@ -7,42 +7,39 @@ import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import { DefaultOption } from "../../common/common.constant";
-import { NumberComponent } from "../../components/Number";
-import NumbersIcon from '@mui/icons-material/Numbers';
-
+import { DefaultOption } from '../../common/common.constant';
+import { SingleSelect } from "../../components/SingleSelect";
+import { ProcessType } from "./process.constant";
 //css flex box
-export const Risks = () => {
+export const Processes = () => {
     const classes = useStyles();
     const [formState, setFormState] = useState({
         name: null,
         parentId: null,
-        priority : null,
-        description : null,
-        active : null
+        type: null,
+        focusField: null,
+        active: null,
     });
-    const onChangeText = (name: string, text: string) => {
+    const onChangeText = (name: string, text: string | number) => {
         setFormState({ ...formState, [name]: text });
     };
 
-    const onChangeSelect = (name : string , id : string[]) => {
+    const onChangeMultipleSelect = (name : string , id : string[]) => {
         setFormState({...formState , [name] : id})
     }
-
-    const onChangeNumber = (name : string , number : number) => {
-        setFormState({...formState , [name] : number})
-    }
-
-
-
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
     };
+
+    const onChangeSingleSelect = (name : string , id : string) => {
+        setFormState({...formState , [name] : id})
+    }
 
     return (
 
         <div className={classes.div}>
-            <h2 className={classes.headerText}>Risks</h2>
+            <h2 className={classes.headerText}>Processes</h2>
             <form onSubmit={handleSubmit}>
 
                 <Grid container spacing={1}>
@@ -52,17 +49,26 @@ export const Risks = () => {
                         itemId="name"
                         onChangeText={onChangeText} type={"text"} value={""}                    />
                     <MultipleSelect
-                        name="Parent"
+                        name="Parent Id"
                         itemId="parentId"
-                        onChangeSelect={onChangeSelect}
+                        onChangeSelect={onChangeMultipleSelect}
                         options={DefaultOption}
                     />
-                    <NumberComponent name="Priority" itemId="priority" onChangeText={onChangeNumber} icon={<NumbersIcon />}/>
-                    <TextComponent
+                    <SingleSelect
+                        name="Type"
+                        itemId="type"
+                        onChangeSelect={onChangeSingleSelect}
+                        options={ProcessType} value={{
+                            id: null,
+                            name: null,
+                            value: null
+                        }}                    />
+                    <BooleanSelection
                         icon={<AbcIcon />}
-                        name="Description"
-                        itemId="descriptionId"
-                        onChangeText={onChangeText} type={"text"} value={""}                    />
+                        name="Focus Field"
+                        itemId="focusField"
+                        onChangeText={onChangeText}
+                    />
                     <BooleanSelection
                         icon={<AbcIcon />}
                         name="Active"

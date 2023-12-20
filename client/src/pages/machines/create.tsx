@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
 import { Status } from "./constant";
 import { useQuery } from "react-query";
-import { createMachine, getListMachine } from "../../api/machine";
+import { createMachine, getListMachine } from "../../api/machines";
 import { Machine } from "../../types/machines";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Alert } from "@mui/material";
@@ -27,9 +27,9 @@ export const MachineCreate = () => {
     name: "",
     parentId: "",
     parentName: "",
-    priority: 0,
+    priority: 1,
     description: "",
-    active: "",
+    active: "true",
     status: "",
   });
 
@@ -109,6 +109,7 @@ export const MachineCreate = () => {
             value={formState.name}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <SingleSelect
             name="Parent"
@@ -144,6 +145,7 @@ export const MachineCreate = () => {
             value={formState.description}
             onChangeText={onChangeText}
             type={"text"}
+            require={false}
           />
           <BooleanSelection
             icon={<AbcIcon />}

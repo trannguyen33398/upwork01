@@ -6,101 +6,68 @@ import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import { NumberComponent } from "../../components/Number";
-import NumbersIcon from "@mui/icons-material/Numbers";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
-import { Status } from "./constant";
+
 import { useQuery } from "react-query";
-import { getListMachine, getMachine, updateMachine } from "../../api/machines";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { Machine } from "../../types/machines";
+import {
+    createCommunicationStream,
+    getListCommunicationStream,
+} from "../../api/communication-streams";
+import { CommunicationStream } from "../../types/communication-streams";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Alert } from "@mui/material";
+
 //css flex box
-export const MachineEdit = () => {
+export const CommunicationStreamCreate = () => {
   const classes = useStyles();
-  const { state } = useLocation();
-  const params = useParams();
-  let data;
-  if (state) {
-    data = state.data;
-  }
   const [showAlert, setShowAlert] = useState(false);
 
-  const [formState, setFormState] = useState<Machine>({
-    id: data ? data.id : null,
-    name: data ? data.name : null,
-    parentId: data ? data.parentId : null,
-    parentName: data ? data.parentName : null,
-    priority: data ? data.priority : null,
-    description: data ? data.description : null,
-    active: data ? data.active : null,
-    status: data ? data.status : null,
+  const [formState, setFormState] = useState<CommunicationStream>({
+    id: "",
+    name: "",
+    parentId: "",
+    parentName: "",
+    description: "",
+    responsiblePerson:"",
+    active: "true",
   });
-  const machineId = params?.machineId ?? null;
-
-  useEffect(() => {
-    if (machineId) {
-      getMachine(machineId).then((result) => {
-        setFormState({
-          id: result.data.data.id,
-          name: result.data.data.name,
-          parentId: result.data.data.parentId,
-          parentName: result.data.data.parentName,
-          priority: result.data.data.priority,
-          description: result.data.data.description,
-          active: result.data.data.active,
-          status: result.data.data.status,
-        });
-      });
-    }
-  }, [machineId]);
 
   const dataQueryParent = useQuery({
-    queryKey: ["machine"],
+    queryKey: ["CommunicationStream"],
     queryFn: () => {
       const controller = new AbortController();
       setTimeout(() => {
         controller.abort();
       }, 5000);
-      return getListMachine(1, 1000, "", controller.signal);
+      return getListCommunicationStream(1, 1000, "", controller.signal);
     },
     keepPreviousData: true,
     retry: 0,
   });
 
   const onChangeText = (name: string, text: string) => {
-
     setFormState({ ...formState, [name]: text });
   };
 
-  const onChangeNumber = (name: string, number: number) => {
-    setFormState({ ...formState, [name]: number });
-  };
 
   const onChangeSingleSelect = (
     name: string,
     id: string,
     parentName?: string
   ) => {
-    if (name === "status") {
-      setFormState({ ...formState, [name]: id });
-    } else {
-      setFormState({
-        ...formState,
-        [name]: id,
-        parentName: parentName as string,
-      });
-    }
+    setFormState({
+      ...formState,
+      [name]: id,
+      parentName: parentName as string,
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
-    updateMachine(machineId as string, formState).then((data) => {
-      if (data.status === 202) {
+    createCommunicationStream(formState).then((data) => {
+      if (data.status === 201) {
         setShowAlert(true);
         setTimeout(() => {
           setShowAlert(false);
@@ -112,7 +79,7 @@ export const MachineEdit = () => {
 
   const handleClick = () => {
     // Navigate to another component
-    navigate("/machines/all");
+    navigate("/communication-streams/all");
   };
 
   return (
@@ -120,10 +87,10 @@ export const MachineEdit = () => {
       <div className={classes.backIcon}>
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
-      <h2 className={classes.headerText}>Machines</h2>
+      <h2 className={classes.headerText}>CommunicationStreams</h2>
       {showAlert && (
         <Alert severity="success" onClose={() => setShowAlert(false)}>
-          Update successfully!
+          Create successfully!
         </Alert>
       )}
       <form onSubmit={handleSubmit}>
@@ -148,23 +115,23 @@ export const MachineEdit = () => {
             isParent={true}
             onChangeSelect={onChangeSingleSelect}
             options={
-              dataQueryParent.data?.data.data
-                .map((item) => {
-                  return {
-                    id: item.id,
-                    name: item.name,
-                    value: item.name,
-                  };
-                })
-                .filter((item) => item.id !== machineId) ?? []
+              dataQueryParent.data?.data.data.map((item) => {
+                return {
+                  id: item.id,
+                  name: item.name,
+                  value: item.name,
+                };
+              }) ?? []
             }
           />
-          <NumberComponent
-            name="Priority"
-            itemId="priority"
-            value={formState.priority}
-            onChangeText={onChangeNumber}
-            icon={<NumbersIcon />}
+        <TextComponent
+            icon={<AbcIcon />}
+            name="Responsible Person"
+            itemId="responsiblePerson"
+            value={formState.responsiblePerson}
+            onChangeText={onChangeText}
+            type={"text"}
+            require={true}
           />
           <TextComponent
             icon={<AbcIcon />}
@@ -173,7 +140,7 @@ export const MachineEdit = () => {
             value={formState.description}
             onChangeText={onChangeText}
             type={"text"}
-            require={false}
+            require={true}
           />
           <BooleanSelection
             icon={<AbcIcon />}
@@ -181,17 +148,6 @@ export const MachineEdit = () => {
             itemId="active"
             value={formState.active}
             onChangeText={onChangeText}
-          />
-          <SingleSelect
-            name="Status"
-            itemId="status"
-            value={{
-              id: formState.id,
-              name: formState.status,
-              value: formState.status,
-            }}
-            onChangeSelect={onChangeSingleSelect}
-            options={Status}
           />
         </Grid>
 
