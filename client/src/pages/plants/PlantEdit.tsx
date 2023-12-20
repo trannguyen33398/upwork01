@@ -133,6 +133,7 @@ export const PlantEdit = () => {
             value={formState.name}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <SingleSelect
             name="Parent"
@@ -161,6 +162,7 @@ export const PlantEdit = () => {
             value={formState.operationsCluster}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <SingleSelect
             name="Type"
@@ -181,6 +183,7 @@ export const PlantEdit = () => {
             value={formState.nameAbbreviation}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <SingleSelect
             name="Segment"

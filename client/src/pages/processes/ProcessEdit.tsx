@@ -128,6 +128,7 @@ export const ProcessEdit = () => {
             value={formState.name}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <SingleSelect
             name="Parent"
@@ -162,6 +163,7 @@ export const ProcessEdit = () => {
             }}
             onChangeSelect={onChangeSingleSelect}
             options={ProcessType}
+            
           />
           <BooleanSelection
             icon={<AbcIcon />}

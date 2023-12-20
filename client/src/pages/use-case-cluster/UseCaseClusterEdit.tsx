@@ -118,6 +118,7 @@ export const UseCaseClusterEdit = () => {
             value={formState.name}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <SingleSelect
             name="Parent"
@@ -146,6 +147,7 @@ export const UseCaseClusterEdit = () => {
             value={formState.description}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <BooleanSelection
             icon={<AbcIcon />}

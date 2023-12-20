@@ -106,6 +106,7 @@ export const PlantCreate = () => {
             value={formState.name}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <SingleSelect
             name="Parent"
@@ -134,6 +135,7 @@ export const PlantCreate = () => {
             value={formState.operationsCluster}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <SingleSelect
             name="Type"
@@ -154,6 +156,7 @@ export const PlantCreate = () => {
             value={formState.nameAbbreviation}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <SingleSelect
             name="Segment"

@@ -6,11 +6,10 @@ import { useState } from "react";
 import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
-import { useNavigate } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 import { SingleSelect } from "../../components/SingleSelect";
 import { useQuery } from "react-query";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Alert } from "@mui/material";
 import { ServiceLine } from "../../types/service-lines";
 import { createServiceLine, getListServiceLine } from "../../api/service-lines";
 
@@ -64,9 +63,7 @@ export const ServiceLineCreate = () => {
     createServiceLine(formState).then((data) => {
       if (data.status === 201) {
         setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1000);
+        navigate("/service-lines/all" , {state : {openSnackbar : true}});
       }
     });
   };
@@ -77,17 +74,20 @@ export const ServiceLineCreate = () => {
     navigate("/service-lines/all");
   };
 
+
+
   return (
+    
     <div className={classes.div}>
       <div className={classes.backIcon}>
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
       <h2 className={classes.headerText}>Create Service Line</h2>
-      {showAlert && (
+      {/* {showAlert && (
         <Alert severity="success" onClose={() => setShowAlert(false)}>
           Create successfully!
         </Alert>
-      )}
+      )} */}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <TextComponent
@@ -97,6 +97,7 @@ export const ServiceLineCreate = () => {
             value={formState.name}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <SingleSelect
             name="Parent"
@@ -125,6 +126,7 @@ export const ServiceLineCreate = () => {
             value={formState.description}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <TextComponent
             icon={<AbcIcon />}
@@ -133,6 +135,7 @@ export const ServiceLineCreate = () => {
             value={formState.responsiblePerson}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <BooleanSelection
             icon={<AbcIcon />}

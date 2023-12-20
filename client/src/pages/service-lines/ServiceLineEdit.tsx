@@ -124,6 +124,7 @@ export const ServiceLineEdit = () => {
             value={formState.name}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <SingleSelect
             name="Parent"
@@ -155,6 +156,7 @@ export const ServiceLineEdit = () => {
             value={formState.description}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <TextComponent
             icon={<AbcIcon />}
@@ -163,6 +165,7 @@ export const ServiceLineEdit = () => {
             value={formState.responsiblePerson}
             onChangeText={onChangeText}
             type={"text"}
+            require={true}
           />
           <BooleanSelection
             icon={<AbcIcon />}
