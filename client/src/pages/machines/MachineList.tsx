@@ -16,6 +16,7 @@ import { useState, useEffect } from "react";
 import { useQueryClient } from "react-query";
 import { PaginationTable } from "../../components/PaginationTable";
 import css from "../../components/PaginationTable.module.css";
+import { Status } from "./machine.constant";
 
 export const MachineList = () => {
   const queryClient = useQueryClient();
@@ -46,7 +47,7 @@ export const MachineList = () => {
 
   useEffect(() => {
     queryClient.refetchQueries(["machines", pagination]);
-  }, [searchTerm]);
+  }, [searchTerm, pagination, queryClient]);
 
   const columns: GridColDef[] = [
     {
@@ -84,6 +85,9 @@ export const MachineList = () => {
       headerAlign: "left",
       sortable: false,
       headerClassName: css["header-column"],
+      valueGetter: (value) => {
+        return Status.find((item) => item.value === value.value)?.name;
+      },
     },
     {
       field: "description",
@@ -152,7 +156,7 @@ export const MachineList = () => {
           onClick={handleClick}
           className={classes.backIcon}
         />
-       <Grid container spacing={2} style={{ marginBottom: "10px" }}>
+        <Grid container spacing={2} style={{ marginBottom: "10px" }}>
           <Grid
             item
             xs={4}
@@ -173,7 +177,7 @@ export const MachineList = () => {
             />
           </Grid>
           <Grid item xs={4} alignItems="flex-end" direction="row">
-            <Typography style={{ fontSize: "24px" }}>Machine List</Typography>
+            <Typography style={{ fontSize: "24px" }}>Machines</Typography>
           </Grid>
           <Grid
             item

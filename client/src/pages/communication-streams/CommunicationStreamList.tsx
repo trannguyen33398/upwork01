@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   GridColDef,
   GridRenderCellParams,
@@ -54,7 +53,7 @@ export const CommunicationStreamList = () => {
 
   useEffect(() => {
     queryClient.refetchQueries(["CommunicationStreams", pagination]);
-  }, [searchTerm]);
+  }, [searchTerm, pagination, queryClient]);
 
   const columns: GridColDef[] = [
     {
@@ -164,7 +163,7 @@ export const CommunicationStreamList = () => {
           </Grid>
           <Grid item xs={4} alignItems="flex-end" direction="row">
             <Typography style={{ fontSize: "24px" }}>
-              Communication Stream List
+              Communication Streams
             </Typography>
           </Grid>
           <Grid

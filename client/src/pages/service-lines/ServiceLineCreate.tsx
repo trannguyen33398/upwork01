@@ -17,7 +17,7 @@ import { useSnackbar } from "notistack";
 //css flex box
 export const ServiceLineCreate = () => {
   const classes = useStyles();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [formState, setFormState] = useState<ServiceLine>({
     id: "",

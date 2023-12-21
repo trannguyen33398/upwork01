@@ -50,6 +50,7 @@ export const SingleSelect: React.FC<TSelectProp<MyOptions>> = ({
       [item.name]: item.id,
     });
   });
+
   const [value, setValue] = useState<string>(props.value.name ?? "");
   useEffect(() => {
     if (props.value.name) setValue(props.value.name);
@@ -91,7 +92,7 @@ export const SingleSelect: React.FC<TSelectProp<MyOptions>> = ({
               MenuProps={MenuProps}
             >
               {props.options.map((name) => (
-                <MenuItem key={name.id} value={name.name}>
+                <MenuItem key={name.id} value={name.value}>
                   {name.name}
                 </MenuItem>
               ))}

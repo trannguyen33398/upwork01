@@ -18,7 +18,6 @@ import { enqueueSnackbar } from "notistack";
 //css flex box
 export const PlantCreate = () => {
   const classes = useStyles();
-  const [showAlert, setShowAlert] = useState(false);
 
   const [formState, setFormState] = useState<Plant>({
     id: "",
@@ -70,14 +69,16 @@ export const PlantCreate = () => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
     formState.zebra = formState.zebra === "true" ? true : false;
-    createPlant(formState).then((data) => {
-      if (data.status === 201) {
-        navigate("/plants/all");
-        enqueueSnackbar(`Create Plant Success` , {variant : "success"})
-      }
-    }).catch((error) => {
-      enqueueSnackbar(`${error.message}` , {variant : "error"})
-    });
+    createPlant(formState)
+      .then((data) => {
+        if (data.status === 201) {
+          navigate("/plants/all");
+          enqueueSnackbar(`Create Plant Success`, { variant: "success" });
+        }
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 

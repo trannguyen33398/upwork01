@@ -17,6 +17,7 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import EditIcon from "@mui/icons-material/Edit";
 import { getListPlant } from "../../api/plants";
 import { Plant, Plants } from "../../types/plants";
+import { PlantsSegment, PlantsType } from "./plants.constant";
 
 export const PlantList = () => {
   const queryClient = useQueryClient();
@@ -47,7 +48,7 @@ export const PlantList = () => {
 
   useEffect(() => {
     queryClient.refetchQueries(["plants", pagination, searchTerm]);
-  }, [searchTerm]);
+  }, [searchTerm, pagination, queryClient]);
 
   const onPageChange = (page: number) => {
     setPagination(page);
@@ -98,6 +99,9 @@ export const PlantList = () => {
       headerAlign: "left",
       sortable: false,
       headerClassName: css["header-column"],
+      valueGetter: (value) => {
+        return PlantsType.find((item) => item.value === value.value)?.name;
+      },
     },
 
     {
@@ -117,6 +121,9 @@ export const PlantList = () => {
       headerAlign: "left",
       sortable: false,
       headerClassName: css["header-column"],
+      valueGetter: (value) => {
+        return PlantsSegment.find((item) => item.value === value.value)?.name;
+      },
     },
     {
       field: "zebra",
@@ -201,7 +208,7 @@ export const PlantList = () => {
             />
           </Grid>
           <Grid item xs={4} alignItems="flex-end" direction="row">
-            <Typography style={{ fontSize: "24px" }}>Plant List</Typography>
+            <Typography style={{ fontSize: "24px" }}>Plants</Typography>
           </Grid>
           <Grid
             item

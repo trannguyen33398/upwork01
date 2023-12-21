@@ -17,6 +17,7 @@ import { Process, Processes } from "../../types/processes";
 import Grid from "@mui/material/Grid";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import EditIcon from "@mui/icons-material/Edit";
+import { ProcessType } from "./process.constant";
 
 export const ProcessList = () => {
   const queryClient = useQueryClient();
@@ -47,7 +48,7 @@ export const ProcessList = () => {
 
   useEffect(() => {
     queryClient.refetchQueries(["processes", pagination, searchTerm]);
-  }, [searchTerm]);
+  }, [searchTerm, pagination, queryClient]);
 
   const onPageChange = (page: number) => {
     setPagination(page);
@@ -89,6 +90,9 @@ export const ProcessList = () => {
       headerAlign: "left",
       sortable: false,
       headerClassName: css["header-column"],
+      valueGetter: (value) => {
+        return ProcessType.find((item) => item.value === value.value)?.name;
+      },
     },
     {
       field: "focusField",
@@ -174,7 +178,7 @@ export const ProcessList = () => {
             />
           </Grid>
           <Grid item xs={4} alignItems="flex-end" direction="row">
-            <Typography style={{ fontSize: "24px" }}>Processes List</Typography>
+            <Typography style={{ fontSize: "24px" }}>Processes</Typography>
           </Grid>
           <Grid
             item

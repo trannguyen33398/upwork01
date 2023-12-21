@@ -47,7 +47,7 @@ export const ServiceLineList = () => {
 
   useEffect(() => {
     queryClient.refetchQueries(["service-lines", pagination, searchTerm]);
-  }, [searchTerm]);
+  }, [searchTerm, pagination, queryClient]);
 
   const onPageChange = (page: number) => {
     setPagination(page);
@@ -174,9 +174,7 @@ export const ServiceLineList = () => {
             />
           </Grid>
           <Grid item xs={4} alignItems="flex-end" direction="row">
-            <Typography style={{ fontSize: "24px" }}>
-              Service Line List
-            </Typography>
+            <Typography style={{ fontSize: "24px" }}>Service Lines</Typography>
           </Grid>
           <Grid
             item

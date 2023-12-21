@@ -25,7 +25,6 @@ export const PlantEdit = () => {
   if (state) {
     data = state.data;
   }
-  const [showAlert, setShowAlert] = useState(false);
 
   const [formState, setFormState] = useState<Plant>({
     id: data ? data.id : null,
@@ -35,9 +34,9 @@ export const PlantEdit = () => {
     type: data ? data.type : null,
     active: data ? data.active : null,
     nameAbbreviation: data ? data.nameAbbreviation : null,
-    segment : data ? data.segment : null,
-    zebra : data ? data.zebra : null,
-    operationsCluster  : data ? data.operationsCluster : null
+    segment: data ? data.segment : null,
+    zebra: data ? data.zebra : null,
+    operationsCluster: data ? data.operationsCluster : null,
   });
   const plantId = params?.plantId ?? null;
   useEffect(() => {
@@ -51,10 +50,9 @@ export const PlantEdit = () => {
           type: result.data.data.type,
           nameAbbreviation: result.data.data.nameAbbreviation,
           active: result.data.data.active,
-          operationsCluster : result.data.data.operationsCluster,
-          segment : result.data.data.segment,
-          zebra : result.data.data.zebra
-
+          operationsCluster: result.data.data.operationsCluster,
+          segment: result.data.data.segment,
+          zebra: result.data.data.zebra,
         });
       });
     }
@@ -97,13 +95,15 @@ export const PlantEdit = () => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
     formState.zebra = formState.zebra === "true" ? true : false;
-    updatePlant(plantId as string, formState).then((data) => {
-      if (data.status === 202) {
-         enqueueSnackbar('Edit Plant Success!' , {variant : "success"})
-      }
-    }).catch((error) => {
-      enqueueSnackbar(`${error.message}` , {variant : "error"})
-    });
+    updatePlant(plantId as string, formState)
+      .then((data) => {
+        if (data.status === 202) {
+          enqueueSnackbar("Edit Plant Success!", { variant: "success" });
+        }
+      })
+      .catch((error) => {
+        enqueueSnackbar(`${error.message}`, { variant: "error" });
+      });
   };
   const navigate = useNavigate();
 
@@ -120,7 +120,7 @@ export const PlantEdit = () => {
       <h2 className={classes.headerText}>Edit Plant</h2>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
-        <TextComponent
+          <TextComponent
             icon={<AbcIcon />}
             name="Name"
             itemId="name"

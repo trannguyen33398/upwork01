@@ -46,7 +46,7 @@ export const RiskList = () => {
 
   useEffect(() => {
     queryClient.refetchQueries(["Risks", pagination]);
-  }, [searchTerm]);
+  }, [searchTerm, pagination, queryClient]);
 
   const columns: GridColDef[] = [
     {
@@ -164,7 +164,7 @@ export const RiskList = () => {
             />
           </Grid>
           <Grid item xs={4} alignItems="flex-end" direction="row">
-            <Typography style={{ fontSize: "24px" }}>Risk List</Typography>
+            <Typography style={{ fontSize: "24px" }}>Risks</Typography>
           </Grid>
           <Grid
             item

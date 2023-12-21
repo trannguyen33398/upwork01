@@ -71,10 +71,6 @@ export const SystemEdit = () => {
     setFormState({ ...formState, [name]: text });
   };
 
-  const onChangeNumber = (name: string, number: number) => {
-    setFormState({ ...formState, [name]: number });
-  };
-
   const onChangeSingleSelect = (
     name: string,
     id: string,

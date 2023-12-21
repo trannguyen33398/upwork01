@@ -86,23 +86,23 @@ export const SystemList = () => {
       headerClassName: css["header-column"],
     },
     {
-        field: "category",
-        headerName: "Category",
-        type: "string",
-        flex: 1,
-        headerAlign: "left",
-        sortable: false,
-        headerClassName: css["header-column"],
-      },
+      field: "category",
+      headerName: "Category",
+      type: "string",
+      flex: 1,
+      headerAlign: "left",
+      sortable: false,
+      headerClassName: css["header-column"],
+    },
     {
-        field: "toolName",
-        headerName: "Tool Name",
-        type: "string",
-        flex: 1,
-        headerAlign: "left",
-        sortable: false,
-        headerClassName: css["header-column"],
-      },
+      field: "toolName",
+      headerName: "Tool Name",
+      type: "string",
+      flex: 1,
+      headerAlign: "left",
+      sortable: false,
+      headerClassName: css["header-column"],
+    },
 
     {
       field: "active",
@@ -182,7 +182,7 @@ export const SystemList = () => {
             />
           </Grid>
           <Grid item xs={4} alignItems="flex-end" direction="row">
-            <Typography style={{ fontSize: "24px" }}>System List</Typography>
+            <Typography style={{ fontSize: "24px" }}>Systems</Typography>
           </Grid>
           <Grid
             item

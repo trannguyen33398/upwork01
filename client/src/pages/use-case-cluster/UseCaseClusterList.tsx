@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   GridColDef,
   GridRenderCellParams,
@@ -52,7 +51,7 @@ export const UseCaseClusterList = () => {
 
   useEffect(() => {
     queryClient.refetchQueries(["useCaseClusters", pagination, searchTerm]);
-  }, [searchTerm]);
+  }, [searchTerm, pagination, queryClient]);
 
   const onPageChange = (page: number) => {
     setPagination(page);
@@ -170,7 +169,7 @@ export const UseCaseClusterList = () => {
           </Grid>
           <Grid item xs={4} alignItems="flex-end" direction="row">
             <Typography style={{ fontSize: "24px" }}>
-              Use Case Cluster List
+              Use Case Clusters
             </Typography>
           </Grid>
           <Grid
