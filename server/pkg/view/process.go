@@ -11,10 +11,10 @@ type CreateProcessResponse struct {
 type Process struct {
 	Id         string `json:"id"`
 	Name       string `json:"name"`
-	ParentId   string `json:"parentId"`
+	ParentId   *model.UUID `json:"parentId"`
 	Type       string `json:"type"`
-	FocusField bool   `json:"focusField"`
-	Active     bool   `json:"active"`
+	FocusField *bool   `json:"focusField"`
+	Active     *bool   `json:"active"`
 	ParentName string `json:"parentName"`
 	CreatedAt  string `json:"createdAt"`
 	UpdatedAt  string `json:"updatedAt"`
@@ -30,7 +30,7 @@ func ToProcess(process *model.Processes) *Process {
 		CreatedAt:  process.CreatedAt.Format("02-01-2006"),
 		UpdatedAt:  process.UpdatedAt.Format("02-01-2006"),
 		Name:       process.Name,
-		ParentId:   process.ParentId.String(),
+		ParentId:   process.ParentId,
 		Type:       process.Type,
 		Active:     process.Active,
 		FocusField: process.FocusField,

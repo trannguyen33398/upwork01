@@ -13,7 +13,7 @@ type CommunicationStream struct {
 	Name              string `json:"name"`
 	Description       string `json:"description"`
 	ResponsiblePerson string `json:"responsiblePerson"`
-	Active            bool   `json:"active"`
+	Active            *bool   `json:"active"`
 	CreatedAt         string `json:"createdAt"`
 	UpdatedAt         string `json:"updatedAt"`
 }

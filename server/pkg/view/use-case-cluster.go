@@ -1,8 +1,6 @@
 package view
 
 import (
-	"time"
-
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
 )
 
@@ -13,12 +11,12 @@ type CreateUseCaseClusterResponse struct {
 type UseCaseCluster struct {
 	Id          string     `json:"id"`
 	Name        string     `json:"name"`
-	ParentId    string     `json:"parentId"`
+	ParentId    *model.UUID     `json:"parentId"`
 	Description string     `json:"description"`
-	Active      bool       `json:"active"`
+	Active      *bool       `json:"active"`
 	ParentName  string     `json:"parentName"`
-	CreatedAt   *time.Time `json:"createdAt"`
-	UpdatedAt   *time.Time `json:"updatedAt"`
+	CreatedAt   string `json:"createdAt"`
+	UpdatedAt   string `json:"updatedAt"`
 }
 
 func ToUseCaseCluster(useCaseCluster *model.UseCaseCluster) *UseCaseCluster {
@@ -28,11 +26,11 @@ func ToUseCaseCluster(useCaseCluster *model.UseCaseCluster) *UseCaseCluster {
 	}
 	return &UseCaseCluster{
 		Id:          useCaseCluster.ID.String(),
-		CreatedAt:   useCaseCluster.CreatedAt,
-		UpdatedAt:   useCaseCluster.UpdatedAt,
+		CreatedAt:   useCaseCluster.CreatedAt.Format("02-01-2006"),
+		UpdatedAt:   useCaseCluster.UpdatedAt.Format("02-01-2006"),
 		Name:        useCaseCluster.Name,
 		Description: useCaseCluster.Description,
-		ParentId:    useCaseCluster.ParentId.String(),
+		ParentId:    useCaseCluster.ParentId,
 		Active:      useCaseCluster.Active,
 		ParentName:  useCaseClusterParentName,
 	}

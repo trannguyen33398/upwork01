@@ -146,7 +146,7 @@ export const PlantEdit = () => {
                   name: item.name,
                   value: item.name,
                 };
-              }) ?? []
+              }).filter((item) => item.id !== plantId) ?? []
             }
           />
           <TextComponent

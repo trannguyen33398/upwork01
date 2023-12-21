@@ -83,15 +83,13 @@ export const MachineEdit = () => {
     id: string,
     parentName?: string
   ) => {
-    if (name === "status") {
-      setFormState({ ...formState, [name]: id });
-    } else {
+   
       setFormState({
         ...formState,
         [name]: id,
         parentName: parentName as string,
       });
-    }
+    
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -177,6 +175,7 @@ export const MachineEdit = () => {
             onChangeText={onChangeText}
           />
           <SingleSelect
+          isParent={false}
             name="Status"
             itemId="status"
             value={{

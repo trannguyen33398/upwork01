@@ -93,27 +93,27 @@ export const Sprints = () => {
                         name="Description"
                         itemId="description"
                         onChangeText={onChangeText} type={"text"} value={""}                    />
-                    <SingleSelect name="Status" itemId="statusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
+                    <SingleSelect isParent={false} name="Status" itemId="statusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
                         id: null,
                         name: null,
                         value: null
                     }} />
-                    <SingleSelect name="Development Status" itemId="developmentStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
+                    <SingleSelect  isParent={false} name="Development Status" itemId="developmentStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
                         id: null,
                         name: null,
                         value: null
                     }} />
-                    <SingleSelect name="Iteration Status" itemId="iterationStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
+                    <SingleSelect  isParent={false} name="Iteration Status" itemId="iterationStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
                         id: null,
                         name: null,
                         value: null
                     }} />
-                    <SingleSelect name="Implementation Status" itemId="implementationStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
+                    <SingleSelect isParent={false} name="Implementation Status" itemId="implementationStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
                         id: null,
                         name: null,
                         value: null
                     }} />
-                    <SingleSelect name="Handover Status" itemId="handoverStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
+                    <SingleSelect isParent={false}  name="Handover Status" itemId="handoverStatusId" onChangeSelect={onChangeSingleSelect} options={StatusType} value={{
                         id: null,
                         name: null,
                         value: null

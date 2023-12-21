@@ -15,7 +15,7 @@ func (r *controller) Create(c *gin.Context, input request.CreateServiceLineReque
 		ParentId:          input.ParentId,
 		Description:       input.Description,
 		ResponsiblePerson: input.ResponsiblePerson,
-		Active:            *input.Active,
+		Active:            input.Active,
 	})
 
 	if err != nil {

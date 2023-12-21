@@ -73,17 +73,15 @@ export const ProcessEdit = () => {
   const onChangeSingleSelect = (
     name: string,
     id: string,
-    parentName?: string
+    parentName: string
   ) => {
-    if (name === "type") {
-      setFormState({ ...formState, [name]: id });
-    } else {
+   
       setFormState({
         ...formState,
         [name]: id,
         parentName: parentName as string,
       });
-    }
+    
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -148,6 +146,7 @@ export const ProcessEdit = () => {
           />
 
           <SingleSelect
+            isParent={false}
             name="Type"
             itemId="type"
             value={{

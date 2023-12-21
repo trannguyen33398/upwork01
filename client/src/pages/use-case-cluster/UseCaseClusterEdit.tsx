@@ -138,7 +138,7 @@ export const UseCaseClusterEdit = () => {
                   name: item.name,
                   value: item.name,
                 };
-              }) ?? []
+              }).filter((item) => item.id !== useCaseClusterId) ?? []
             }
           />
           <TextComponent

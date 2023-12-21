@@ -23,14 +23,14 @@ const MenuProps = {
 type TSelectProp<T> = {
   name: string;
   itemId: string;
-  onChangeSelect: (name: string, id: string, parentName?: string) => void;
+  onChangeSelect: (name: string, id: string, parentName: string) => void;
   options: T[];
   value: {
     id: string | null;
     name: string | null;
     value: string | null;
   };
-  isParent?: boolean;
+  isParent: boolean;
 };
 
 interface MyOptions {
@@ -58,12 +58,13 @@ export const SingleSelect: React.FC<TSelectProp<MyOptions>> = ({
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value as string);
 
-    const activeNameId = listKey[event.target.value];
+   
 
     if (!isParent) {
-      props.onChangeSelect(props.itemId, event.target.value);
+      props.onChangeSelect(props.itemId, event.target.value,'');
     } else {
-      props.onChangeSelect(props.itemId, activeNameId, event.target.value);
+      const activeNameId = listKey[event.target.value];
+      props.onChangeSelect(props.itemId, activeNameId ?? '', event.target.value);
     }
   };
 
@@ -84,6 +85,8 @@ export const SingleSelect: React.FC<TSelectProp<MyOptions>> = ({
         <Box sx={{ boxShadow: textFieldStyles, width: "70%" }}>
           <FormControl sx={{ width: "100%" }}>
             <Select
+              required = {['parentId','segment','status'].includes(props.itemId) ? false :true}
+              displayEmpty
               labelId="demo-multiple-chip-label"
               id="demo-multiple-chip"
               value={value}
@@ -91,6 +94,12 @@ export const SingleSelect: React.FC<TSelectProp<MyOptions>> = ({
               input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
               MenuProps={MenuProps}
             >
+          
+              {isParent ? (
+                <MenuItem key="parentId" value=''>
+                  None
+                </MenuItem>
+              ) : null}
               {props.options.map((name) => (
                 <MenuItem key={name.id} value={name.value}>
                   {name.name}

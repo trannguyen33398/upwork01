@@ -7,7 +7,6 @@ import { SubmitButton } from "../../components/Submit";
 import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
 import { useNavigate } from "react-router-dom";
-import { SingleSelect } from "../../components/SingleSelect";
 
 import { useQuery } from "react-query";
 import {
@@ -25,8 +24,6 @@ export const CommunicationStreamCreate = () => {
   const [formState, setFormState] = useState<CommunicationStream>({
     id: "",
     name: "",
-    parentId: "",
-    parentName: "",
     description: "",
     responsiblePerson: "",
     active: "true",
@@ -57,7 +54,6 @@ export const CommunicationStreamCreate = () => {
     setFormState({
       ...formState,
       [name]: id,
-      parentName: parentName as string,
     });
   };
 
@@ -101,26 +97,6 @@ export const CommunicationStreamCreate = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
-          />
-          <SingleSelect
-            name="Parent"
-            itemId="parentId"
-            value={{
-              id: formState.parentId,
-              name: formState.parentName,
-              value: formState.parentName,
-            }}
-            isParent={true}
-            onChangeSelect={onChangeSingleSelect}
-            options={
-              dataQueryParent.data?.data.data.map((item) => {
-                return {
-                  id: item.id,
-                  name: item.name,
-                  value: item.name,
-                };
-              }) ?? []
-            }
           />
           <TextComponent
             icon={<AbcIcon />}

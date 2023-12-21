@@ -17,8 +17,8 @@ func (r *controller) Create(c *gin.Context, input request.CreatePlantRequest) er
 		Type:              input.Type,
 		NameAbbreviation:  input.NameAbbreviation,
 		Segment:           input.Segment,
-		Zebra:             *input.Zebra,
-		Active:            *input.Active,
+		Zebra:             input.Zebra,
+		Active:            input.Active,
 	})
 
 	if err != nil {

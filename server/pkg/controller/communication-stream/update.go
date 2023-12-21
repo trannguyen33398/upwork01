@@ -13,7 +13,7 @@ func (r *controller) Update(c *gin.Context, input request.CreateCommunicationStr
 		Name:               input.Name,
 		Description:        input.Description,
 		ResponsiblePerson:           input.ResponsiblePerson,
-		Active:            	*input.Active,
+		Active:            	input.Active,
 	})
 
 	if err != nil {

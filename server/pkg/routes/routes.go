@@ -72,7 +72,7 @@ func NewRoutes(cfg *config.Config, s *store.Store, repo store.DBRepo, logger log
 		plantRoute.POST("/", h.Plant.Create)
 		plantRoute.GET("/", h.Plant.List)
 		plantRoute.GET("/:plantId", h.Plant.Detail)
-		plantRoute.PUT("/:plaintId", h.Plant.Update)
+		plantRoute.PUT("/:plantId", h.Plant.Update)
 		plantRoute.DELETE("/:plantId", h.Plant.Delete)
 	}
 

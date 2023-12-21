@@ -15,7 +15,7 @@ func (r *controller) Create(c *gin.Context, input request.CreateSystemRequest) (
 		ParentId: 			input.ParentId,
 		Category:           input.Category,
 		ToolName:           input.ToolName,
-		Active:            	*input.Active,
+		Active:            	input.Active,
 	})
 
 	if err != nil {

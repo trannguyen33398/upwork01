@@ -11,11 +11,11 @@ type CreateRiskResponse struct {
 type Risk struct {
 	Id          string `json:"id"`
 	Name        string `json:"name"`
-	ParentId    string `json:"parentId"`
+	ParentId    *model.UUID `json:"parentId"`
 	Priority    int    `json:"priority"`
 	Description string `json:"description"`
 	Status      string `json:"status"`
-	Active      bool   `json:"active"`
+	Active      *bool   `json:"active"`
 	ParentName  string `json:"parentName"`
 	CreatedAt   string `json:"createdAt"`
 	UpdatedAt   string `json:"updatedAt"`
@@ -32,7 +32,7 @@ func ToRisk(risk *model.Risks) *Risk {
 		UpdatedAt:   risk.UpdatedAt.Format("02-01-2006"),
 		Name:        risk.Name,
 		Description: risk.Description,
-		ParentId:    risk.ParentId.String(),
+		ParentId:    risk.ParentId,
 		Active:      risk.Active,
 		Priority:    risk.Priority,
 		ParentName:  riskParentName,

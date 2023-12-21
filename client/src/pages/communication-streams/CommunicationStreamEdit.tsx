@@ -33,8 +33,6 @@ export const CommunicationStreamEdit = () => {
   const [formState, setFormState] = useState<CommunicationStream>({
     id: data ? data.id : null,
     name: data ? data.name : null,
-    parentId: data ? data.parentId : null,
-    parentName: data ? data.parentName : null,
     description: data ? data.description : null,
     responsiblePerson: data ? data.responsiblePerson : null,
     active: data ? data.active : null,
@@ -46,8 +44,6 @@ export const CommunicationStreamEdit = () => {
         setFormState({
           id: result.data.data.id,
           name: result.data.data.name,
-          parentId: result.data.data.parentId,
-          parentName: result.data.data.parentName,
           description: result.data.data.description,
           responsiblePerson: result.data.data.responsiblePerson,
           active: result.data.data.active,
@@ -81,7 +77,6 @@ export const CommunicationStreamEdit = () => {
     setFormState({
       ...formState,
       [name]: id,
-      parentName: parentName as string,
     });
   };
 
@@ -125,28 +120,6 @@ export const CommunicationStreamEdit = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
-          />
-          <SingleSelect
-            name="Parent"
-            itemId="parentId"
-            value={{
-              id: formState.parentId,
-              name: formState.parentName,
-              value: formState.parentName,
-            }}
-            isParent={true}
-            onChangeSelect={onChangeSingleSelect}
-            options={
-              dataQueryParent.data?.data.data
-                .map((item) => {
-                  return {
-                    id: item.id,
-                    name: item.name,
-                    value: item.name,
-                  };
-                })
-                .filter((item) => item.id !== communicationStreamId) ?? []
-            }
           />
           <TextComponent
             icon={<AbcIcon />}

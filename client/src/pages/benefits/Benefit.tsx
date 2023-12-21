@@ -65,6 +65,7 @@ export const Benefit = () => {
             options={DefaultOption}
           />
           <SingleSelect
+          isParent={false}
             name="Type"
             itemId="type"
             onChangeSelect={onChangeSingleSelect}
@@ -109,6 +110,7 @@ export const Benefit = () => {
             itemId="comment"
             onChangeText={onChangeText} type={"text"} value={""}          />
           <SingleSelect
+          isParent={false}
             name="Reliability"
             itemId="reliabilityId"
             onChangeSelect={onChangeSingleSelect}

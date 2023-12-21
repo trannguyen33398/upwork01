@@ -11,11 +11,11 @@ type CreateSystemResponse struct {
 type System struct {
 	Id          string `json:"id"`
 	Name        string `json:"name"`
-	ParentId    string `json:"parentId"`
+	ParentId    *model.UUID `json:"parentId"`
 	Category    string `json:"category"`
 	Description string `json:"description"`
 	ToolName    string `json:"toolName"`
-	Active      bool   `json:"active"`
+	Active      *bool   `json:"active"`
 	ParentName  string `json:"parentName"`
 	CreatedAt   string `json:"createdAt"`
 	UpdatedAt   string `json:"updatedAt"`
@@ -33,7 +33,7 @@ func ToSystem(system *model.Systems) *System {
 		UpdatedAt:   system.UpdatedAt.Format("02-01-2006"),
 		Name:        system.Name,
 		Description: system.Description,
-		ParentId:    system.ParentId.String(),
+		ParentId:    system.ParentId,
 		Active:      system.Active,
 		Category:    system.Category,
 		ToolName:    system.ToolName,

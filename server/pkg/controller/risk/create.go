@@ -14,7 +14,7 @@ func (r *controller) Create(c *gin.Context, input request.CreateRiskRequest) ( e
 		Description:        input.Description,
 		ParentId: 			input.ParentId,
 		Priority:           input.Priority,
-		Active:            	*input.Active,
+		Active:            	input.Active,
 	})
 
 	if err != nil {
