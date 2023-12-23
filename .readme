@@ -2,11 +2,15 @@ Step to start the project
 
 1. Start server
 
-- you need to install sql migreate by running this command: go install github.com/rubenv/sql-migrate/...@latest
+- you need to install sql migreate by running this command:
+- go install github.com/rubenv/sql-migrate/...@latest
+- If you are on Linux run this : sudo apt install sql-migrate
+- If you havent got Docker on Linux : sudo apt install docker
 - go to server folder
 - run command line : make init
 - run command line: go run main.go
 
 2. Start the client
+
 - go to client folder
 - run command line : yarn run start
