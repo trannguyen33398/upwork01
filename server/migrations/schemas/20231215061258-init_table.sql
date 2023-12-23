@@ -81,13 +81,13 @@ CREATE TABLE IF NOT EXISTS  plants (
     operations_cluster VARCHAR(255) NOT NULL,
     type VARCHAR(255) NOT NULL,
     name_abbreviation VARCHAR(255) NOT NULL,
-    segment VARCHAR(255),
-    zebra VARCHAR(255) NOT NULL,
+    segment TEXT[],
+    zebra BOOLEAN,
     active BOOLEAN NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     CONSTRAINT PLANTS_TYPE CHECK (type IN ('PLANT' , 'BUSINESS AREA')),
-    CONSTRAINT PLANTS_SEGMENT CHECK (  segment IN ('TS' , 'DTS','ERS' , 'AVS','PSS','')),
+    CONSTRAINT SEGMENT CHECK(segment <@ ARRAY['TS', 'DTS','ERS' , 'AVS','PSS','']),
     CONSTRAINT FK_plants foreign key (parent_id) references plants (id)
 );
 
@@ -107,55 +107,7 @@ CREATE TABLE IF NOT EXISTS machines (
 
 -- +migrate StatementBegin
 
-CREATE OR REPLACE FUNCTION public.update_updated_at()
-RETURNS TRIGGER
-LANGUAGE plpgsql
-AS $function$
-BEGIN
-    NEW.updated_at = CURRENT_TIMESTAMP;
-    RETURN NEW;
-END;
-$function$;
 
-CREATE TRIGGER trigger_update_updated_at
-BEFORE UPDATE ON communication_streams
-FOR EACH ROW
-EXECUTE FUNCTION update_updated_at();
-
-CREATE TRIGGER trigger_update_updated_at
-BEFORE UPDATE ON use_case_cluster
-FOR EACH ROW
-EXECUTE FUNCTION update_updated_at();
-
-CREATE TRIGGER trigger_update_updated_at
-BEFORE UPDATE ON systems
-FOR EACH ROW
-EXECUTE FUNCTION update_updated_at();
-
-CREATE TRIGGER trigger_update_updated_at
-BEFORE UPDATE ON service_lines
-FOR EACH ROW
-EXECUTE FUNCTION update_updated_at();
-
-CREATE TRIGGER trigger_update_updated_at
-BEFORE UPDATE ON risks
-FOR EACH ROW
-EXECUTE FUNCTION update_updated_at();
-
-CREATE TRIGGER trigger_update_updated_at
-BEFORE UPDATE ON processes
-FOR EACH ROW
-EXECUTE FUNCTION update_updated_at();
-
-CREATE TRIGGER trigger_update_updated_at
-BEFORE UPDATE ON plants
-FOR EACH ROW
-EXECUTE FUNCTION update_updated_at();
-
-CREATE TRIGGER trigger_update_updated_at
-BEFORE UPDATE ON machines
-FOR EACH ROW
-EXECUTE FUNCTION update_updated_at();
 -- +migrate StatementEnd
 
 -- +migrate Down

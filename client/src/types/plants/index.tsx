@@ -6,7 +6,7 @@ export interface Plant {
   nameAbbreviation: string;
   parentName: string;
   parentId: string;
-  segment: string;
+  segment: string[];
   zebra: boolean | string;
   active: boolean | string;
 }

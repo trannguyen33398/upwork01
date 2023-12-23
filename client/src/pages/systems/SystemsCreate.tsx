@@ -13,7 +13,9 @@ import { createSystem, getListSystem } from "../../api/systems";
 import { System } from "../../types/system";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { enqueueSnackbar } from "notistack";
-
+import { Typography } from "@mui/material";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import CategoryIcon from '@mui/icons-material/Category';
 //css flex box
 export const SystemCreate = () => {
   const classes = useStyles();
@@ -86,9 +88,14 @@ export const SystemCreate = () => {
       <div className={classes.backIcon}>
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
-      <h2 className={classes.headerText}>Systems</h2>
+      <h2 className={classes.headerText}>Create System</h2>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <Grid container spacing={6} rowSpacing={3}>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              System Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Name"
@@ -97,6 +104,8 @@ export const SystemCreate = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+            xs={4}
+            md={4}
           />
           <SingleSelect
             name="Parent"
@@ -119,16 +128,7 @@ export const SystemCreate = () => {
             }
           />
           <TextComponent
-            icon={<AbcIcon />}
-            name="Description"
-            itemId="description"
-            value={formState.description}
-            onChangeText={onChangeText}
-            type={"text"}
-            require={true}
-          />
-          <TextComponent
-            icon={<AbcIcon />}
+           icon = {<CategoryIcon/>}
             name="Category"
             itemId="category"
             value={formState.category}
@@ -137,12 +137,18 @@ export const SystemCreate = () => {
             require={true}
           />
           <BooleanSelection
-            icon={<AbcIcon />}
+            icon={<ToggleOnIcon />}
             name="Active"
             itemId="active"
             value={formState.active}
             onChangeText={onChangeText}
           />
+
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Tool Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Tool Name"
@@ -151,6 +157,20 @@ export const SystemCreate = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+          />
+          <Grid item xs={12} md={12}>
+            <span></span>
+          </Grid>
+          <TextComponent
+            icon={<AbcIcon />}
+            name="Description"
+            itemId="description"
+            value={formState.description}
+            onChangeText={onChangeText}
+            type={"text"}
+            require={true}
+            xs={7}
+            md={7}
           />
         </Grid>
 

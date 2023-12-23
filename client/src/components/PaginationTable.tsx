@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { Pagination } from "@mui/material";
 import css from './PaginationTable.module.css';
 
@@ -33,9 +33,9 @@ export const  PaginationTable  = <T , >(props : TPaginationTable<T>) => {
                 },
             }}
             style={styles.dataGrid}
-            disableColumnMenu={true}
-            disableColumnFilter={true}
-            disableColumnSelector={true}
+             disableColumnMenu={true}
+            // disableColumnFilter={true}
+          disableColumnSelector={true}
             disableRowSelectionOnClick={true}
             disableVirtualization={true}
             density="compact"
@@ -51,6 +51,7 @@ export const  PaginationTable  = <T , >(props : TPaginationTable<T>) => {
                     outline: 'none'
                 },
             }}
+            slots={{ toolbar: GridToolbar }}
         />
             <div
                 className={css['pagination']}

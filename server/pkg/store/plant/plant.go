@@ -1,6 +1,8 @@
 package plant
 
 import (
+	"time"
+
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
 	"gorm.io/gorm"
 )
@@ -39,6 +41,7 @@ func (s *store) Detail(db *gorm.DB, id string) (*model.Plants, error) {
 
 func (s *store) Update(db *gorm.DB, id string, updateData *model.Plants) error {
 	var plant *model.Plants
+	updateData.UpdatedAt = time.Now()
 	query := db.Where(`plants.id = ?`, id).UpdateColumns(updateData)
 
 	return query.UpdateColumns(&plant).Error

@@ -16,6 +16,10 @@ import { Plant } from "../../types/plants";
 import { getListPlant, getPlant, updatePlant } from "../../api/plants";
 import { PlantsSegment, PlantsType } from "./plants.constant";
 import { enqueueSnackbar } from "notistack";
+import { Typography } from "@mui/material";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import CategoryIcon from '@mui/icons-material/Category';
+import { MultipleSelect } from "../../components/MultipleSelect";
 //css flex box
 export const PlantEdit = () => {
   const classes = useStyles();
@@ -80,15 +84,16 @@ export const PlantEdit = () => {
     id: string,
     parentName?: string
   ) => {
-    if (name === "zebra") {
-      setFormState({ ...formState, [name]: id });
-    } else {
+   
       setFormState({
         ...formState,
         [name]: id,
         parentName: parentName as string,
       });
-    }
+    
+  };
+  const onChangeMultipleSelect = (name: string, id: string[]) => {
+    setFormState({ ...formState, [name]: id });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -119,7 +124,12 @@ export const PlantEdit = () => {
       </div>
       <h2 className={classes.headerText}>Edit Plant</h2>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <Grid container spacing={6} rowSpacing={3}>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Plant Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Name"
@@ -128,6 +138,8 @@ export const PlantEdit = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+            xs={4}
+            md={4}
           />
           <SingleSelect
             name="Parent"
@@ -140,35 +152,16 @@ export const PlantEdit = () => {
             isParent={true}
             onChangeSelect={onChangeSingleSelect}
             options={
-              dataQueryParent.data?.data.data.map((item) => {
-                return {
-                  id: item.id,
-                  name: item.name,
-                  value: item.name,
-                };
-              }).filter((item) => item.id !== plantId) ?? []
+              dataQueryParent.data?.data.data
+                .map((item) => {
+                  return {
+                    id: item.id,
+                    name: item.name,
+                    value: item.name,
+                  };
+                })
+                .filter((item) => item.id !== plantId) ?? []
             }
-          />
-          <TextComponent
-            icon={<AbcIcon />}
-            name="Operations Cluster"
-            itemId="operationsCluster"
-            value={formState.operationsCluster}
-            onChangeText={onChangeText}
-            type={"text"}
-            require={true}
-          />
-          <SingleSelect
-            name="Type"
-            itemId="type"
-            value={{
-              id: formState.id,
-              name: formState.type,
-              value: formState.type,
-            }}
-            onChangeSelect={onChangeSingleSelect}
-            options={PlantsType}
-            isParent={false}
           />
           <TextComponent
             icon={<AbcIcon />}
@@ -180,6 +173,41 @@ export const PlantEdit = () => {
             require={true}
           />
           <SingleSelect
+            name="Type"
+            itemId="type"
+            icon = {<CategoryIcon/>}
+            value={{
+              id: formState.id,
+              name: formState.type,
+              value: formState.type,
+            }}
+            onChangeSelect={onChangeSingleSelect}
+            options={PlantsType}
+            isParent={false}
+          />
+          <BooleanSelection
+            icon={<AbcIcon />}
+            name="Active"
+            itemId="active"
+            value={formState.active}
+            onChangeText={onChangeText}
+          />
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Detail Information
+            </Typography>
+          </Grid>
+          <TextComponent
+            icon={<AbcIcon />}
+            name="Operations Cluster"
+            itemId="operationsCluster"
+            value={formState.operationsCluster}
+            onChangeText={onChangeText}
+            type={"text"}
+            require={true}
+          />
+
+          <MultipleSelect
             name="Segment"
             itemId="segment"
             value={{
@@ -187,22 +215,14 @@ export const PlantEdit = () => {
               name: formState.segment,
               value: formState.segment,
             }}
-            onChangeSelect={onChangeSingleSelect}
+            onChangeSelect={onChangeMultipleSelect}
             options={PlantsSegment}
-            isParent={false}
           />
           <BooleanSelection
-            icon={<AbcIcon />}
+            icon = {<CategoryIcon/>}
             name="Zebra"
             itemId="zebra"
             value={formState.zebra}
-            onChangeText={onChangeText}
-          />
-          <BooleanSelection
-            icon={<AbcIcon />}
-            name="Active"
-            itemId="active"
-            value={formState.active}
             onChangeText={onChangeText}
           />
         </Grid>

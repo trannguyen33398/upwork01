@@ -5,7 +5,7 @@ export const useStyles = makeStyles({
     display: "flex",
   },
   textItem: {
-    width: "70%",
+    width: "100%",
   },
   headerText: {
     textAlign: "left",
@@ -33,6 +33,11 @@ export const useStyles = makeStyles({
     width: "100%",
     textAlign: "center",
     justifyContent: "center",
+  },
+  subHeader: {
+    textAlign: "left",
+    textDecoration: "underline",
+    fontSize: "17px !important",
   },
 });
 

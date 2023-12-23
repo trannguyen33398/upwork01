@@ -18,6 +18,8 @@ import { useEffect } from "react";
 import { Machine } from "../../types/machines";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { enqueueSnackbar } from "notistack";
+import { Typography } from "@mui/material";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 //css flex box
 export const MachineEdit = () => {
   const classes = useStyles();
@@ -83,13 +85,11 @@ export const MachineEdit = () => {
     id: string,
     parentName?: string
   ) => {
-   
-      setFormState({
-        ...formState,
-        [name]: id,
-        parentName: parentName as string,
-      });
-    
+    setFormState({
+      ...formState,
+      [name]: id,
+      parentName: parentName as string,
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -117,9 +117,14 @@ export const MachineEdit = () => {
       <div className={classes.backIcon}>
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
-      <h2 className={classes.headerText}>Machines</h2>
+      <h2 className={classes.headerText}>Edit Machine</h2>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <Grid container spacing={6} rowSpacing={3}>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Machine Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Name"
@@ -128,6 +133,8 @@ export const MachineEdit = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+            xs={4}
+            md={4}
           />
           <SingleSelect
             name="Parent"
@@ -151,13 +158,20 @@ export const MachineEdit = () => {
                 .filter((item) => item.id !== machineId) ?? []
             }
           />
-          <NumberComponent
-            name="Priority"
-            itemId="priority"
-            value={formState.priority}
-            onChangeText={onChangeNumber}
-            icon={<NumbersIcon />}
+          <BooleanSelection
+            icon={<ToggleOnIcon />}
+            name="Active"
+            itemId="active"
+            value={formState.active}
+            onChangeText={onChangeText}
+            xs={12}
+            md={12}
           />
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Detail Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Description"
@@ -166,16 +180,26 @@ export const MachineEdit = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={false}
+            xs={7}
+            md={7}
           />
-          <BooleanSelection
-            icon={<AbcIcon />}
-            name="Active"
-            itemId="active"
-            value={formState.active}
-            onChangeText={onChangeText}
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Planning Information
+            </Typography>
+          </Grid>
+          <NumberComponent
+            name="Priority"
+            itemId="priority"
+            value={formState.priority}
+            onChangeText={onChangeNumber}
+            icon={<NumbersIcon />}
+            xs={1.2}
+            md={1.2}
           />
+
           <SingleSelect
-          isParent={false}
+            isParent={false}
             name="Status"
             itemId="status"
             value={{
@@ -183,6 +207,8 @@ export const MachineEdit = () => {
               name: formState.status,
               value: formState.status,
             }}
+            xs={2}
+            md={2}
             onChangeSelect={onChangeSingleSelect}
             options={Status}
           />

@@ -13,6 +13,8 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { ServiceLine } from "../../types/service-lines";
 import { createServiceLine, getListServiceLine } from "../../api/service-lines";
 import { useSnackbar } from "notistack";
+import { Typography } from "@mui/material";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 
 //css flex box
 export const ServiceLineCreate = () => {
@@ -88,7 +90,12 @@ export const ServiceLineCreate = () => {
       </div>
       <h2 className={classes.headerText}>Create Service Line</h2>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <Grid container spacing={6} rowSpacing={3}>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Service Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Name"
@@ -97,6 +104,8 @@ export const ServiceLineCreate = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+            xs={4}
+            md={4}
           />
           <SingleSelect
             name="Parent"
@@ -118,15 +127,18 @@ export const ServiceLineCreate = () => {
               }) ?? []
             }
           />
-          <TextComponent
-            icon={<AbcIcon />}
-            name="Description"
-            itemId="description"
-            value={formState.description}
+          <BooleanSelection
+            icon={<ToggleOnIcon />}
+            name="Active"
+            itemId="active"
+            value={formState.active}
             onChangeText={onChangeText}
-            type={"text"}
-            require={true}
           />
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Detail Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Responsible Person"
@@ -136,12 +148,19 @@ export const ServiceLineCreate = () => {
             type={"text"}
             require={true}
           />
-          <BooleanSelection
+          <Grid item xs={12} md={12}>
+            <span></span>
+          </Grid>
+          <TextComponent
             icon={<AbcIcon />}
-            name="Active"
-            itemId="active"
-            value={formState.active}
+            name="Description"
+            itemId="description"
+            value={formState.description}
             onChangeText={onChangeText}
+            type={"text"}
+            require={true}
+            xs={7}
+            md={7}
           />
         </Grid>
 

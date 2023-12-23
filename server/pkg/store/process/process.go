@@ -1,6 +1,8 @@
 package process
 
 import (
+	"time"
+
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
 	"gorm.io/gorm"
 )
@@ -40,6 +42,7 @@ func (s *store) Detail(db *gorm.DB, id string) (*model.Processes, error) {
 func (s *store) Update(db *gorm.DB, id string, updateData *model.Processes) error {
 	var process *model.Processes
 
+	updateData.UpdatedAt = time.Now()
 	query := db.Where(`processes.id = ?`, id).UpdateColumns(updateData)
 
 	return query.UpdateColumns(&process).Error

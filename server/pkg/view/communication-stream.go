@@ -21,8 +21,8 @@ type CommunicationStream struct {
 func ToCommunicationStream(communicationStream *model.CommunicationStreams) *CommunicationStream {
 	return &CommunicationStream{
 		Id:                communicationStream.ID.String(),
-		CreatedAt:         communicationStream.CreatedAt.Format("02-01-2006"),
-		UpdatedAt:         communicationStream.UpdatedAt.Format("02-01-2006"),
+		CreatedAt:         communicationStream.CreatedAt.Format("02-Jan-2006 15:04:05"),
+		UpdatedAt:         communicationStream.UpdatedAt.Format("02-Jan-2006 15:04:05"),
 		Name:              communicationStream.Name,
 		Description:       communicationStream.Description,
 		Active:            communicationStream.Active,

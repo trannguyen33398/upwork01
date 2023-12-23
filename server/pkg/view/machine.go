@@ -9,16 +9,16 @@ type CreateMachineResponse struct {
 }
 
 type Machine struct {
-	Id          string `json:"id"`
-	Name        string `json:"name"`
+	Id          string      `json:"id"`
+	Name        string      `json:"name"`
 	ParentId    *model.UUID `json:"parentId"`
-	Priority    int    `json:"priority"`
-	Description string `json:"description"`
-	Status      string `json:"status"`
-	Active      *bool   `json:"active"`
-	ParentName  string `json:"parentName"`
-	CreatedAt   string `json:"createdAt"`
-	UpdatedAt   string `json:"updatedAt"`
+	Priority    int         `json:"priority"`
+	Description string      `json:"description"`
+	Status      string      `json:"status"`
+	Active      *bool       `json:"active"`
+	ParentName  string      `json:"parentName"`
+	CreatedAt   string      `json:"createdAt"`
+	UpdatedAt   string      `json:"updatedAt"`
 }
 
 func ToMachine(machine *model.Machines) *Machine {
@@ -29,8 +29,8 @@ func ToMachine(machine *model.Machines) *Machine {
 
 	return &Machine{
 		Id:          machine.ID.String(),
-		CreatedAt:   machine.CreatedAt.Format("02-01-2006"),
-		UpdatedAt:   machine.UpdatedAt.Format("02-01-2006"),
+		CreatedAt:   machine.CreatedAt.Format("02-Jan-2006 15:04:05"),
+		UpdatedAt:   machine.UpdatedAt.Format("02-Jan-2006 15:04:05"),
 		Name:        machine.Name,
 		Description: machine.Description,
 		ParentId:    machine.ParentId,

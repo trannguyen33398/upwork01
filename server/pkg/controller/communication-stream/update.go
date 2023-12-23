@@ -1,4 +1,4 @@
-package risk
+package communicationStream
 
 import (
 	"github.com/gin-gonic/gin"
@@ -19,5 +19,6 @@ func (r *controller) Update(c *gin.Context, input request.CreateCommunicationStr
 	if err != nil {
 		return done(err)
 	}
+	
 	return done(nil)
 }

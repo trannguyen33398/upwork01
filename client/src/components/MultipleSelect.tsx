@@ -25,7 +25,12 @@ type TSelectProp<T> = {
   name: string;
   itemId : string;
   onChangeSelect : (name : string , id : string[]) => void;
-  options : T[]
+  options : T[],
+   value?: {
+    id: string | null;
+    name: string[] | null;
+    value: string[] | null;
+  };
 };
 
 interface MyOptions {
@@ -45,26 +50,30 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 export const MultipleSelect : React.FC<TSelectProp<MyOptions>>  = (props) => {
+  const [value, setValue] = useState<string[]>(props?.value?.name ?? [""]);
+  React.useEffect(() => {
+    if (props?.value?.name) setValue(props.value.name);
+  }, [props.value, props?.value?.name]);
  const key  = {} as any
     props.options.map((obj) => {
       Object.assign(key,{  [obj.name]: obj.id})
     })
   
   const theme = useTheme();
-  const [personName, setPersonName] = useState<string[]>([]);
+ 
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+  const handleChange = (event: SelectChangeEvent<typeof value>) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setValue(
         // On autofill we get a stringified value.
         typeof value === "string" ? value.split(",") : value
     );
-
+    
     const activeName = event.target.value as string[];
-    const activeNameIds = activeName.map((name) => key[name]);
-    props.onChangeSelect(props.itemId, activeNameIds);
+   // const activeNameIds = activeName.map((name) => key[name]);
+    props.onChangeSelect(props.itemId, activeName);
   };
 
   const classes = useStyles();
@@ -83,31 +92,19 @@ export const MultipleSelect : React.FC<TSelectProp<MyOptions>>  = (props) => {
         </Grid>
         <Box sx={{ boxShadow: textFieldStyles, width: "70%" }}>
           <FormControl sx={{ width: "100%" }}>
-            {/* <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={itemId}
-              inputProps={{ style: textFieldStyles }}
-              onChange={handleChange}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Twenty</MenuItem>
-              <MenuItem value={21}>Twenty one</MenuItem>
-              <MenuItem value={22}>Twenty one and a half</MenuItem>
-            </Select> */}
+      
             <Select
               labelId="demo-multiple-chip-label"
               id="demo-multiple-chip"
               multiple
-              value={personName}
+              value={value}
               onChange={handleChange}
               input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
               renderValue={(selected) => (
                 <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                   {selected.map((value) => (
-                    <Chip key={value} label={value} />
+                    value !== "" ? 
+                    <Chip key={value} label={value} /> : null
                   ))}
                 </Box>
               )}
@@ -117,7 +114,7 @@ export const MultipleSelect : React.FC<TSelectProp<MyOptions>>  = (props) => {
                 <MenuItem
                   key={name.id}
                   value={name.name}
-                  style={getStyles(name.name, personName, theme)}
+                  style={getStyles(name.name, value, theme)}
                 >
                   {name.name}
                 </MenuItem>

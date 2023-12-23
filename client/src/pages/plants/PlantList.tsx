@@ -5,7 +5,7 @@ import {
   GridTreeNodeWithRender,
 } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
-import { Button, TextField, Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { useStyles } from "../../styles/common";
 import { useState, useEffect } from "react";
@@ -18,6 +18,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { getListPlant } from "../../api/plants";
 import { Plant, Plants } from "../../types/plants";
 import { PlantsSegment, PlantsType } from "./plants.constant";
+import { NavigateButton } from "../../components/NavigateButton";
 
 export const PlantList = () => {
   const queryClient = useQueryClient();
@@ -153,6 +154,15 @@ export const PlantList = () => {
       headerClassName: css["header-column"],
     },
     {
+      field: "updatedAt",
+      headerName: "Updated At",
+      type: "string",
+      flex: 1,
+      headerAlign: "left",
+      sortable: false,
+      headerClassName: css["header-column"],
+    },
+    {
       field: "edit",
       headerName: "Edit",
       type: "any",
@@ -218,18 +228,7 @@ export const PlantList = () => {
               justifyContent: "flex-end",
             }}
           >
-            <Button
-              variant="outlined"
-              style={{
-                height: "40px",
-                width: "100px",
-                backgroundColor: "blue",
-                color: "white",
-              }}
-              onClick={() => navigate("/plants/create")}
-            >
-              Add
-            </Button>
+            <NavigateButton name="Add" path="/plants/create" />
           </Grid>
         </Grid>
 

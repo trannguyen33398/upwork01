@@ -1,6 +1,8 @@
 package system
 
 import (
+	"time"
+
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
 	"gorm.io/gorm"
 )
@@ -40,6 +42,7 @@ func (s *store) Detail(db *gorm.DB, id string) (*model.Systems, error) {
 func (s *store) Update(db *gorm.DB, id string, updateData *model.Systems) error {
 	var system *model.Systems
 
+	updateData.UpdatedAt = time.Now()
 	query := db.Where(`systems.id = ?`, id).UpdateColumns(updateData)
 
 	return query.UpdateColumns(&system).Error

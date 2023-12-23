@@ -5,7 +5,7 @@ import {
 } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { getListCommunicationStream } from "../../api/communication-streams";
 import {
@@ -18,6 +18,7 @@ import { useState, useEffect } from "react";
 import { useQueryClient } from "react-query";
 import { PaginationTable } from "../../components/PaginationTable";
 import css from "../../components/PaginationTable.module.css";
+import { NavigateButton } from "../../components/NavigateButton";
 
 export const CommunicationStreamList = () => {
   const queryClient = useQueryClient();
@@ -103,6 +104,15 @@ export const CommunicationStreamList = () => {
       headerClassName: css["header-column"],
     },
     {
+      field: "updatedAt",
+      headerName: "Updated At",
+      type: "string",
+      flex: 1,
+      headerAlign: "left",
+      sortable: false,
+      headerClassName: css["header-column"],
+    },
+    {
       field: "edit",
       headerName: "Edit",
       type: "any",
@@ -174,18 +184,7 @@ export const CommunicationStreamList = () => {
               justifyContent: "flex-end",
             }}
           >
-            <Button
-              variant="outlined"
-              style={{
-                height: "40px",
-                width: "100px",
-                backgroundColor: "blue",
-                color: "white",
-              }}
-              onClick={() => navigate("/communication-streams/create")}
-            >
-              Add
-            </Button>
+            <NavigateButton name="Add" path="/communication-streams/create" />
           </Grid>
         </Grid>
         <PaginationTable

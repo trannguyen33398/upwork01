@@ -1,6 +1,8 @@
 package risk
 
 import (
+	"time"
+
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
 	"gorm.io/gorm"
 )
@@ -40,6 +42,7 @@ func (s *store) Detail(db *gorm.DB, id string) (*model.Risks, error) {
 func (s *store) Update(db *gorm.DB, id string, updateData *model.Risks) error {
 	var risk *model.Risks
 
+	updateData.UpdatedAt = time.Now()
 	query := db.Where(`risks.id = ?`, id).UpdateColumns(updateData)
 
 	return query.UpdateColumns(&risk).Error

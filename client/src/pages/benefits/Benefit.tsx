@@ -52,7 +52,7 @@ export const Benefit = () => {
             name="Name"
             itemId="name"
             onChangeText={onChangeText} type={"text"} value={""}          />
-          <MultipleSelect
+          {/* <MultipleSelect
             name="Parent"
             itemId="parentId"
             onChangeSelect={onChangeSelect}
@@ -63,7 +63,7 @@ export const Benefit = () => {
             itemId="useCaseId"
             onChangeSelect={onChangeSelect}
             options={DefaultOption}
-          />
+          /> */}
           <SingleSelect
           isParent={false}
             name="Type"
