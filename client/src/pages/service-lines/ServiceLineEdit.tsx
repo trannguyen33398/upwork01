@@ -13,12 +13,14 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { ServiceLine } from "../../types/service-lines";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import {
   getListServiceLine,
   getServiceLine,
   updateServiceLine,
 } from "../../api/service-lines";
 import { enqueueSnackbar } from "notistack";
+import { Typography } from "@mui/material";
 //css flex box
 export const ServiceLineEdit = () => {
   const classes = useStyles();
@@ -111,7 +113,12 @@ export const ServiceLineEdit = () => {
       </div>
       <h2 className={classes.headerText}>Edit Service Line</h2>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <Grid container spacing={6} rowSpacing={3}>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Service Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Name"
@@ -120,6 +127,8 @@ export const ServiceLineEdit = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+            xs={4}
+            md={4}
           />
           <SingleSelect
             name="Parent"
@@ -143,16 +152,18 @@ export const ServiceLineEdit = () => {
                 .filter((item) => item.id !== serviceLineId) ?? []
             }
           />
-
-          <TextComponent
-            icon={<AbcIcon />}
-            name="Description"
-            itemId="description"
-            value={formState.description}
+          <BooleanSelection
+            icon={<ToggleOnIcon />}
+            name="Active"
+            itemId="active"
+            value={formState.active}
             onChangeText={onChangeText}
-            type={"text"}
-            require={true}
           />
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Detail Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Responsible Person"
@@ -162,12 +173,19 @@ export const ServiceLineEdit = () => {
             type={"text"}
             require={true}
           />
-          <BooleanSelection
+          <Grid item xs={12} md={12}>
+            <span></span>
+          </Grid>
+          <TextComponent
             icon={<AbcIcon />}
-            name="Active"
-            itemId="active"
-            value={formState.active}
+            name="Description"
+            itemId="description"
+            value={formState.description}
             onChangeText={onChangeText}
+            type={"text"}
+            require={true}
+            xs={7}
+            md={7}
           />
         </Grid>
 

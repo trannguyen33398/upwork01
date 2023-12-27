@@ -10,7 +10,7 @@ type CreatePlantRequest struct {
 	OperationsCluster string     `json:"operationsCluster" validate:"required"`
 	Type              string     `json:"type" validate:"required"`
 	NameAbbreviation  string     `json:"nameAbbreviation" validate:"required"`
-	Segment           string     `json:"segment"`
+	Segment           []string     `json:"segment"`
 	Zebra             *bool      `json:"zebra" validate:"required"`
 	Active            *bool      `json:"active" validate:"required"`
 }

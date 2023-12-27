@@ -15,6 +15,9 @@ import { useEffect } from "react";
 import { System } from "../../types/system";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { enqueueSnackbar } from "notistack";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import { Typography } from "@mui/material";
+import CategoryIcon from '@mui/icons-material/Category';
 //css flex box
 export const SystemEdit = () => {
   const classes = useStyles();
@@ -108,10 +111,15 @@ export const SystemEdit = () => {
       <div className={classes.backIcon}>
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
-      <h2 className={classes.headerText}>Systems</h2>
+      <h2 className={classes.headerText}>Edit System</h2>
 
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <Grid container spacing={6} rowSpacing={3}>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              System Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Name"
@@ -120,6 +128,8 @@ export const SystemEdit = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+            xs={4}
+            md={4}
           />
           <SingleSelect
             name="Parent"
@@ -144,16 +154,7 @@ export const SystemEdit = () => {
             }
           />
           <TextComponent
-            icon={<AbcIcon />}
-            name="Description"
-            itemId="description"
-            value={formState.description}
-            onChangeText={onChangeText}
-            type={"text"}
-            require={true}
-          />
-          <TextComponent
-            icon={<AbcIcon />}
+            icon = {<CategoryIcon/>}
             name="Category"
             itemId="category"
             value={formState.category}
@@ -161,6 +162,18 @@ export const SystemEdit = () => {
             type={"text"}
             require={true}
           />
+          <BooleanSelection
+            icon={<ToggleOnIcon />}
+            name="Active"
+            itemId="active"
+            value={formState.active}
+            onChangeText={onChangeText}
+          />
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Tool Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Tool Name"
@@ -170,13 +183,19 @@ export const SystemEdit = () => {
             type={"text"}
             require={true}
           />
-
-          <BooleanSelection
+          <Grid item xs={12} md={12}>
+            <span></span>
+          </Grid>
+          <TextComponent
             icon={<AbcIcon />}
-            name="Active"
-            itemId="active"
-            value={formState.active}
+            name="Description"
+            itemId="description"
+            value={formState.description}
             onChangeText={onChangeText}
+            type={"text"}
+            require={true}
+            xs={7}
+            md={7}
           />
         </Grid>
 

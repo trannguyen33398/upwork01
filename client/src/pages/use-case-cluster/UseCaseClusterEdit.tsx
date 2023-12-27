@@ -19,6 +19,8 @@ import {
   updateUseCaseCluster,
 } from "../../api/use-case-cluster";
 import { enqueueSnackbar } from "notistack";
+import { Typography } from "@mui/material";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 //css flex box
 export const UseCaseClusterEdit = () => {
   const classes = useStyles();
@@ -111,7 +113,12 @@ export const UseCaseClusterEdit = () => {
       </div>
       <h2 className={classes.headerText}>Edit Use Case Cluster</h2>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <Grid container spacing={6} rowSpacing={3}>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Cluster Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Name"
@@ -120,6 +127,8 @@ export const UseCaseClusterEdit = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+            xs={4}
+            md={4}
           />
           <SingleSelect
             name="Parent"
@@ -132,15 +141,29 @@ export const UseCaseClusterEdit = () => {
             isParent={true}
             onChangeSelect={onChangeSingleSelect}
             options={
-              dataQueryParent.data?.data.data.map((item) => {
-                return {
-                  id: item.id,
-                  name: item.name,
-                  value: item.name,
-                };
-              }).filter((item) => item.id !== useCaseClusterId) ?? []
+              dataQueryParent.data?.data.data
+                .map((item) => {
+                  return {
+                    id: item.id,
+                    name: item.name,
+                    value: item.name,
+                  };
+                })
+                .filter((item) => item.id !== useCaseClusterId) ?? []
             }
           />
+          <BooleanSelection
+            icon={<ToggleOnIcon />}
+            name="Active"
+            itemId="active"
+            value={formState.active}
+            onChangeText={onChangeText}
+          />
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Detail Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Descrription"
@@ -149,13 +172,8 @@ export const UseCaseClusterEdit = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
-          />
-          <BooleanSelection
-            icon={<AbcIcon />}
-            name="Active"
-            itemId="active"
-            value={formState.active}
-            onChangeText={onChangeText}
+            xs={7}
+            md={7}
           />
         </Grid>
 

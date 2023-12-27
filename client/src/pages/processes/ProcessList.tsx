@@ -5,7 +5,7 @@ import {
   GridTreeNodeWithRender,
 } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
-import { Button, TextField, Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { useStyles } from "../../styles/common";
 import { useState, useEffect } from "react";
@@ -18,6 +18,7 @@ import Grid from "@mui/material/Grid";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import EditIcon from "@mui/icons-material/Edit";
 import { ProcessType } from "./process.constant";
+import { NavigateButton } from "../../components/NavigateButton";
 
 export const ProcessList = () => {
   const queryClient = useQueryClient();
@@ -123,6 +124,15 @@ export const ProcessList = () => {
       headerClassName: css["header-column"],
     },
     {
+      field: "updatedAt",
+      headerName: "Updated At",
+      type: "string",
+      flex: 1,
+      headerAlign: "left",
+      sortable: false,
+      headerClassName: css["header-column"],
+    },
+    {
       field: "edit",
       headerName: "Edit",
       type: "any",
@@ -188,18 +198,7 @@ export const ProcessList = () => {
               justifyContent: "flex-end",
             }}
           >
-            <Button
-              variant="outlined"
-              style={{
-                height: "40px",
-                width: "100px",
-                backgroundColor: "blue",
-                color: "white",
-              }}
-              onClick={() => navigate("/processes/create")}
-            >
-              Add
-            </Button>
+            <NavigateButton name="Add" path="/processes/create" />
           </Grid>
         </Grid>
 

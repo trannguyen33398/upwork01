@@ -1,4 +1,4 @@
-package risk
+package communicationStream
 
 import (
 	"github.com/gin-gonic/gin"

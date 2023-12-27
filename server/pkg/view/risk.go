@@ -9,16 +9,16 @@ type CreateRiskResponse struct {
 }
 
 type Risk struct {
-	Id          string `json:"id"`
-	Name        string `json:"name"`
+	Id          string      `json:"id"`
+	Name        string      `json:"name"`
 	ParentId    *model.UUID `json:"parentId"`
-	Priority    int    `json:"priority"`
-	Description string `json:"description"`
-	Status      string `json:"status"`
-	Active      *bool   `json:"active"`
-	ParentName  string `json:"parentName"`
-	CreatedAt   string `json:"createdAt"`
-	UpdatedAt   string `json:"updatedAt"`
+	Priority    int         `json:"priority"`
+	Description string      `json:"description"`
+	Status      string      `json:"status"`
+	Active      *bool       `json:"active"`
+	ParentName  string      `json:"parentName"`
+	CreatedAt   string      `json:"createdAt"`
+	UpdatedAt   string      `json:"updatedAt"`
 }
 
 func ToRisk(risk *model.Risks) *Risk {
@@ -28,8 +28,8 @@ func ToRisk(risk *model.Risks) *Risk {
 	}
 	return &Risk{
 		Id:          risk.ID.String(),
-		CreatedAt:   risk.CreatedAt.Format("02-01-2006"),
-		UpdatedAt:   risk.UpdatedAt.Format("02-01-2006"),
+		CreatedAt:   risk.CreatedAt.Format("02-Jan-2006 15:04:05"),
+		UpdatedAt:   risk.UpdatedAt.Format("02-Jan-2006 15:04:05"),
 		Name:        risk.Name,
 		Description: risk.Description,
 		ParentId:    risk.ParentId,

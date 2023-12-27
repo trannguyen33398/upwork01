@@ -8,10 +8,8 @@ import { BooleanSelection } from "../../components/Boolean";
 import { useStyles } from "../../styles/common";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { SingleSelect } from "../../components/SingleSelect";
-import { useQuery } from "react-query";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import {
-  getListCommunicationStream,
   getCommunicationStream,
   updateCommunicationStream,
 } from "../../api/communication-streams";
@@ -20,6 +18,7 @@ import { useEffect } from "react";
 import { CommunicationStream } from "../../types/communication-streams";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { enqueueSnackbar } from "notistack";
+import { Typography } from "@mui/material";
 //css flex box
 export const CommunicationStreamEdit = () => {
   const classes = useStyles();
@@ -52,32 +51,8 @@ export const CommunicationStreamEdit = () => {
     }
   }, [communicationStreamId]);
 
-  const dataQueryParent = useQuery({
-    queryKey: ["CommunicationStream"],
-    queryFn: () => {
-      const controller = new AbortController();
-      setTimeout(() => {
-        controller.abort();
-      }, 5000);
-      return getListCommunicationStream(1, 1000, "", controller.signal);
-    },
-    keepPreviousData: true,
-    retry: 0,
-  });
-
   const onChangeText = (name: string, text: string) => {
     setFormState({ ...formState, [name]: text });
-  };
-
-  const onChangeSingleSelect = (
-    name: string,
-    id: string,
-    parentName?: string
-  ) => {
-    setFormState({
-      ...formState,
-      [name]: id,
-    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -108,10 +83,15 @@ export const CommunicationStreamEdit = () => {
       <div className={classes.backIcon}>
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
-      <h2 className={classes.headerText}>CommunicationStreams</h2>
+      <h2 className={classes.headerText}>Edit Communication Stream</h2>
 
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <Grid container spacing={6} rowSpacing={3}>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Communication Stream Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Name"
@@ -120,7 +100,21 @@ export const CommunicationStreamEdit = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+            xs={4}
+            md={4}
           />
+          <BooleanSelection
+            icon={<ToggleOnIcon />}
+            name="Active"
+            itemId="active"
+            value={formState.active}
+            onChangeText={onChangeText}
+          />
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Detail Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Responsible Person"
@@ -130,6 +124,9 @@ export const CommunicationStreamEdit = () => {
             type={"text"}
             require={true}
           />
+          <Grid item xs={12} md={12}>
+            <span></span>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Description"
@@ -138,13 +135,8 @@ export const CommunicationStreamEdit = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
-          />
-          <BooleanSelection
-            icon={<AbcIcon />}
-            name="Active"
-            itemId="active"
-            value={formState.active}
-            onChangeText={onChangeText}
+            xs={7}
+            md={7}
           />
         </Grid>
 

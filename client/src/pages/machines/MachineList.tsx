@@ -6,7 +6,7 @@ import {
 } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { getListMachine } from "../../api/machines";
 import { Machine, Machines } from "../../types/machines";
@@ -17,6 +17,7 @@ import { useQueryClient } from "react-query";
 import { PaginationTable } from "../../components/PaginationTable";
 import css from "../../components/PaginationTable.module.css";
 import { Status } from "./machine.constant";
+import { NavigateButton } from "../../components/NavigateButton";
 
 export const MachineList = () => {
   const queryClient = useQueryClient();
@@ -118,6 +119,15 @@ export const MachineList = () => {
       headerClassName: css["header-column"],
     },
     {
+      field: "updatedAt",
+      headerName: "Updated At",
+      type: "string",
+      flex: 1,
+      headerAlign: "left",
+      sortable: false,
+      headerClassName: css["header-column"],
+    },
+    {
       field: "edit",
       headerName: "Edit",
       type: "any",
@@ -187,18 +197,7 @@ export const MachineList = () => {
               justifyContent: "flex-end",
             }}
           >
-            <Button
-              variant="outlined"
-              style={{
-                height: "40px",
-                width: "100px",
-                backgroundColor: "blue",
-                color: "white",
-              }}
-              onClick={() => navigate("/machines/create")}
-            >
-              Add
-            </Button>
+            <NavigateButton name="Add" path="/machines/create" />
           </Grid>
         </Grid>
         <PaginationTable

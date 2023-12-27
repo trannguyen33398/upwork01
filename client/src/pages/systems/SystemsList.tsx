@@ -6,7 +6,7 @@ import {
 } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { getListSystem } from "../../api/systems";
 import { System, Systems } from "../../types/system";
@@ -16,6 +16,7 @@ import { useState, useEffect } from "react";
 import { useQueryClient } from "react-query";
 import { PaginationTable } from "../../components/PaginationTable";
 import css from "../../components/PaginationTable.module.css";
+import { NavigateButton } from "../../components/NavigateButton";
 
 export const SystemList = () => {
   const queryClient = useQueryClient();
@@ -46,7 +47,7 @@ export const SystemList = () => {
 
   useEffect(() => {
     queryClient.refetchQueries(["Systems", pagination]);
-  }, [searchTerm]);
+  }, [searchTerm, pagination, queryClient]);
 
   const columns: GridColDef[] = [
     {
@@ -123,6 +124,15 @@ export const SystemList = () => {
       headerClassName: css["header-column"],
     },
     {
+      field: "updatedAt",
+      headerName: "Updated At",
+      type: "string",
+      flex: 1,
+      headerAlign: "left",
+      sortable: false,
+      headerClassName: css["header-column"],
+    },
+    {
       field: "edit",
       headerName: "Edit",
       type: "any",
@@ -192,18 +202,7 @@ export const SystemList = () => {
               justifyContent: "flex-end",
             }}
           >
-            <Button
-              variant="outlined"
-              style={{
-                height: "40px",
-                width: "100px",
-                backgroundColor: "blue",
-                color: "white",
-              }}
-              onClick={() => navigate("/Systems/create")}
-            >
-              Add
-            </Button>
+            <NavigateButton name="Add" path="/Systems/create" />
           </Grid>
         </Grid>
         <PaginationTable

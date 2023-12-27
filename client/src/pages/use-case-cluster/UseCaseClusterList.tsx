@@ -4,7 +4,7 @@ import {
   GridTreeNodeWithRender,
 } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
-import { Button, TextField, Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { useStyles } from "../../styles/common";
 import { useState, useEffect } from "react";
@@ -16,6 +16,7 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import EditIcon from "@mui/icons-material/Edit";
 import { getListUseCaseCluster } from "../../api/use-case-cluster";
 import { UseCaseCluster, UseCaseClusters } from "../../types/use-case-cluster";
+import { NavigateButton } from "../../components/NavigateButton";
 
 export const UseCaseClusterList = () => {
   const queryClient = useQueryClient();
@@ -113,6 +114,15 @@ export const UseCaseClusterList = () => {
       headerClassName: css["header-column"],
     },
     {
+      field: "updatedAt",
+      headerName: "Updated At",
+      type: "string",
+      flex: 1,
+      headerAlign: "left",
+      sortable: false,
+      headerClassName: css["header-column"],
+    },
+    {
       field: "edit",
       headerName: "Edit",
       type: "any",
@@ -180,18 +190,7 @@ export const UseCaseClusterList = () => {
               justifyContent: "flex-end",
             }}
           >
-            <Button
-              variant="outlined"
-              style={{
-                height: "40px",
-                width: "100px",
-                backgroundColor: "blue",
-                color: "white",
-              }}
-              onClick={() => navigate("/use-case-cluster/create")}
-            >
-              Add
-            </Button>
+            <NavigateButton name="Add" path="/use-case-cluster/create" />
           </Grid>
         </Grid>
 

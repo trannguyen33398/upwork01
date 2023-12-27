@@ -16,6 +16,9 @@ import { Process } from "../../types/processes";
 import { getListProcess, getProcess, updateProcess } from "../../api/processes";
 import { ProcessType } from "./process.constant";
 import { enqueueSnackbar } from "notistack";
+import { Typography } from "@mui/material";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import CategoryIcon from '@mui/icons-material/Category';
 //css flex box
 export const ProcessEdit = () => {
   const classes = useStyles();
@@ -75,13 +78,11 @@ export const ProcessEdit = () => {
     id: string,
     parentName: string
   ) => {
-   
-      setFormState({
-        ...formState,
-        [name]: id,
-        parentName: parentName as string,
-      });
-    
+    setFormState({
+      ...formState,
+      [name]: id,
+      parentName: parentName as string,
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -112,7 +113,12 @@ export const ProcessEdit = () => {
       </div>
       <h2 className={classes.headerText}>Edit Process</h2>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <Grid container spacing={6} rowSpacing={2}>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Processes Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Name"
@@ -121,6 +127,8 @@ export const ProcessEdit = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+            xs={4}
+            md={4}
           />
           <SingleSelect
             name="Parent"
@@ -146,6 +154,7 @@ export const ProcessEdit = () => {
           />
 
           <SingleSelect
+            icon = {<CategoryIcon/>}
             isParent={false}
             name="Type"
             itemId="type"
@@ -165,7 +174,7 @@ export const ProcessEdit = () => {
             onChangeText={onChangeText}
           />
           <BooleanSelection
-            icon={<AbcIcon />}
+            icon={<ToggleOnIcon />}
             name="Active"
             itemId="active"
             value={formState.active}

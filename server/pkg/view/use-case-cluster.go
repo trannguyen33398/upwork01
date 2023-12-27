@@ -9,14 +9,14 @@ type CreateUseCaseClusterResponse struct {
 }
 
 type UseCaseCluster struct {
-	Id          string     `json:"id"`
-	Name        string     `json:"name"`
-	ParentId    *model.UUID     `json:"parentId"`
-	Description string     `json:"description"`
+	Id          string      `json:"id"`
+	Name        string      `json:"name"`
+	ParentId    *model.UUID `json:"parentId"`
+	Description string      `json:"description"`
 	Active      *bool       `json:"active"`
-	ParentName  string     `json:"parentName"`
-	CreatedAt   string `json:"createdAt"`
-	UpdatedAt   string `json:"updatedAt"`
+	ParentName  string      `json:"parentName"`
+	CreatedAt   string      `json:"createdAt"`
+	UpdatedAt   string      `json:"updatedAt"`
 }
 
 func ToUseCaseCluster(useCaseCluster *model.UseCaseCluster) *UseCaseCluster {
@@ -26,8 +26,8 @@ func ToUseCaseCluster(useCaseCluster *model.UseCaseCluster) *UseCaseCluster {
 	}
 	return &UseCaseCluster{
 		Id:          useCaseCluster.ID.String(),
-		CreatedAt:   useCaseCluster.CreatedAt.Format("02-01-2006"),
-		UpdatedAt:   useCaseCluster.UpdatedAt.Format("02-01-2006"),
+		CreatedAt:   useCaseCluster.CreatedAt.Format("02-Jan-2006 15:04:05"),
+		UpdatedAt:   useCaseCluster.UpdatedAt.Format("02-Jan-2006 15:04:05"),
 		Name:        useCaseCluster.Name,
 		Description: useCaseCluster.Description,
 		ParentId:    useCaseCluster.ParentId,

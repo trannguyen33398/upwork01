@@ -14,7 +14,9 @@ import { Process } from "../../types/processes";
 import { createProcess, getListProcess } from "../../api/processes";
 import { ProcessType } from "./process.constant";
 import { enqueueSnackbar } from "notistack";
-
+import { Typography } from "@mui/material";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import CategoryIcon from '@mui/icons-material/Category';
 //css flex box
 export const ProcessCreate = () => {
   const classes = useStyles();
@@ -89,9 +91,14 @@ export const ProcessCreate = () => {
       <div className={classes.backIcon}>
         <KeyboardBackspaceIcon onClick={handleClick} />
       </div>
-      <h2 className={classes.headerText}>Create Processes</h2>
+      <h2 className={classes.headerText}>Create Process</h2>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <Grid container spacing={6} rowSpacing={3}>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Processes Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Name"
@@ -100,6 +107,8 @@ export const ProcessCreate = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+            xs={4}
+            md={4}
           />
           <SingleSelect
             name="Parent"
@@ -124,6 +133,8 @@ export const ProcessCreate = () => {
           <SingleSelect
             name="Type"
             itemId="type"
+
+            icon = {<CategoryIcon/>}
             value={{
               id: formState.id,
               name: formState.type,
@@ -141,7 +152,7 @@ export const ProcessCreate = () => {
             onChangeText={onChangeText}
           />
           <BooleanSelection
-            icon={<AbcIcon />}
+            icon={<ToggleOnIcon />}
             name="Active"
             itemId="active"
             value={formState.active}

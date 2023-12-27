@@ -9,7 +9,7 @@ import {
 import { useStyles } from "../styles/common";
 import { useEffect, useState } from "react";
 
-export const BooleanSelection = (props: any) => {
+export const BooleanSelection = ({ xs = 3, md = 3, ...props }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const text = event.target.value;
 
@@ -23,7 +23,13 @@ export const BooleanSelection = (props: any) => {
   const classes = useStyles();
   return (
     <>
-      <Grid item xs={3} md={3} className={classes.gridItem} direction="column">
+      <Grid
+        item
+        xs={xs}
+        md={md}
+        className={classes.gridItem}
+        direction="column"
+      >
         <Grid container alignItems="center" spacing={1}>
           <Grid item>{props.icon}</Grid>
           <Grid item>

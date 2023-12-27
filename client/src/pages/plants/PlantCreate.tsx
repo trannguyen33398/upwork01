@@ -14,6 +14,10 @@ import { createPlant, getListPlant } from "../../api/plants";
 import { Plant } from "../../types/plants";
 import { PlantsSegment, PlantsType } from "./plants.constant";
 import { enqueueSnackbar } from "notistack";
+import { Typography } from "@mui/material";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
+import CategoryIcon from '@mui/icons-material/Category';
+import { MultipleSelect } from "../../components/MultipleSelect";
 
 //css flex box
 export const PlantCreate = () => {
@@ -28,7 +32,7 @@ export const PlantCreate = () => {
     zebra: true,
     type: "",
     nameAbbreviation: "",
-    segment: "",
+    segment: [""],
     active: true,
   });
 
@@ -54,21 +58,23 @@ export const PlantCreate = () => {
     id: string,
     parentName?: string
   ) => {
-    if (name === "zebra") {
-      setFormState({ ...formState, [name]: id });
-    } else {
+   
       setFormState({
         ...formState,
         [name]: id,
         parentName: parentName as string,
       });
-    }
+    
   };
 
+  const onChangeMultipleSelect = (name: string, id: string[]) => {
+    setFormState({ ...formState, [name]: id });
+  };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     formState.active = formState.active === "true" ? true : false;
     formState.zebra = formState.zebra === "true" ? true : false;
+   
     createPlant(formState)
       .then((data) => {
         if (data.status === 201) {
@@ -94,7 +100,12 @@ export const PlantCreate = () => {
       </div>
       <h2 className={classes.headerText}>Create Plant</h2>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <Grid container spacing={6} rowSpacing={3}>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Plant Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Name"
@@ -103,6 +114,8 @@ export const PlantCreate = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+            xs={4}
+            md={4}
           />
           <SingleSelect
             name="Parent"
@@ -126,9 +139,9 @@ export const PlantCreate = () => {
           />
           <TextComponent
             icon={<AbcIcon />}
-            name="Operations Cluster"
-            itemId="operationsCluster"
-            value={formState.operationsCluster}
+            name="Name Abbreviation"
+            itemId="nameAbbreviation"
+            value={formState.nameAbbreviation}
             onChangeText={onChangeText}
             type={"text"}
             require={true}
@@ -136,6 +149,7 @@ export const PlantCreate = () => {
           <SingleSelect
             name="Type"
             itemId="type"
+            icon = {<CategoryIcon/>}
             value={{
               id: formState.id,
               name: formState.type,
@@ -145,16 +159,28 @@ export const PlantCreate = () => {
             options={PlantsType}
             isParent={false}
           />
+          <BooleanSelection
+            icon={<ToggleOnIcon />}
+            name="Active"
+            itemId="active"
+            value={formState.active}
+            onChangeText={onChangeText}
+          />
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Detail Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
-            name="Name Abbreviation"
-            itemId="nameAbbreviation"
-            value={formState.nameAbbreviation}
+            name="Operations Cluster"
+            itemId="operationsCluster"
+            value={formState.operationsCluster}
             onChangeText={onChangeText}
             type={"text"}
             require={true}
           />
-          <SingleSelect
+          <MultipleSelect
             name="Segment"
             itemId="segment"
             value={{
@@ -162,22 +188,15 @@ export const PlantCreate = () => {
               name: formState.segment,
               value: formState.segment,
             }}
-            onChangeSelect={onChangeSingleSelect}
+            onChangeSelect={onChangeMultipleSelect}
             options={PlantsSegment}
-            isParent={false}
+        
           />
           <BooleanSelection
-            icon={<AbcIcon />}
+            icon = {<CategoryIcon/>}
             name="Zebra"
             itemId="zebra"
             value={formState.zebra}
-            onChangeText={onChangeText}
-          />
-          <BooleanSelection
-            icon={<AbcIcon />}
-            name="Active"
-            itemId="active"
-            value={formState.active}
             onChangeText={onChangeText}
           />
         </Grid>

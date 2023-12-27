@@ -16,6 +16,8 @@ import {
   getListUseCaseCluster,
 } from "../../api/use-case-cluster";
 import { enqueueSnackbar } from "notistack";
+import { Typography } from "@mui/material";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 
 //css flex box
 export const UseCaseClusterCreate = () => {
@@ -90,7 +92,12 @@ export const UseCaseClusterCreate = () => {
       <h2 className={classes.headerText}>Create Use Case Cluster</h2>
 
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <Grid container spacing={6} rowSpacing={3}>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Cluster Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Name"
@@ -99,6 +106,8 @@ export const UseCaseClusterCreate = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
+            xs={4}
+            md={4}
           />
           <SingleSelect
             name="Parent"
@@ -120,6 +129,18 @@ export const UseCaseClusterCreate = () => {
               }) ?? []
             }
           />
+          <BooleanSelection
+            icon={<ToggleOnIcon />}
+            name="Active"
+            itemId="active"
+            value={formState.active}
+            onChangeText={onChangeText}
+          />
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.subHeader}>
+              Detail Information
+            </Typography>
+          </Grid>
           <TextComponent
             icon={<AbcIcon />}
             name="Description"
@@ -128,13 +149,8 @@ export const UseCaseClusterCreate = () => {
             onChangeText={onChangeText}
             type={"text"}
             require={true}
-          />
-          <BooleanSelection
-            icon={<AbcIcon />}
-            name="Active"
-            itemId="active"
-            value={formState.active}
-            onChangeText={onChangeText}
+            xs={7}
+            md={7}
           />
         </Grid>
 

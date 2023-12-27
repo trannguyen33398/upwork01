@@ -9,15 +9,15 @@ type CreateServiceLineResponse struct {
 }
 
 type ServiceLine struct {
-	Id                string `json:"id"`
-	Name              string `json:"name"`
+	Id                string      `json:"id"`
+	Name              string      `json:"name"`
 	ParentId          *model.UUID `json:"parentId"`
-	Description       string `json:"description"`
-	ResponsiblePerson string `json:"responsiblePerson"`
-	Active            *bool   `json:"active"`
-	ParentName        string `json:"parentName"`
-	CreatedAt         string `json:"createdAt"`
-	UpdatedAt         string `json:"updatedAt"`
+	Description       string      `json:"description"`
+	ResponsiblePerson string      `json:"responsiblePerson"`
+	Active            *bool       `json:"active"`
+	ParentName        string      `json:"parentName"`
+	CreatedAt         string      `json:"createdAt"`
+	UpdatedAt         string      `json:"updatedAt"`
 }
 
 func ToServiceLine(serviceLine *model.ServiceLines) *ServiceLine {
@@ -28,8 +28,8 @@ func ToServiceLine(serviceLine *model.ServiceLines) *ServiceLine {
 
 	return &ServiceLine{
 		Id:                serviceLine.ID.String(),
-		CreatedAt:         serviceLine.CreatedAt.Format("02-01-2006"),
-		UpdatedAt:         serviceLine.UpdatedAt.Format("02-01-2006"),
+		CreatedAt:         serviceLine.CreatedAt.Format("02-Jan-2006 15:04:05"),
+		UpdatedAt:         serviceLine.UpdatedAt.Format("02-Jan-2006 15:04:05"),
 		Name:              serviceLine.Name,
 		Description:       serviceLine.Description,
 		ParentId:          serviceLine.ParentId,

@@ -1,5 +1,7 @@
 package model
-
+import (
+	"github.com/lib/pq"
+  )
 type Plants struct {
 	BaseModel
 	Name              string `json:"name"`
@@ -7,7 +9,7 @@ type Plants struct {
 	OperationsCluster string `json:"operations_cluster"`
 	Type              string `json:"type"`
 	NameAbbreviation  string `json:"name_abbreviation"`
-	Segment           string `json:"segment"`
+	Segment           pq.StringArray `gorm:"type:text[]"`
 	Zebra             *bool   `json:"zebra"`
 	Active            *bool   `json:"active"`
 

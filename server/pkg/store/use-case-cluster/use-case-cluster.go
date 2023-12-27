@@ -1,6 +1,8 @@
 package useCaseCluster
 
 import (
+	"time"
+
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
 	"gorm.io/gorm"
 )
@@ -40,6 +42,7 @@ func (s *store) Detail(db *gorm.DB, id string) (*model.UseCaseCluster, error) {
 func (s *store) Update(db *gorm.DB, id string, updateData *model.UseCaseCluster) error {
 	var useCaseCluster *model.UseCaseCluster
 
+	updateData.UpdatedAt = time.Now()
 	query := db.Where(`use_case_cluster.id = ?`, id).UpdateColumns(updateData)
 
 	return query.UpdateColumns(&useCaseCluster).Error

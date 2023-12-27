@@ -6,7 +6,7 @@ import {
 } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { getListRisk } from "../../api/risks";
 import { Risk, Risks } from "../../types/risks";
@@ -16,6 +16,7 @@ import { useState, useEffect } from "react";
 import { useQueryClient } from "react-query";
 import { PaginationTable } from "../../components/PaginationTable";
 import css from "../../components/PaginationTable.module.css";
+import { NavigateButton } from "../../components/NavigateButton";
 
 export const RiskList = () => {
   const queryClient = useQueryClient();
@@ -105,6 +106,15 @@ export const RiskList = () => {
       headerClassName: css["header-column"],
     },
     {
+      field: "updatedAt",
+      headerName: "Updated At",
+      type: "string",
+      flex: 1,
+      headerAlign: "left",
+      sortable: false,
+      headerClassName: css["header-column"],
+    },
+    {
       field: "edit",
       headerName: "Edit",
       type: "any",
@@ -174,18 +184,7 @@ export const RiskList = () => {
               justifyContent: "flex-end",
             }}
           >
-            <Button
-              variant="outlined"
-              style={{
-                height: "40px",
-                width: "100px",
-                backgroundColor: "blue",
-                color: "white",
-              }}
-              onClick={() => navigate("/risks/create")}
-            >
-              Add
-            </Button>
+            <NavigateButton name="Add" path="/risks/create" />
           </Grid>
         </Grid>
         <PaginationTable

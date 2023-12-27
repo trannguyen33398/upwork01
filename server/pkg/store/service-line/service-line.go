@@ -1,6 +1,8 @@
 package serviceLine
 
 import (
+	"time"
+
 	"github.com/trannguyen33398/upwork01/server/pkg/model"
 	"gorm.io/gorm"
 )
@@ -40,6 +42,7 @@ func (s *store) Detail(db *gorm.DB, id string) (*model.ServiceLines, error) {
 func (s *store) Update(db *gorm.DB, id string, updateData *model.ServiceLines) error {
 	var serviceLine *model.ServiceLines
 
+	updateData.UpdatedAt = time.Now()
 	query := db.Where(`service_lines.id = ?`, id).UpdateColumns(updateData)
 
 	return query.UpdateColumns(&serviceLine).Error
